@@ -1,0 +1,88 @@
+<div class="main-panel">
+    <div class="content">
+        <div class="panel-header bg-white shadow-sm">
+            <div class="page-inner  py-3 mb-5">
+                <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+                    <div class="">
+                        <div class="header d-sm-flex align-items-center  text-center"> 
+                            <h1 class="page-header banner-title">Users List</h1>
+                            <ul class="breadcrumb justify-content-sm-start justify-content-center">
+                                  <li><a href="../index.html"><i class="icon-home"></i></a></li>
+                                  <li><a href="#">Users</a></li>
+                                  <li><a href="#">Users List</a></li>
+                            </ul> 			
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-inner">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-head-row justify-content-between">
+                                <div class="card-title"><i class="fas fa-list"></i> Users List</div>
+                                <div class="add-btn">
+                                    <a class="btn btn-primary" href="create-user.html" data-toggle="tooltip" title="" data-original-title="Create User"><i class="fas fa-plus"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card-body">
+                            <div class="table-responsive dataTables_scroll">
+                                <table id="basic-datatables" class="display table table-hover table-fixed" >
+                                    <thead>
+                                        <tr>
+                                            
+                                            <th>First Name</th>
+                                            <th>Last Name</th>
+                                            <th>Email</th>
+                                            <th>Manage user</th>
+                                            <th></th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% for (var item of users){%>
+                                        <tr>
+                                            
+                                            <td><%=item.firstname %></td>
+                                            <td><%=item.lastname %></td>
+                                            <td><%=item.email%></td>
+                                              <% if (item.status) { %>
+                                                <td><a class="btn btn-danger" href="/admin/block/<%=item._id%>" onclick="return confirm('Are you sure you want to block this user')">block</a></td>
+                                                <%} else { %>
+                                                    <td><a class="btn btn-success" href="/admin/unblock/<%=item._id%>" onclick="return confirm('Are you sure to unblock the user')">unblock</a></td>
+                                                <% } %>
+                                            
+                                          
+                                            <td class="text-right">
+                                                <div class="form-button-action">
+                                                    <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit">
+                                                        <i class="fa fa-edit"></i>
+                                                    </button>
+                                                    <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove">
+                                                        <i class="fa fa-times"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <%}%>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://aaryaweb.info/html/stylexpo/admin/assets/js/custom.js"></script>
+	<script >
+		$(document).ready(function() {
+			$('#basic-datatables').DataTable({
+			});
+		});
+	</script>

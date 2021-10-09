@@ -1,0 +1,285 @@
+
+<div class="header-side-panel">
+
+	<div class="dropdn-content account-drop" id="dropdnAccount">
+	<div class="dropdn-content-block">
+		<div class="dropdn-close"><span class="js-dropdn-close">Close</span></div>
+		<ul>
+			<% if(user){ %>
+				<li><a href="/logout"><span>Log out</span><i class="icon-login"></i></a></li>
+				<% } else { %>
+					<li><a href="/login"><span>Log In</span><i class="icon-login"></i></a></li>
+				<% } %>
+			
+			<li><a href="/signup"><span>Register</span><i class="icon-user2"></i></a></li>
+			<li><a href="checkout.html"><span>Checkout</span><i class="icon-card"></i></a></li>
+		</ul>
+		<div class="dropdn-form-wrapper">
+			<h5>Quick Login</h5>
+			<form action="#">
+				<div class="form-group">
+					<input type="text" class="form-control form-control--sm is-invalid" placeholder="Enter your e-mail">
+					<div class="invalid-feedback">Can't be blank</div>
+				</div>
+				<div class="form-group">
+					<input type="password" class="form-control form-control--sm" placeholder="Enter your password">
+				</div>
+				<button type="submit" class="btn">Enter</button>
+			</form>
+		</div>
+	</div>
+	<div class="drop-overlay js-dropdn-close"></div>
+</div>
+<div class="dropdn-content minicart-drop" id="dropdnMinicart">
+	<div class="dropdn-content-block">
+		<div class="dropdn-close"><span class="js-dropdn-close">Close</span></div>
+		<div class="minicart-drop-content js-dropdn-content-scroll">
+			<div class="minicart-prd row">
+				<div class="minicart-prd-image image-hover-scale-circle col">
+					<a href="product.html"><img class="lazyload fade-up" src="https://big-skins.com/frontend/foxic-html-demo/images/skins/fashion/products/product-01-3.webp" data-src="images/skins/fashion/products/product-01-1.webp" alt=""></a>
+				</div>
+				<div class="minicart-prd-info col">
+					<div class="minicart-prd-tag">FOXic</div>
+					<h2 class="minicart-prd-name"><a href="#">Leather Pegged Pants</a></h2>
+					<div class="minicart-prd-qty"><span class="minicart-prd-qty-label">Quantity:</span><span class="minicart-prd-qty-value">1</span></div>
+					<div class="minicart-prd-price prd-price">
+						<div class="price-old">$200.00</div>
+						<div class="price-new">$180.00</div>
+					</div>
+				</div>
+				<div class="minicart-prd-action">
+					<a href="#" class="js-product-remove" data-line-number="1"><i class="icon-recycle"></i></a>
+				</div>
+			</div>
+			<div class="minicart-prd row">
+				<div class="minicart-prd-image image-hover-scale-circle col">
+					<a href="product.html"><img class="lazyload fade-up" src="https://big-skins.com/frontend/foxic-html-demo/images/skins/fashion/products/product-01-3.webp" data-src="images/skins/fashion/products/product-16-1.webp" alt=""></a>
+				</div>
+				<div class="minicart-prd-info col">
+					<div class="minicart-prd-tag">FOXic</div>
+					<h2 class="minicart-prd-name"><a href="#">Cascade Casual Shirt</a></h2>
+					<div class="minicart-prd-qty"><span class="minicart-prd-qty-label">Quantity:</span><span class="minicart-prd-qty-value">1</span></div>
+					<div class="minicart-prd-price prd-price">
+						<div class="price-old">$200.00</div>
+						<div class="price-new">$180.00</div>
+					</div>
+				</div>
+				<div class="minicart-prd-action">
+					<a href="#" class="js-product-remove" data-line-number="2"><i class="icon-recycle"></i></a>
+				</div>
+			</div>
+			<div class="minicart-empty js-minicart-empty d-none">
+				<div class="minicart-empty-text">Your cart is empty</div>
+				<div class="minicart-empty-icon">
+					<i class="icon-shopping-bag"></i>
+					<svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 306 262" style="enable-background:new 0 0 306 262;" xml:space="preserve"><path class="st0" d="M78.1,59.5c0,0-37.3,22-26.7,85s59.7,237,142.7,283s193,56,313-84s21-206-69-240s-249.4-67-309-60C94.6,47.6,78.1,59.5,78.1,59.5z"/></svg>
+				</div>
+			</div>
+			<a href="#" class="minicart-drop-countdown mt-3">
+				<div class="countdown-box-full">
+					<div class="row no-gutters align-items-center">
+						<div class="col-auto"><i class="icon-gift icon--giftAnimate"></i></div>
+						<div class="col">
+							<div class="countdown-txt">WHEN BUYING TWO
+								THINGS A THIRD AS A GIFT
+							</div>
+							<div class="countdown js-countdown" data-countdown="2021/07/01"></div>
+						</div>
+					</div>
+				</div>
+			</a>
+			<div class="minicart-drop-info d-none d-md-block">
+				<div class="shop-feature-single row no-gutters align-items-center">
+					<div class="shop-feature-icon col-auto"><i class="icon-truck"></i></div>
+					<div class="shop-feature-text col"><b>SHIPPING!</b> Continue shopping to add more products and receive free shipping</div>
+				</div>
+			</div>
+		</div>
+		<div class="minicart-drop-fixed js-hide-empty">
+			<div class="loader-horizontal-sm js-loader-horizontal-sm" data-loader-horizontal=""><span></span></div>
+			<div class="minicart-drop-total js-minicart-drop-total row no-gutters align-items-center">
+				<div class="minicart-drop-total-txt col-auto heading-font">Subtotal</div>
+				<div class="minicart-drop-total-price col" data-header-cart-total=""></div>
+			</div>
+			<div class="minicart-drop-actions">
+				<a href="cart.html" class="btn btn--md btn--grey"><i class="icon-basket"></i><span>Cart Page</span></a>
+				<a href="checkout.html" class="btn btn--md"><i class="icon-checkout"></i><span>Check out</span></a>
+			</div>
+			<ul class="payment-link mb-2">
+				<li><i class="icon-amazon-logo"></i></li>
+				<li><i class="icon-visa-pay-logo"></i></li>
+				<li><i class="icon-skrill-logo"></i></li>
+				<li><i class="icon-klarna-logo"></i></li>
+				<li><i class="icon-paypal-logo"></i></li>
+				<li><i class="icon-apple-pay-logo"></i></li>
+			</ul>
+		</div>
+	</div>
+	<div class="drop-overlay js-dropdn-close"></div>
+</div>
+</div>
+<div class="page-content">
+<div class="holder fullwidth full-nopad mt-0">
+    <div class="container">
+        <div class="bnslider-wrapper">
+            <div class="bnslider bnslider--lg keep-scale" id="bnslider-001" data-slick='{"arrows": true, "dots": true}' data-autoplay="false" data-speed="12000" data-start-width="1917" data-start-height="764" data-start-mwidth="1550" data-start-mheight="1000">
+                <div class="bnslider-slide">
+					<% for (var item of banner){%>
+                    <div class="bnslider-image-mobile lazyload" data-bgset=<%=item.image2 %>></div>
+			          <div class="bnslider-image lazyload" data-bgset=<%=item.image2 %>></div>
+                       <div class="bnslider-text-wrap bnslider-overlay ">
+                        <div class="bnslider-text-content txt-middle txt-right txt-middle-m txt-center-m">
+                            <div class="bnslider-text-content-flex ">
+                                <div class="bnslider-vert w-s-60 w-ms-100" style="padding: 0px">
+                                    <div class="bnslider-text order-1 mt-sm bnslider-text--md text-center data-ini" data-animation="fadeInUp" data-animation-delay="800" data-fontcolor="#282828" data-fontweight="700" data-fontline="1.5">Best Price This Year</div>
+                                    
+                                    <div class="btn-wrap text-center  order-4 mt-md" data-animation="fadeIn" data-animation-delay="2000" style="opacity: 1;">
+                                        <a href="https://bit.ly/3eJX5XE" target="_blank" class="btn">
+                                            Shop now
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+					<%}%>
+                </div>
+                <div class="bnslider-slide">
+					<% for (var item of banner){%>
+                    <div class="bnslider-image-mobile lazyload" data-bgset=<%=item.image1 %>></div>
+                    <div class="bnslider-image lazyload"  data-bgset=<%=item.image1 %>></div>
+                    <div class="bnslider-text-wrap bnslider-overlay ">
+                        <div class="bnslider-text-content txt-middle txt-left txt-middle-m txt-center-m">
+                            <div class="bnslider-text-content-flex ">
+                                <div class="bnslider-vert w-s-60 w-ms-100" style="padding: 0px;">
+                                    <div class="bnslider-text order-1 mt-0 bnslider-text--md text-center data-ini" data-animation="fadeInUp" data-animation-delay="800" data-fontcolor="#282828" data-fontweight="700" data-fontline="1.5">Best Rated Theme 2020</div>
+                                   
+                                    <div class="btn-wrap text-center  order-4 mt-md" data-animation="fadeIn" data-animation-delay="2000" style="opacity: 1;">
+                                        <a href="https://bit.ly/3eJX5XE" target="_blank" class="btn">
+                                            Shop now
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+					<%}%>
+                </div>
+                <div class="bnslider-slide slick-slide is-paused" data-autoplay="true" data-video-type="video" data-slick-index="2" aria-hidden="true" style="width: 1903px; position: relative; left: -3806px; top: 0px; z-index: 998; opacity: 0; transition: opacity 500ms ease 0s;"  id="slick-slide02" >
+                    <div class="video-wrap">
+                        <video playsinline="" loop="" preload="auto">
+                            <source src="https://cdn.shopify.com/s/files/1/0201/0942/6742/files/video-girl.mp4?v=1594287483" type="video/mp4">
+                        </video>
+                        <div class="video-control visible">
+                            <div class="video-play js-video-slider-play"><i class="icon-play"></i></div>
+                            <div class="video-stop js-video-slider-stop"><i class="icon-pause"></i></div>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            <div class="bnslider-arrows container-fluid">
+                <div></div>
+            </div>
+            <div class="bnslider-dots container-fluid"></div>
+        </div>
+    </div>
+</div>
+	<div class="holder holder-mt-xsmall">
+
+</div>
+	<div class="holder holder-mt-medium">
+	<div class="container">
+	
+		<!-- <div class="text-center mt-3 d-md-none">
+			<a href="#" class="btn btn--grey brands-show-more js-brands-show-more"><span>Show More</span><span>Show Less</span></a>
+		</div> -->
+	</div>
+</div>
+	<div class="holder holder-mt-medium section-name-products-grid" id="productsGrid01">
+	<div class="container">
+		<div class="title-wrap text-center">
+			<h2 class="h1-style">Collections</h2>
+			<div class="title-wrap title-tabs-wrap text-center js-title-tabs">
+				<div class="title-tabs">
+					<h2 class="h3-style">
+						<a href="ajax/ajax-product-tab-01.json" data-total="8" data-loaded="4" data-grid-tab-title><span class="title-tabs-text theme-font">Women</span></a>
+					</h2>
+					<h2 class="h3-style">
+						<a href="ajax/ajax-product-tab-02.json" data-total="8" data-loaded="4" data-grid-tab-title><span class="title-tabs-text theme-font">Men</span></a>
+					</h2>
+				
+				</div>
+			</div>
+		</div>
+		<!-- Product filter section -->
+<section class="product-filter-section">
+	<div class="container">
+		<div class="section-title">
+			<h2>All New!!</h2>
+		</div>
+
+		
+
+		<div class="row">
+			<% for (var item of products){%>	
+			<div class="col-lg-3 col-sm-6 col-md-3">
+				<div class="product-item">
+				
+					<div class="pi-pic">
+						<img src="/product-images/image1/<%=item.image1 %>.jpg" alt="">
+						<div class="pi-links">
+							<a href="#" class="add-card"><i class="flaticon-bag"></i><span>ADD TO CART</span></a>
+							<a href="#" class="wishlist-btn"><i class="flaticon-heart"></i></a>
+						</div>
+					</div>
+					<div class="pi-text">
+						<h6> ₹ <%=item.price %></h6>
+						<p><%=item.productname %></p>
+					</div>
+
+				</div>	
+
+				</div>
+				<%}%>
+			</div>
+			
+			
+		</div>
+	</div>
+</section>
+<!-- Product filter section end -->
+</div>
+	<div class="holder holder-mt-medium ">
+	<div class="container">
+		
+		<a href="https://bit.ly/3eJX5XE" target="_blank" class="bnr-wrap bnr-">
+			<% for (var item of banner2){%>
+			<div class="bnr custom-caption image-hover-scale bnr--middle bnr--right bnr--fullwidth">
+				<div class="bnr-img d-none d-sm-block image-container" style="padding-bottom: 41.36752136752137%">
+					<img src="<%=item.image3 %>"  class="lazyload fade-up" alt=""></div>
+				<div class="bnr-img d-sm-none image-container" style="padding-bottom: 74.3139407244786%">
+					<img src="<%=item.image3 %>" class="lazyload fade-up" alt=""></div>
+				<div class="bnr-caption text-center" style="padding: 4% 4%; ">
+					<div class="bnr-caption-inside w-s-50 w-ms-100 title-wrap">
+						<h2 class="h1-style">The best trends<br class="d-sm-none"> of summer 2020</h2>
+						
+						<div class="bnr-btn inherit mt-sm order-3">
+							<div class="btn">Buy Now</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<%}%>
+		</a>
+		
+	</div>
+</div>
+
+
+
+
+</body>
+
+<!-- Mirrored from big-skins.com/frontend/foxic-html-demo/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 04 Oct 2021 03:55:25 GMT -->
+</html>

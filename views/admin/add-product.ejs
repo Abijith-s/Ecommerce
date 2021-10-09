@@ -1,0 +1,140 @@
+<div class="main-panel">
+    <div class="content">
+        <div class="panel-header bg-white shadow-sm">
+            <div class="page-inner  py-3 mb-5">
+                <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+                    <div class="">
+                        <div class="header d-sm-flex align-items-center  text-center"> 
+                            <h1 class="page-header banner-title">Products</h1>
+                            <ul class="breadcrumb justify-content-sm-start justify-content-center">
+                                  <li><a href="../index.html"><i class="icon-home"></i></a></li>
+                                 
+                            </ul> 			
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="page-inner">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-head-row justify-content-between">
+                                <div class="card-title"><i class="fas fa-pen"></i> Add Product</div>
+                            
+                            </div>
+                        </div>
+                        
+                        <div class="card-body">
+                            <form class="main-form full" action="/admin/add-product" method="POST" enctype="multipart/form-data">
+                                  <div class="row">
+                                    <div class="col-12">
+                                          <div class="input-box form-group required">
+                                            <div class="row">
+                                                  <label for="p-name" class="col-md-3 control-label">Product Name</label>
+                                                  <div class="col-md-9">
+                                                    <input type="text" name="productname" class="form-control" id="p-name" required placeholder="Product Name">
+                                                  </div>
+                                            </div>
+                                          </div>
+                                    </div>
+                                   
+                                    <div class="col-12">
+                                          <div class="input-box form-group">
+                                            <div class="row">
+                                                  <label for="description" class="col-md-3 control-label">Description</label>
+                                                  <div class="col-md-9">
+                                                    <textarea id="summernote" name="description" class="form-control" placeholder="Description" rows="10" cols="30" name="Description"></textarea>
+                                                  </div>
+                                            </div>
+                                          </div>
+                                    </div>
+                                    <div class="col-12">
+                                          <div class="input-box form-group">
+                                            <div class="row">
+                                                  <label for="input-price" class="col-md-3 control-label">Price</label>
+                                                  <div class="col-md-9">
+                                                    <input type="text" name="price"  placeholder="Price" id="input-price" class="form-control">
+                                                  </div>
+                                            </div>
+                                          </div>
+                                    </div>
+                                  
+                                    <div class="col-12">
+                                          <div class="input-box form-group">
+                                            <div class="row">
+                                                  <label for="input-quantity" class="col-md-3 control-label">Quantity</label>
+                                                  <div class="col-md-9">
+                                                    <input type="text" name="quantity" class="form-control"  id="input-quantity" placeholder="Quantity">
+                                                  </div>
+                                            </div>
+                                          </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="input-box form-group">
+                                          <div class="row">
+                                                <label for="input-quantity" class="col-md-3 control-label">Add Image</label>
+                                                <div class="col-md-9">
+                                                  <input type="file" class="form-control" name="image1"  id="input-quantity1" placeholder="Quantity">
+                                                  <img src="" width="100" id="preview1">
+                                                  <input type="file" class="form-control" name="image2"  id="input-quantity2" placeholder="Quantity">
+                                                  <img src="" width="100"  id="preview2">
+                                                  <input type="file" class="form-control" name="image3"  id="input-quantity3" placeholder="Quantity">
+                                                  <img src="" width="100"  id="preview3">
+                                          </div>
+                                        </div>
+                                  </div>
+                                 
+                               <button type="submit" class="btn btn-danger">Add product</button>
+                                  </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+$('#input-quantity1').change(function(e) {
+  console.log(";hi")
+  var fileName = e.target.files[0].name;
+file=$('#input-quantity1').val()
+console.log(file)
+var reader = new FileReader();
+reader.onload = function(e) {
+// get loaded data and render thumbnail.
+document.getElementById("preview1").src = e.target.result;
+};
+reader.readAsDataURL(this.files[0]);
+});
+</script>
+<script>
+$('#input-quantity2').change(function(e) {
+console.log("second")
+var fileName = e.target.files[0].name;
+file=$('#input-quantity2').val()
+console.log(file)
+var reader = new FileReader();
+reader.onload = function(e) {
+// get loaded data and render thumbnail.
+document.getElementById("preview2").src = e.target.result;
+};
+reader.readAsDataURL(this.files[0]);
+});
+</script>
+<script>
+  $('#input-quantity3').change(function(e) {
+  console.log("second")
+  var fileName = e.target.files[0].name;
+  file=$('#input-quantity3').val()
+  console.log(file)
+  var reader = new FileReader();
+  reader.onload = function(e) {
+  // get loaded data and render thumbnail.
+  document.getElementById("preview3").src = e.target.result;
+  };
+  reader.readAsDataURL(this.files[0]);
+  });
+  </script>

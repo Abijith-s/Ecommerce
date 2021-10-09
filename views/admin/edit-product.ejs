@@ -1,0 +1,111 @@
+<div class="main-panel">
+    <div class="content">
+        <div class="panel-header bg-white shadow-sm">
+            <div class="page-inner  py-3 mb-5">
+                <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+                    <div class="">
+                        <div class="header d-sm-flex align-items-center  text-center"> 
+                            <h1 class="page-header banner-title">Products</h1>
+                            <ul class="breadcrumb justify-content-sm-start justify-content-center">
+                                  <li><a href="../index.html"><i class="icon-home"></i></a></li>
+                                 
+                            </ul> 			
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="page-inner">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-head-row justify-content-between">
+                                <div class="card-title"><i class="fas fa-pen"></i> Edit Product</div>
+                                products
+                            </div>
+                        </div>
+                      
+                        <div class="card-body">
+                            <form class="main-form full" action="/admin/edit-product/<%=product._id %>" method="POST" enctype="multipart/form-data">
+                                  <div class="row">
+                                    <div class="col-12">
+                                          <div class="input-box form-group required">
+                                            <div class="row">
+                                                  <label for="p-name" class="col-md-3 control-label">Product Name</label>
+                                                  <div class="col-md-9">
+                                                    <input type="text" name="productname" class="form-control" id="p-name" required placeholder="Product Name" value="<%=product.productname %>">
+                                                  </div>
+                                            </div>
+                                          </div>
+                                    </div>
+                                   
+                                    <div class="col-12">
+                                          <div class="input-box form-group">
+                                            <div class="row">
+                                                  <label for="description" class="col-md-3 control-label">Description</label>
+                                                  <div class="col-md-9">
+                                                    <input id="summernote" name="description" class="form-control" placeholder="Description" rows="10" cols="30" name="Description" value="<%=product.description %>">
+                                                  </div>
+                                            </div>
+                                          </div>
+                                    </div>
+                                    <div class="col-12">
+                                          <div class="input-box form-group">
+                                            <div class="row">
+                                                  <label for="input-price" class="col-md-3 control-label">Price</label>
+                                                  <div class="col-md-9">
+                                                    <input type="text" name="price"  placeholder="Price" id="input-price" class="form-control" value="<%=product.price %>" >
+                                                  </div>
+                                            </div>
+                                          </div>
+                                    </div>
+                                  
+                                    <div class="col-12">
+                                          <div class="input-box form-group">
+                                            <div class="row">
+                                                  <label for="input-quantity" class="col-md-3 control-label">Quantity</label>
+                                                  <div class="col-md-9">
+                                                    <input type="text" name="quantity" class="form-control"  id="input-quantity" placeholder="Quantity" value="<%=product.quantity %>">
+                                                  </div>
+                                            </div>
+                                          </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="input-box form-group">
+                                          <div class="row">
+                                                <label for="input-quantity" class="col-md-3 control-label">Add Image</label>
+                                                <div class="col-md-9">
+                                                  <img style="width: 71px;height:81px;" src="/product-images/image1/<%=product.image1 %>.jpg" alt="" id="img1">
+                                                  <input type="file" class="form-control" name="image1"  id="input-quantity" placeholder="Quantity " onchange="viewImage1(event)">
+                                                  <img style="width: 71px;height:81px;" src="/product-images/image2/<%=product.image2 %>.jpg" alt="" id="img2">
+                                                  <input type="file" class="form-control" name="image2"  id="input-quantity" placeholder="Quantity" onchange="viewImage2(event)">
+                                                  <img style="width: 71px;height:81px;" src="/product-images/image3/<%=product.image3 %>.jpg" alt="" id="img3">
+                                                  <input type="file" class="form-control" name="image3"  id="input-quantity" placeholder="Quantity" onchange="viewImage3(event)" >
+                                                </div>
+                                          </div>
+                                        </div>
+                                  </div>
+                                 
+                               <button type="submit" class="btn btn-danger">Edit product</button>
+                                  </div>
+                            </form>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function viewImage1(event){
+            document.getElementById('img1').src=URL.createObjectURL(event.target.files[0])
+        }
+        function viewImage2(event){
+            document.getElementById('img2').src=URL.createObjectURL(event.target.files[0])
+        }
+        function viewImage3(event){
+            document.getElementById('img3').src=URL.createObjectURL(event.target.files[0])
+        }
+    </script>

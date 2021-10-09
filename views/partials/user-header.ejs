@@ -1,0 +1,247 @@
+<header class="hdr-wrap">
+	<div class="hdr-content hdr-content-sticky">
+		<div class="container">
+			<div class="row">
+				<div class="col-auto show-mobile">
+					<!-- scroll down navbar -->
+<div class="menu-toggle"> <a href="#" class="mobilemenu-toggle"><i class="icon-menu"></i></a> </div>
+				</div>
+				 <!-- scroll down logo -->
+				<div class="col-auto hdr-logo">
+					<a href="/" class="logo"><img srcset="images/skins/fashion/logo.webp 1x, images/skins/fashion/logo2x.webp 2x" alt="Logo"></a>
+				</div>
+				<div class="hdr-nav hide-mobile nav-holder-s">
+				</div>
+				<div class="hdr-links-wrap col-auto ml-auto">
+					<div class="hdr-inline-link">
+<!-- scroll down search bar						 -->
+<div class="search_container_desktop">
+	<div class="dropdn dropdn_search dropdn_fullwidth">
+		<a href="#" class="dropdn-link  js-dropdn-link only-icon"><i class="icon-search"></i><span class="dropdn-link-txt">Search</span></a>
+		<div class="dropdn-content">
+			<div class="container">
+				<form method="get" action="#" class="search search-off-popular">
+					<input name="search" type="text" class="search-input input-empty" placeholder="What are you looking for?">
+					<button type="submit" class="search-button"><i class="icon-search"></i></button>
+					<a href="#" class="search-close js-dropdn-close"><i class="icon-close-thin"></i></a>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- scroll down wishlist -->
+<div class="dropdn dropdn_wishlist">
+	<a href="account-wishlist.html" class="dropdn-link only-icon wishlist-link ">
+		<i class="icon-heart"></i><span class="dropdn-link-txt">Wishlist</span><span class="wishlist-qty">3</span>
+	</a>
+</div>
+<!-- scroll down acount button -->
+<div class="dropdn dropdn_account dropdn_fullheight">
+	<a href="#" class="dropdn-link js-dropdn-link js-dropdn-link only-icon" data-panel="#dropdnAccount"><i class="icon-user"></i><span class="dropdn-link-txt">Account</span></a>
+</div>
+<!-- scroll down cart -->
+						<div class="dropdn dropdn_fullheight minicart">
+	<a href="#" class="dropdn-link js-dropdn-link minicart-link only-icon" data-panel="#dropdnMinicart">
+		<i class="icon-basket"></i>
+		<span class="minicart-qty">3</span>
+		
+	</a>
+</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="hdr">
+		<div class="hdr-topline hdr-topline--dark js-hdr-top">
+			<div class="container">
+				<div class="row flex-nowrap">
+					<div class="col hdr-topline-left hide-mobile">
+<div class="hdr-line-separate">
+	<!-- <ul class="social-list list-unstyled">
+		<li>
+			<a href="#"><i class="icon-facebook"></i></a>
+		</li>
+		<li>
+			<a href="#"><i class="icon-twitter"></i></a>
+		</li>
+		<li>
+			<a href="#"><i class="icon-google"></i></a>
+		</li>
+		<li>
+			<a href="#"><i class="icon-instagram"></i></a>
+		</li>
+		<li>
+			<a href="#"><i class="icon-vimeo"></i></a>
+		</li>
+		<li>
+			<a href="#"><i class="icon-linkedin"></i></a>
+		</li>
+	</ul> -->
+</div>
+					</div>
+					<!-- top navbar sliding text -->
+					<div class="col hdr-topline-center">
+						<div class="custom-text js-custom-text-carousel" data-slick='{"speed": 1000, "autoplaySpeed": 3000}'>
+	<div class="custom-text-item"><i class="icon-fox"></i> Use promocode <span>FOXIC</span> to get 15% discount!</div>
+	<div class="custom-text-item"><i class="icon-air-freight"></i> <span>Free</span> plane shipping over <span>$250</span></div>
+	<div class="custom-text-item"><i class="icon-gift"></i> Today only! Post <span>holiday</span> Flash Sale! 2 for $20</div>
+</div>
+					</div>
+					<div class="col hdr-topline-right hide-mobile">
+						<div class="hdr-inline-link">
+
+							<!-- top navbar account -->
+							<div class="hdr_container_desktop">
+<div class="dropdn dropdn_account dropdn_fullheight">
+	<% if(user){ %>
+		
+		<a href="#" class="dropdn-link js-dropdn-link" data-panel="#dropdnAccount"><i class="icon-user"></i><span class="dropdn-link-txt"> 
+		
+			<%=user.firstname %>
+			
+		</span></a>
+		<% } else { %>
+		
+		
+	<a href="#" class="dropdn-link js-dropdn-link" data-panel="#dropdnAccount"><i class="icon-user"></i><span class="dropdn-link-txt"> 
+		
+		Account
+		
+	</span></a>
+	<% } %>
+</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- normal navbar -->
+		<div class="hdr-content">
+			<div class="container">
+				<div class="row">
+					<div class="col-auto show-mobile">
+						<!-- normal navbar icon -->
+<div class="menu-toggle"> <a href="#" class="mobilemenu-toggle"><i class="icon-menu"></i></a> </div>
+					</div>
+					<div class="col-auto hdr-logo">
+						<a href="/" class="logo"><img srcset="images/skins/fashion/logo.webp 1x, images/skins/fashion/logo2x.webp 2x" alt="Logo"></a>
+					</div>
+					<div class="hdr-nav hide-mobile nav-holder justify-content-center px-4">
+<ul class="mmenu mmenu-js">
+	<!-- normal navbar home -->
+	<li class="mmenu-item--simple"><a href="#" class="active">Home</a>
+		<div class="mmenu-submenu d-flex">
+			<ul class="submenu-list mt-0">
+	<li><a href="index.html">Fashion (Default) Skin</a><span class="submenu-link-image"><img src="images/screen/screen01.html" alt=""></span></li>
+	
+</ul>
+<ul class="submenu-list mt-0">
+	<li><a href="#">Cups&Mugs Skin <span class="menu-label menu-label--color1">Coming Soon</span></a><span class="submenu-link-image"><img src="images/screen/screen-cups.html" alt=""></span></li>
+	
+
+</ul>
+		</div>
+	</li>
+	<!-- normal navbar pages -->
+	<li class="mmenu-item--simple"><a href="#">Pages</a>
+		<div class="mmenu-submenu">
+			<ul class="submenu-list">
+	<li><a href="product.html">Product page</a>
+		<ul>
+			<li><a href="product.html">Product page variant 1<span class="menu-label menu-label--color3">Popular</span></a></li>
+			
+		</ul>
+	</li>
+	<li><a href="category.html">Category page</a>
+		<ul>
+			<li><a href="category.html">Left sidebar filters</a></li>
+		
+		</ul>
+	</li>
+	<li><a href="cart.html">Cart & Checkout</a>
+		<ul>
+			<li><a href="cart.html">Cart Page</a></li>
+			<li><a href="cart-empty.html">Empty cart</a></li>
+			<li><a href="checkout.html">Checkout variant 1</a></li>
+		
+		</ul>
+	</li>
+	<!-- acount inside navbar pages -->
+	<li><a href="account-create.html">Account</a>
+		<ul>
+			<li><a href="account-create.html">Login</a></li>
+			<li><a href="account-create.html">Create account</a></li>
+			<li><a href="account-details.html">Account details</a></li>
+			<li><a href="account-addresses.html">Account addresses</a></li>
+			<li><a href="account-history.html">Order History</a></li>
+			<li><a href="account-wishlist.html">Wishlist</a></li>
+		</ul>
+	</li>
+	<li><a href="about.html">About Us</a></li>
+	<li><a href="contact.html">Contact Us</a></li>
+</ul>
+		</div>
+	</li>
+	
+	<li class="mmenu-item--mega"><a href="category.html">Men</a>
+		<div class="mmenu-submenu mmenu-submenu--has-bottom">
+			<div class="mmenu-submenu-inside">
+				<div class="container">
+					<h1>categories</h1>
+				</div>
+			</div>
+		</div>
+	</li>
+	<li class="mmenu-item--mega"><a href="category.html">Women</a>
+		<div class="mmenu-submenu mmenu-submenu--has-bottom">
+			<div class="mmenu-submenu-inside">
+				<div class="container">
+					<h1>categories</h1>
+				</div>
+			</div>
+		</div>
+	</li>
+</ul>
+					</div>
+					<div class="hdr-links-wrap col-auto ml-auto">
+						<div class="hdr-inline-link">
+<div class="search_container_desktop">
+	<div class="dropdn dropdn_search dropdn_fullwidth">
+		<a href="#" class="dropdn-link  js-dropdn-link only-icon"><i class="icon-search"></i><span class="dropdn-link-txt">Search</span></a>
+		<div class="dropdn-content">
+			<div class="container">
+				<form method="get" action="#" class="search search-off-popular">
+					<input name="search" type="text" class="search-input input-empty" placeholder="What are you looking for?">
+					<button type="submit" class="search-button"><i class="icon-search"></i></button>
+					<a href="#" class="search-close js-dropdn-close"><i class="icon-close-thin"></i></a>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="dropdn dropdn_wishlist">
+	<a href="account-wishlist.html" class="dropdn-link only-icon wishlist-link ">
+		<i class="icon-heart"></i><span class="dropdn-link-txt">Wishlist</span><span class="wishlist-qty">3</span>
+	</a>
+</div>
+							<div class="hdr_container_mobile show-mobile">
+<div class="dropdn dropdn_account dropdn_fullheight">
+	<a href="#" class="dropdn-link js-dropdn-link" data-panel="#dropdnAccount"><i class="icon-user"></i><span class="dropdn-link-txt">Account</span></a>
+</div>
+							</div>
+							<div class="dropdn dropdn_fullheight minicart">
+	<a href="#" class="dropdn-link js-dropdn-link minicart-link" data-panel="#dropdnMinicart">
+		<i class="icon-basket"></i>
+		<span class="minicart-qty">3</span>
+		
+	</a>
+</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</header>
