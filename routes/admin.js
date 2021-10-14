@@ -32,8 +32,33 @@ router.get('/userlist', function(req, res, next) {
   })
 });
 router.get('/category', function(req, res, next) {
-  res.render('admin/category',{admin:true});
+  productHelpers.getAllCategories().then((categories)=>{
+    console.log("categorie");
+    console.log(categories)
+    res.render('admin/category',{admin:true,categories});
+  })
+  
 });
+router.post('/category',(req,res)=>{
+ 
+  productHelpers.checkCategory(req.body).then((response)=>{
+    
+  if(response){
+    if(response.categoryname){
+      productHelpers.manageCategories(req.body).then((response)=>{
+              
+               res.redirect('/admin/category')
+      })
+    }
+    }else{
+      productHelpers.addCategories(req.body).then((response)=>{
+            
+             res.redirect('/admin/category')
+           })
+    }
+  })
+  
+})
 router.get('/block/:id',(req,res)=>{
   let userId = req.params.id
   
@@ -56,7 +81,13 @@ router.get('/products', function(req, res, next) {
  
 });
 router.get('/add-product', function(req, res, next) {
-  res.render('admin/add-product',{admin:true});
+  productHelpers.findCategory().then((response)=>{
+    console.log("ivde vannath")
+    console.log(response)
+    res.render('admin/add-product',{admin:true,response});
+  })
+  
+
 });
 router.post('/add-product',(req,res)=>{
  
@@ -99,24 +130,53 @@ router.get('/edit-product/:id', async(req, res)=> {
 router.post('/edit-product/:id',(req,res)=>{
   let proId = req.params.id
   productHelpers.editProducts(req.body,proId).then((response)=>{
-    console.log("ntha response")
-    console.log(response)
+    if(req.files.image1){
+      let image1 = req.files.image1
+      image1.mv('./public/product-images/image1/'+response.image1+'.jpg')
+    }
+    if(req.files.image2){
+      let image2 = req.files.image2
+      image2.mv('./public/product-images/image2/'+response.image2+'.jpg')
+    }
+    if(req.files.image3){
+      let image3 = req.files.image3
+      image3.mv('./public/product-images/image3/'+response.image3+'.jpg')
+    }
+    res.redirect('/admin/products')
     
-    if(req.files.image1 || req.files.image2 || req.files.image3){
-   let image1 = req.files.image1
-   let image2 = req.files.image2
-   let image3 = req.files.image3 
-   image1.mv('./public/product-images/image1/'+response.image1+'.jpg',
-   image2.mv('./public/product-images/image2/'+response.image2+'.jpg',
-   image3.mv('./public/product-images/image3/'+response.image3+'.jpg',(err,done)=>{
-    if(!err){
-     res.redirect('/admin/products')
-    }else{
-      console.log(err);
-    }
-  })))
-    }
   })
 })
+router.post('/getsubcategory',(req,res)=>{
+  let cat = req.body.catname
+  
+  productHelpers.findSubCategory(cat).then((response)=>{
+    
+    res.json(response[0].subcategory)
+  })
+})
+router.get('/deletecat/:id',(req,res)=>{
+  console.log("hii")
+  let catId = req.params.id
+  console.log("catID")
+  console.log(catId)
+  
+  productHelpers.deleteCategory(catId).then((response)=>{
+    res.redirect('/admin/category')
+  })
+})
+router.get('/deletesubcat/:id/:name',(req,res)=>{
+  let subCatId = req.params.id
+  let proName = req.params.name
+  console.log("subCatID")
+  console.log(subCatId)
+  console.log("proName");
+  console.log(proName);
+  productHelpers.deleteSubCategory(subCatId,proName).then((response)=>{
+    res.redirect('/admin/category')
+  })
+  
+  
+})
+
 
 module.exports = router;

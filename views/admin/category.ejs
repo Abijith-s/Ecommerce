@@ -5,12 +5,8 @@
                         <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
                               <div class="">
                                     <div class="header d-sm-flex align-items-center  text-center"> 
-                                <h1 class="page-header banner-title">Products</h1>
-                                          <ul class="breadcrumb justify-content-sm-start justify-content-center">
-                                                  <li><a href="../index.html"><i class="icon-home"></i></a></li>
-                                                  <li><a href="#">Products</a></li>
-                                                  <li><a href="#">Products List</a></li>
-                                          </ul> 			
+                                <h1 class="page-header banner-title">Category</h1>
+                                         			
                                     </div>
                               </div>
                         </div>
@@ -20,18 +16,12 @@
             <div class="page-inner">
                   <div class="row">
                         <div class="col-md-12">
+                             
                               <div class="card">
-                                    <div class="card-header">
-                                          <div class="card-head-row justify-content-between">
-                                                <div class="card-title"><i class="fas fa-list"></i> Products List</div>
-                                                <div class="add-btn">
-                                                      <a class="btn btn-primary" href="add-product.html" data-toggle="tooltip" title="" data-original-title="Add Product"><i class="fas fa-plus"></i>
-                                                      </a>
-                                                </div>
-                                          </div>
-                                    </div>
+                                    
                                     <div class="card-body">
                                           <div class="table-responsive">
+                                                
                                                 <table id="multi-filter-select" class="display table table-hover" >
                                                   
                                                       <thead>
@@ -42,26 +32,78 @@
                                                             </tr>
                                                       </thead>
                                                       <tbody>
+                                                            <% for (var items of categories) { %> 
                                                             <tr>
-                                                                  <td>Men</td>
+                                                                  <td><%=items.categoryname %> <a class="btn btn-danger" href="/admin/deletecat/<%=items._id %>"onclick= "return confirm('Are you sure you want to delete this category')">delete</a></td> 
                                                                   
-                                                                  
+                                                                  <td>
+                                                                       <% for( var i of items.subcategory){ %>
+
+                                                                        <p><%= i %></p> <a class="btn btn-danger" href="/admin/deletesubcat/<%=items._id %>/<%= i %>"onclick= "return confirm('Are you sure you want to delete this subcategory')">delete</a>
+                                                                        <% }%>
+                                                                  </td>
+                                                            
                                                             </tr>
-                                                            <tr>
-                                                                  <td>Women</td>
-                                                            </tr>
-                                                           
+                                                          
+                                                            <% } %>
                                                       </tbody>
                                                     
                                                     
                                                 </table>
+                                               
                                           </div>
                                     </div>
                               </div>
+                             
                         </div>
                   </div>
             </div>
       </div>
+      <div class="page-inner">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-head-row justify-content-between">
+                                <div class="card-title"><i class="fas fa-pen"></i> Manage Category</div>
+                            
+                            </div>
+                        </div>
+                        
+                        <div class="card-body">
+                            <form class="main-form full" action="/admin/category" method="POST">
+                                  <div class="row">
+                                    <div class="col-12">
+                                          <div class="input-box form-group required">
+                                            <div class="row">
+                                                  <label for="p-name" class="col-md-3 control-label">Add Category</label>
+                                                  <div class="col-md-9">
+                                                    <input type="text" name="categoryname" class="form-control" id="p-name"  placeholder="subcategory name">
+                                                  </div>
+                                            </div>
+                                          </div>
+                                    </div>
+                                    <div class="col-12">
+                                          <div class="input-box form-group required">
+                                            <div class="row">
+                                                  <label for="p-name" class="col-md-3 control-label">Add subcategory</label>
+                                                  <div class="col-md-9">
+                                                    <input type="text" name="subcategoryname" class="form-control" id="p-name"  placeholder="subcategory name">
+                                                  </div>
+                                            </div>
+                                          </div>
+                                    </div>
+                                 <div>
+                                    <button type="submit" class="btn btn-danger">Add category</button>
+                                 </div>
+                                 <a title="Linkedin" href="#"><i class="fa fa-linkedin"></i></a>
+                                  </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
       
 <script src="https://aaryaweb.info/html/stylexpo/admin/assets/js/custom.js"></script>
 	<script >

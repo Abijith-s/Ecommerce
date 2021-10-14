@@ -6,12 +6,13 @@ const userSchema = new mongoose.Schema({
     lastname:String,
     email:String,
     password:String,
-    confirmpassword:String,
     status:Boolean
 })
 const userInfo = mongoose.model('users',userSchema)
 module.exports={
     addUsers : (users)=>{
+        console.log("users")
+        console.log(users)
         return new Promise(async(resolve,reject)=>{
             users.password =await bcrypt.hash(users.password,10)
             const userRegister = new userInfo({
@@ -19,7 +20,6 @@ module.exports={
                 lastname : users.lastname,
                 email : users.email,
                 password : users.password,
-                confirmpassword : users.confirmpassword,
                 status:true
             })
             userRegister.save((err,details)=>{

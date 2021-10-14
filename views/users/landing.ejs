@@ -1,285 +1,1208 @@
 
-<div class="header-side-panel">
 
-	<div class="dropdn-content account-drop" id="dropdnAccount">
-	<div class="dropdn-content-block">
-		<div class="dropdn-close"><span class="js-dropdn-close">Close</span></div>
-		<ul>
-			<% if(user){ %>
-				<li><a href="/logout"><span>Log out</span><i class="icon-login"></i></a></li>
-				<% } else { %>
-					<li><a href="/login"><span>Log In</span><i class="icon-login"></i></a></li>
-				<% } %>
-			
-			<li><a href="/signup"><span>Register</span><i class="icon-user2"></i></a></li>
-			<li><a href="checkout.html"><span>Checkout</span><i class="icon-card"></i></a></li>
-		</ul>
-		<div class="dropdn-form-wrapper">
-			<h5>Quick Login</h5>
-			<form action="#">
-				<div class="form-group">
-					<input type="text" class="form-control form-control--sm is-invalid" placeholder="Enter your e-mail">
-					<div class="invalid-feedback">Can't be blank</div>
-				</div>
-				<div class="form-group">
-					<input type="password" class="form-control form-control--sm" placeholder="Enter your password">
-				</div>
-				<button type="submit" class="btn">Enter</button>
-			</form>
-		</div>
-	</div>
-	<div class="drop-overlay js-dropdn-close"></div>
-</div>
-<div class="dropdn-content minicart-drop" id="dropdnMinicart">
-	<div class="dropdn-content-block">
-		<div class="dropdn-close"><span class="js-dropdn-close">Close</span></div>
-		<div class="minicart-drop-content js-dropdn-content-scroll">
-			<div class="minicart-prd row">
-				<div class="minicart-prd-image image-hover-scale-circle col">
-					<a href="product.html"><img class="lazyload fade-up" src="https://big-skins.com/frontend/foxic-html-demo/images/skins/fashion/products/product-01-3.webp" data-src="images/skins/fashion/products/product-01-1.webp" alt=""></a>
-				</div>
-				<div class="minicart-prd-info col">
-					<div class="minicart-prd-tag">FOXic</div>
-					<h2 class="minicart-prd-name"><a href="#">Leather Pegged Pants</a></h2>
-					<div class="minicart-prd-qty"><span class="minicart-prd-qty-label">Quantity:</span><span class="minicart-prd-qty-value">1</span></div>
-					<div class="minicart-prd-price prd-price">
-						<div class="price-old">$200.00</div>
-						<div class="price-new">$180.00</div>
-					</div>
-				</div>
-				<div class="minicart-prd-action">
-					<a href="#" class="js-product-remove" data-line-number="1"><i class="icon-recycle"></i></a>
-				</div>
-			</div>
-			<div class="minicart-prd row">
-				<div class="minicart-prd-image image-hover-scale-circle col">
-					<a href="product.html"><img class="lazyload fade-up" src="https://big-skins.com/frontend/foxic-html-demo/images/skins/fashion/products/product-01-3.webp" data-src="images/skins/fashion/products/product-16-1.webp" alt=""></a>
-				</div>
-				<div class="minicart-prd-info col">
-					<div class="minicart-prd-tag">FOXic</div>
-					<h2 class="minicart-prd-name"><a href="#">Cascade Casual Shirt</a></h2>
-					<div class="minicart-prd-qty"><span class="minicart-prd-qty-label">Quantity:</span><span class="minicart-prd-qty-value">1</span></div>
-					<div class="minicart-prd-price prd-price">
-						<div class="price-old">$200.00</div>
-						<div class="price-new">$180.00</div>
-					</div>
-				</div>
-				<div class="minicart-prd-action">
-					<a href="#" class="js-product-remove" data-line-number="2"><i class="icon-recycle"></i></a>
-				</div>
-			</div>
-			<div class="minicart-empty js-minicart-empty d-none">
-				<div class="minicart-empty-text">Your cart is empty</div>
-				<div class="minicart-empty-icon">
-					<i class="icon-shopping-bag"></i>
-					<svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 306 262" style="enable-background:new 0 0 306 262;" xml:space="preserve"><path class="st0" d="M78.1,59.5c0,0-37.3,22-26.7,85s59.7,237,142.7,283s193,56,313-84s21-206-69-240s-249.4-67-309-60C94.6,47.6,78.1,59.5,78.1,59.5z"/></svg>
-				</div>
-			</div>
-			<a href="#" class="minicart-drop-countdown mt-3">
-				<div class="countdown-box-full">
-					<div class="row no-gutters align-items-center">
-						<div class="col-auto"><i class="icon-gift icon--giftAnimate"></i></div>
-						<div class="col">
-							<div class="countdown-txt">WHEN BUYING TWO
-								THINGS A THIRD AS A GIFT
-							</div>
-							<div class="countdown js-countdown" data-countdown="2021/07/01"></div>
-						</div>
-					</div>
-				</div>
-			</a>
-			<div class="minicart-drop-info d-none d-md-block">
-				<div class="shop-feature-single row no-gutters align-items-center">
-					<div class="shop-feature-icon col-auto"><i class="icon-truck"></i></div>
-					<div class="shop-feature-text col"><b>SHIPPING!</b> Continue shopping to add more products and receive free shipping</div>
-				</div>
-			</div>
-		</div>
-		<div class="minicart-drop-fixed js-hide-empty">
-			<div class="loader-horizontal-sm js-loader-horizontal-sm" data-loader-horizontal=""><span></span></div>
-			<div class="minicart-drop-total js-minicart-drop-total row no-gutters align-items-center">
-				<div class="minicart-drop-total-txt col-auto heading-font">Subtotal</div>
-				<div class="minicart-drop-total-price col" data-header-cart-total=""></div>
-			</div>
-			<div class="minicart-drop-actions">
-				<a href="cart.html" class="btn btn--md btn--grey"><i class="icon-basket"></i><span>Cart Page</span></a>
-				<a href="checkout.html" class="btn btn--md"><i class="icon-checkout"></i><span>Check out</span></a>
-			</div>
-			<ul class="payment-link mb-2">
-				<li><i class="icon-amazon-logo"></i></li>
-				<li><i class="icon-visa-pay-logo"></i></li>
-				<li><i class="icon-skrill-logo"></i></li>
-				<li><i class="icon-klarna-logo"></i></li>
-				<li><i class="icon-paypal-logo"></i></li>
-				<li><i class="icon-apple-pay-logo"></i></li>
-			</ul>
-		</div>
-	</div>
-	<div class="drop-overlay js-dropdn-close"></div>
-</div>
-</div>
-<div class="page-content">
-<div class="holder fullwidth full-nopad mt-0">
-    <div class="container">
-        <div class="bnslider-wrapper">
-            <div class="bnslider bnslider--lg keep-scale" id="bnslider-001" data-slick='{"arrows": true, "dots": true}' data-autoplay="false" data-speed="12000" data-start-width="1917" data-start-height="764" data-start-mwidth="1550" data-start-mheight="1000">
-                <div class="bnslider-slide">
-					<% for (var item of banner){%>
-                    <div class="bnslider-image-mobile lazyload" data-bgset=<%=item.image2 %>></div>
-			          <div class="bnslider-image lazyload" data-bgset=<%=item.image2 %>></div>
-                       <div class="bnslider-text-wrap bnslider-overlay ">
-                        <div class="bnslider-text-content txt-middle txt-right txt-middle-m txt-center-m">
-                            <div class="bnslider-text-content-flex ">
-                                <div class="bnslider-vert w-s-60 w-ms-100" style="padding: 0px">
-                                    <div class="bnslider-text order-1 mt-sm bnslider-text--md text-center data-ini" data-animation="fadeInUp" data-animation-delay="800" data-fontcolor="#282828" data-fontweight="700" data-fontline="1.5">Best Price This Year</div>
-                                    
-                                    <div class="btn-wrap text-center  order-4 mt-md" data-animation="fadeIn" data-animation-delay="2000" style="opacity: 1;">
-                                        <a href="https://bit.ly/3eJX5XE" target="_blank" class="btn">
-                                            Shop now
-                                        </a>
-                                    </div>
-                                </div>
+<body>
+   
+
+
+    <!-- Hero/Intro Slider Start -->
+    <div class="section">
+        <div class="hero-slider">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+
+                    <!-- Hero Slider Item Start -->
+                    <div class="hero-slide-item swiper-slide">
+                        <!-- Hero Slider Bg Image Start -->
+                        <div class="hero-slide-bg">
+                            <img src="assets/images/slider/slide-1.jpg" alt="Slider Image" />
+                        </div>
+                        <!-- Hero Slider Bg image End -->
+
+                        <!-- Hero Slider Content Start -->
+                        <div class="container">
+                            <div class="hero-slide-content">
+                                <h2 class="title">
+                                    Women New <br />
+										Collection
+                                </h2>
+                                <p>Up to 70% off selected Product</p>
+                                <a href="shop-grid.html" class="btn btn-lg btn-primary btn-hover-dark">Shop Now</a>
                             </div>
                         </div>
+                        <!-- Hero Slider Content End -->
                     </div>
-					<%}%>
-                </div>
-                <div class="bnslider-slide">
-					<% for (var item of banner){%>
-                    <div class="bnslider-image-mobile lazyload" data-bgset=<%=item.image1 %>></div>
-                    <div class="bnslider-image lazyload"  data-bgset=<%=item.image1 %>></div>
-                    <div class="bnslider-text-wrap bnslider-overlay ">
-                        <div class="bnslider-text-content txt-middle txt-left txt-middle-m txt-center-m">
-                            <div class="bnslider-text-content-flex ">
-                                <div class="bnslider-vert w-s-60 w-ms-100" style="padding: 0px;">
-                                    <div class="bnslider-text order-1 mt-0 bnslider-text--md text-center data-ini" data-animation="fadeInUp" data-animation-delay="800" data-fontcolor="#282828" data-fontweight="700" data-fontline="1.5">Best Rated Theme 2020</div>
-                                   
-                                    <div class="btn-wrap text-center  order-4 mt-md" data-animation="fadeIn" data-animation-delay="2000" style="opacity: 1;">
-                                        <a href="https://bit.ly/3eJX5XE" target="_blank" class="btn">
-                                            Shop now
-                                        </a>
-                                    </div>
-                                </div>
+                    <!-- Hero Slider Item End -->
+
+                    <!-- Hero Slider Item Start -->
+                    <div class="hero-slide-item swiper-slide">
+
+                        <!-- Hero Slider Bg Image Start -->
+                        <div class="hero-slide-bg">
+                            <img src="assets/images/slider/slide-1-2.jpg" alt="Slider Image" />
+                        </div>
+                        <!-- Hero Slider Bg Image End -->
+
+                        <!-- Hero Slider Content Start -->
+                        <div class="container">
+                            <div class="hero-slide-content">
+                                <h2 class="title">
+                                    Trend Fashion<br />
+										Collection
+                                </h2>
+                                <p>Up to 40% off selected Product</p>
+                                <a href="shop-grid.html" class="btn btn-lg btn-primary btn-hover-dark">Shop Now</a>
                             </div>
                         </div>
+                        <!-- Hero Slider Content End -->
+
                     </div>
-					<%}%>
+                    <!-- Hero Slider Item End -->
+
                 </div>
-                <div class="bnslider-slide slick-slide is-paused" data-autoplay="true" data-video-type="video" data-slick-index="2" aria-hidden="true" style="width: 1903px; position: relative; left: -3806px; top: 0px; z-index: 998; opacity: 0; transition: opacity 500ms ease 0s;"  id="slick-slide02" >
-                    <div class="video-wrap">
-                        <video playsinline="" loop="" preload="auto">
-                            <source src="https://cdn.shopify.com/s/files/1/0201/0942/6742/files/video-girl.mp4?v=1594287483" type="video/mp4">
-                        </video>
-                        <div class="video-control visible">
-                            <div class="video-play js-video-slider-play"><i class="icon-play"></i></div>
-                            <div class="video-stop js-video-slider-stop"><i class="icon-pause"></i></div>
-                        </div>
-                    </div>
-                
-                </div>
+
+                <!-- Swiper Pagination Start -->
+                <div class="swiper-pagination d-md-none"></div>
+                <!-- Swiper Pagination End -->
+
+                <!-- Swiper Navigation Start -->
+                <div class="home-slider-prev swiper-button-prev main-slider-nav d-md-flex d-none"><i class="pe-7s-angle-left"></i></div>
+                <div class="home-slider-next swiper-button-next main-slider-nav d-md-flex d-none"><i class="pe-7s-angle-right"></i></div>
+                <!-- Swiper Navigation End -->
+
             </div>
-            <div class="bnslider-arrows container-fluid">
-                <div></div>
-            </div>
-            <div class="bnslider-dots container-fluid"></div>
         </div>
     </div>
+    <!-- Hero/Intro Slider End -->
+
+    <!-- Banner Section Start -->
+    <div class="section section-margin">
+        <div class="container">
+
+            <!-- Banners Start -->
+            <div class="row mb-n6">
+                <!-- Banner Start -->
+                <div class="col-lg-4 col-md-6 col-12 mb-6">
+                    <div class="banner" data-aos="fade-up" data-aos-delay="300">
+                        <div class="banner-image">
+                            <a href="#"><img src="assets/images/banner/banner-1.jpg" alt=""></a>
+                        </div>
+                        <div class="info">
+                            <div class="small-banner-content">
+                                <h4 class="sub-title">Sun Hat</h4>
+                                <h3 class="title">Get Offer <br />For Summer</h3>
+                                <a href="shop-grid.html" class="btn btn-dark btn-sm">Shop Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Banner End -->
+
+                <!-- Banner Start -->
+                <div class="col-lg-4 col-md-6 col-12 mb-6">
+                    <div class="banner" data-aos="fade-up" data-aos-delay="500">
+                        <div class="banner-image">
+                            <a href="#"><img src="assets/images/banner/banner-2.jpg" alt=""></a>
+                        </div>
+                        <div class="info">
+                            <div class="small-banner-content">
+                                <h4 class="sub-title">Ladies Bag</h4>
+                                <h3 class="title">Buy One <br />Get One Free</h3>
+                                <a href="shop-grid.html" class="btn btn-dark btn-sm">Shop Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Banner End -->
+
+                <!-- Banner Start -->
+                <div class="col-lg-4 col-md-6 col-12 mb-6">
+                    <div class="banner" data-aos="fade-up" data-aos-delay="700">
+                        <div class="banner-image">
+                            <a href="#"><img src="assets/images/banner/banner-3.jpg" alt=""></a>
+                        </div>
+                        <div class="info">
+                            <div class="small-banner-content">
+                                <h4 class="sub-title">Smart Watch</h4>
+                                <h3 class="title">20% Off <br />Smart Watch</h3>
+                                <a href="shop-grid.html" class="btn btn-dark btn-sm">Shop Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Banner End -->
+
+            </div>
+            <!-- Banners End -->
+        </div>
+    </div>
+    <!-- Banner Section End -->
+
+    <!-- Feature Section Start -->
+    <div class="section">
+        <div class="container">
+            <div class="feature-wrap">
+                <div class="row row-cols-lg-4 row-cols-xl-auto row-cols-sm-2 row-cols-1 justify-content-between mb-n5">
+                    <!-- Feature Start -->
+                    <div class="col mb-5" data-aos="fade-up" data-aos-delay="300">
+                        <div class="feature">
+                            <div class="icon text-primary align-self-center">
+                                <img src="assets/images/icons/feature-icon-2.png" alt="Feature Icon">
+                            </div>
+                            <div class="content">
+                                <h5 class="title">Free Shipping</h5>
+                                <p>Free shipping on all order</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Feature End -->
+
+                    <!-- Feature Start -->
+                    <div class="col mb-5" data-aos="fade-up" data-aos-delay="500">
+                        <div class="feature">
+                            <div class="icon text-primary align-self-center">
+                                <img src="assets/images/icons/feature-icon-3.png" alt="Feature Icon">
+                            </div>
+                            <div class="content">
+                                <h5 class="title">Support 24/7</h5>
+                                <p>Support 24 hours a day</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Feature End -->
+                    <!-- Feature Start -->
+                    <div class="col mb-5" data-aos="fade-up" data-aos-delay="700">
+                        <div class="feature">
+                            <div class="icon text-primary align-self-center">
+                                <img src="assets/images/icons/feature-icon-4.png" alt="Feature Icon">
+                            </div>
+                            <div class="content">
+                                <h5 class="title">Money Return</h5>
+                                <p>Back guarantee under 5 days</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Feature End -->
+
+                    <!-- Feature Start -->
+                    <div class="col mb-5" data-aos="fade-up" data-aos-delay="900">
+                        <div class="feature">
+                            <div class="icon text-primary align-self-center">
+                                <img src="assets/images/icons/feature-icon-1.png" alt="Feature Icon">
+                            </div>
+                            <div class="content">
+                                <h5 class="title">Order Discount</h5>
+                                <p>Onevery order over $150</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Feature End -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Feature Section End -->
+    <div class="section section-padding mt-0 overflow-hidden">
+        <div class="container">
+            <!-- Section Title & Tab Start -->
+            <div class="row">
+                <!-- Tab Start -->
+                <div class="col-12">
+                    <div class="section-title-produt-tab-wrapper">
+                        <div class="section-title m-0" data-aos="fade-right" data-aos-delay="300">
+                            <h1 class="title">All Products</h1>
+                        </div>
+                        
+                    </div>
+                </div>
+                <!-- Tab End -->
+            </div>
+            <!-- Section Title & Tab End -->
+
+            <div class="row">
+                <% for (var items of products) { %>
+                <div class="col-md-3">
+                                            <!-- Product Start -->
+                                            <!-- <div class="swiper-slide product-wrapper"> -->
+        
+                                                <!-- Single Product Start -->
+                                                
+                                                <div class="product product-border-left mb-10" data-aos="fade-up" data-aos-delay="300">
+                                                    <div class="thumb">
+                                                        <a href="/product-view/<%=items._id%>" class="image">
+                                                            <img class="first-image" style="width: 300px;height: 400px;" src="/product-images/image1/<%=items.image1 %>.jpg"  />
+                                                            <img class="second-image" style="width: 300px;height: 400px;" src="/product-images/image2/<%=items.image2 %>.jpg"  />
+                                                        </a>
+                                                        <div class="actions">
+                                                            <a href="#" class="action wishlist"><i class="pe-7s-like"></i></a>
+                                                            <a href="#" class="action quickview" data-bs-toggle="modal" data-bs-target="#exampleModalCenter"><i class="pe-7s-search"></i></a>
+                                                            <a href="#" class="action compare"><i class="pe-7s-shuffle"></i></a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="content">
+                                                        <h2 class="sub-title"><a href="/product-view/<%=items._id%>"> <%=items.productname %></a></h2>
+                                                        
+                                                        <span class="ratings">
+                                                                <span class="rating-wrap">
+                                                                    <span class="star" style="width: 100%"></span>
+                                                        </span>
+                                                        <span class="rating-num">(4)</span>
+                                                        </span>
+                                                        <span class="price">
+                                                                <span class="new">₹<%=items.price %></span>
+                                                        </span>
+                                                        
+                                                        <a href="/cart" class="btn btn-sm btn-outline-dark btn-hover-primary">Add To Cart</a>
+                                                    </div>
+                                                </div>
+                                        <!-- Swiper Pagination Start -->
+                                        <!-- <div class="swiper-pagination d-md-none"></div> -->
+                                        <!-- Swiper Pagination End -->
+        
+                                        <!-- Next Previous Button Start -->
+                                        <!-- <div class="swiper-product-button-next swiper-button-next swiper-button-white d-md-flex d-none"><i class="pe-7s-angle-right"></i></div>
+                                        <div class="swiper-product-button-prev swiper-button-prev swiper-button-white d-md-flex d-none"><i class="pe-7s-angle-left"></i></div> -->
+                                        <!-- Next Previous Button End -->
+                </div>
+                <% } %>
+            </div>
+            <!-- Products Tab End -->
+        </div>
+    </div> 
+    <!-- Product Section Start -->
+    <div class="section section-padding mt-0">
+        <div class="container">
+            <!-- Section Title & Tab Start -->
+            <div class="row">
+                <!-- Tab Start -->
+                <div class="col-12">
+                    <ul class="product-tab-nav nav justify-content-center mb-10 title-border-bottom mt-n3">
+                        <%for(var items of categories) { %>
+                            
+                        <li class="nav-item" data-aos="fade-up" data-aos-delay="300"><a class="nav-link  mt-3"  href="/?cate=<%=items.categoryname%>"><%=items.categoryname  %></a></li>
+                        
+                        <% } %>
+                    </ul>
+                </div>
+                <!-- Tab End -->
+            
+            <!-- Section Title & Tab End -->
+
+            <!-- Products Tab Start -->
+          
+            <!-- Products Tab End -->
+        </div>
+    
+    <!-- Product Section End -->
+    
+    <div class="row">
+        <% for (var items of categ) { %>
+        <div class="col-md-3">
+                                    <!-- Product Start -->
+                                    <!-- <div class="swiper-slide product-wrapper"> -->
+
+                                        <!-- Single Product Start -->
+                                        
+                                        <div class="product product-border-left mb-10" data-aos="fade-up" data-aos-delay="300">
+                                            <div class="thumb">
+                                                <a href="/product-view/<%=items._id%>" class="image">
+                                                    <img class="first-image" style="width: 300px;height: 400px;" src="/product-images/image1/<%=items.image1 %>.jpg"  />
+                                                    <img class="second-image" style="width: 300px;height: 400px;" src="/product-images/image2/<%=items.image2 %>.jpg"  />
+                                                </a>
+                                                <div class="actions">
+                                                    <a href="#" class="action wishlist"><i class="pe-7s-like"></i></a>
+                                                    <a href="#" class="action quickview" data-bs-toggle="modal" data-bs-target="#exampleModalCenter"><i class="pe-7s-search"></i></a>
+                                                    <a href="#" class="action compare"><i class="pe-7s-shuffle"></i></a>
+                                                </div>
+                                            </div>
+                                            <div class="content">
+                                                <h2 class="sub-title"><a href="/product-view/<%=items._id%>"> <%=items.productname %></a></h2>
+                                                
+                                                <span class="ratings">
+                                                        <span class="rating-wrap">
+                                                            <span class="star" style="width: 100%"></span>
+                                                </span>
+                                                <span class="rating-num">(4)</span>
+                                                </span>
+                                                <span class="price">
+                                                        <span class="new">₹<%=items.price %></span>
+                                                </span>
+                                                
+                                                <a href="/cart" class="btn btn-sm btn-outline-dark btn-hover-primary">Add To Cart</a>
+                                            </div>
+                                        </div>
+                                <!-- Swiper Pagination Start -->
+                                <!-- <div class="swiper-pagination d-md-nonhe"></div> -->
+                                <!-- Swiper Pagination End -->
+
+                                <!-- Next Previous Button Start -->
+                                <!-- <div class="swiper-product-button-next swiper-button-next swiper-button-white d-md-flex d-none"><i class="pe-7s-angle-right"></i></div>
+                                <div class="swiper-product-button-prev swiper-button-prev swiper-button-white d-md-flex d-none"><i class="pe-7s-angle-left"></i></div> -->
+                                <!-- Next Previous Button End -->
+        </div>
+        <% } %>
+    </div>
 </div>
-	<div class="holder holder-mt-xsmall">
-
 </div>
-	<div class="holder holder-mt-medium">
-	<div class="container">
-	
-		<!-- <div class="text-center mt-3 d-md-none">
-			<a href="#" class="btn btn--grey brands-show-more js-brands-show-more"><span>Show More</span><span>Show Less</span></a>
-		</div> -->
-	</div>
-</div>
-	<div class="holder holder-mt-medium section-name-products-grid" id="productsGrid01">
-	<div class="container">
-		<div class="title-wrap text-center">
-			<h2 class="h1-style">Collections</h2>
-			<div class="title-wrap title-tabs-wrap text-center js-title-tabs">
-				<div class="title-tabs">
-					<h2 class="h3-style">
-						<a href="ajax/ajax-product-tab-01.json" data-total="8" data-loaded="4" data-grid-tab-title><span class="title-tabs-text theme-font">Women</span></a>
-					</h2>
-					<h2 class="h3-style">
-						<a href="ajax/ajax-product-tab-02.json" data-total="8" data-loaded="4" data-grid-tab-title><span class="title-tabs-text theme-font">Men</span></a>
-					</h2>
-				
-				</div>
-			</div>
-		</div>
-		<!-- Product filter section -->
-<section class="product-filter-section">
-	<div class="container">
-		<div class="section-title">
-			<h2>All New!!</h2>
-		</div>
+  
+    <!-- Banner Fullwidth Start -->
+    <div class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12" data-aos="fade-up" data-aos-delay="300">
+                    <div class="banner">
+                        <div class="banner-image">
+                            <a href="shop-grid.html"><img src="assets/images/banner/big-banner.jpg" alt="Banner"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Banner Fullwidth End -->
 
-		
+    <!-- Product Deal Section Start -->
+    
+    <!-- Product Deal Section End -->
 
-		<div class="row">
-			<% for (var item of products){%>	
-			<div class="col-lg-3 col-sm-6 col-md-3">
-				<div class="product-item">
-				
-					<div class="pi-pic">
-						<img src="/product-images/image1/<%=item.image1 %>.jpg" alt="">
-						<div class="pi-links">
-							<a href="#" class="add-card"><i class="flaticon-bag"></i><span>ADD TO CART</span></a>
-							<a href="#" class="wishlist-btn"><i class="flaticon-heart"></i></a>
-						</div>
-					</div>
-					<div class="pi-text">
-						<h6> ₹ <%=item.price %></h6>
-						<p><%=item.productname %></p>
-					</div>
+    <!-- Banner Section Start -->
+    <div class="section">
+        <div class="container">
 
-				</div>	
+            <!-- Banners Start -->
+            <div class="row mb-n6 overflow-hidden">
+                <!-- Banner Start -->
+                <div class="col-md-6 col-12 mb-6" data-aos="fade-right" data-aos-delay="300">
+                    <div class="banner">
+                        <div class="banner-image">
+                            <a href="shop-grid.html"><img src="assets/images/banner/banner-4.jpg" alt="Banner Image"></a>
+                        </div>
+                        <div class="info">
+                            <div class="small-banner-content">
+                                <h4 class="sub-title">Up to <span>50%</span> Off</h4>
+                                <h3 class="title">Office Dress</h3>
+                                <a href="shop-grid.html" class="btn btn-primary btn-hover-dark btn-sm">Shop Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Banner End -->
 
-				</div>
-				<%}%>
-			</div>
-			
-			
-		</div>
-	</div>
-</section>
-<!-- Product filter section end -->
-</div>
-	<div class="holder holder-mt-medium ">
-	<div class="container">
-		
-		<a href="https://bit.ly/3eJX5XE" target="_blank" class="bnr-wrap bnr-">
-			<% for (var item of banner2){%>
-			<div class="bnr custom-caption image-hover-scale bnr--middle bnr--right bnr--fullwidth">
-				<div class="bnr-img d-none d-sm-block image-container" style="padding-bottom: 41.36752136752137%">
-					<img src="<%=item.image3 %>"  class="lazyload fade-up" alt=""></div>
-				<div class="bnr-img d-sm-none image-container" style="padding-bottom: 74.3139407244786%">
-					<img src="<%=item.image3 %>" class="lazyload fade-up" alt=""></div>
-				<div class="bnr-caption text-center" style="padding: 4% 4%; ">
-					<div class="bnr-caption-inside w-s-50 w-ms-100 title-wrap">
-						<h2 class="h1-style">The best trends<br class="d-sm-none"> of summer 2020</h2>
-						
-						<div class="bnr-btn inherit mt-sm order-3">
-							<div class="btn">Buy Now</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<%}%>
-		</a>
-		
-	</div>
-</div>
+                <!-- Banner Start -->
+                <div class="col-md-6 col-12 mb-6" data-aos="fade-left" data-aos-delay="300">
+                    <div class="banner">
+                        <div class="banner-image">
+                            <a href="shop-grid.html"><img src="assets/images/banner/banner-5.jpg" alt="Banner Image"></a>
+                        </div>
+                        <div class="info">
+                            <div class="small-banner-content">
+                                <h4 class="sub-title">Up to <span>40%</span> Off</h4>
+                                <h3 class="title">All Products</h3>
+                                <a href="shop-grid.html" class="btn btn-primary btn-hover-dark btn-sm">Shop Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Banner End -->
 
+            </div>
+            <!-- Banners End -->
+        </div>
+    </div>
+    <!-- Banner Section End -->
 
+    <!-- Product List Start -->
+    <div class="section section-padding">
+        <div class="container">
+            <div class="row mb-n8">
+                <div class="col-md-6 col-lg-4 col-12 mb-8" data-aos="fade-up" data-aos-delay="300">
+                    <!-- Product List Title Start -->
+                    <div class="product-list-title">
+                        <h2 class="title pb-3 mb-0">Best Offer</h2>
+                        <span></span>
+                    </div>
+                    <!-- Product List Title End -->
 
+                    <!-- Product List Carousel Start -->
+                    <div class="product-list-carousel">
+                        <div class="swiper-container">
+                            <div class="swiper-wrapper">
 
+                                <!-- Product List Wrapper Start -->
+                                <div class="swiper-slide product-list-wrapper mb-n6">
+
+                                    <!-- Single Product List Start -->
+                                    <div class="single-product-list product-hover mb-6">
+
+                                        <div class="thumb">
+                                            <a href="single-product.html" class="image">
+                                                <img class="first-image" src="assets/images/products/small-product/1.jpg" alt="Product" />
+                                                <img class="second-image" src="assets/images/products/small-product/5.jpg" alt="Product" />
+                                            </a>
+                                        </div>
+                                        <div class="content">
+                                            <h5 class="title"><a href="single-product.html">Brother Hoddies in Grey</a></h5>
+                                            <span class="price">
+													<span class="new">$38.00</span>
+                                            <span class="old">$42.50</span>
+                                            </span>
+                                            <span class="ratings">
+													<span class="rating-wrap">
+														<span class="star" style="width: 100%"></span>
+                                            </span>
+                                            <span class="rating-num">(4)</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <!-- Single Product List End -->
+
+                                    <!-- Single Product List Start -->
+                                    <div class="single-product-list product-hover mb-6">
+                                        <div class="thumb">
+                                            <a href="single-product.html" class="image">
+                                                <img class="first-image" src="assets/images/products/small-product/2.jpg" alt="Product" />
+                                                <img class="second-image" src="assets/images/products/small-product/3.jpg" alt="Product" />
+                                            </a>
+                                        </div>
+                                        <div class="content">
+                                            <h5 class="title"><a href="single-product.html">Basic Jogging Shorts</a></h5>
+                                            <span class="price">
+													<span class="new">$21.00</span>
+                                            <span class="old">$22.50</span>
+                                            </span>
+                                            <span class="ratings">
+													<span class="rating-wrap">
+														<span class="star" style="width: 60%"></span>
+                                            </span>
+                                            <span class="rating-num">(4)</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <!-- Single Product List End -->
+
+                                    <!-- Single Product List Start -->
+                                    <div class="single-product-list product-hover mb-6">
+                                        <div class="thumb">
+                                            <a href="single-product.html" class="image">
+                                                <img class="first-image" src="assets/images/products/small-product/4.jpg" alt="Product" />
+                                                <img class="second-image" src="assets/images/products/small-product/10.jpg" alt="Product" />
+                                            </a>
+                                        </div>
+                                        <div class="content">
+                                            <h5 class="title"><a href="single-product.html">Simple Woven Fabrics</a></h5>
+                                            <span class="price">
+													<span class="new">$86.00</span>
+                                            <span class="old">$90.00</span>
+                                            </span>
+                                            <span class="ratings">
+													<span class="rating-wrap">
+														<span class="star" style="width: 80%"></span>
+                                            </span>
+                                            <span class="rating-num">(1)</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <!-- Single Product List End -->
+
+                                </div>
+                                <!-- Product List Wrapper End -->
+
+                                <!-- Product List Wrapper Start -->
+                                <div class="swiper-slide product-list-wrapper mb-n6">
+
+                                    <!-- Single Product List Start -->
+                                    <div class="single-product-list product-hover mb-6">
+                                        <div class="thumb">
+                                            <a href="single-product.html" class="image">
+                                                <img class="first-image" src="assets/images/products/small-product/5.jpg" alt="Product" />
+                                                <img class="second-image" src="assets/images/products/small-product/6.jpg" alt="Product" />
+                                            </a>
+                                        </div>
+                                        <div class="content">
+                                            <h5 class="title"><a href="single-product.html">Make Thing Happen T-Shirt</a></h5>
+                                            <span class="price">
+													<span class="new">$66.50</span>
+                                            <span class="old">$70.55</span>
+                                            </span>
+                                            <span class="ratings">
+													<span class="rating-wrap">
+														<span class="star" style="width: 100%"></span>
+                                            </span>
+                                            <span class="rating-num">(4)</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <!-- Single Product List End -->
+
+                                    <!-- Single Product List Start -->
+                                    <div class="single-product-list product-hover mb-6">
+                                        <div class="thumb">
+                                            <a href="single-product.html" class="image">
+                                                <img class="first-image" src="assets/images/products/small-product/4.jpg" alt="Product" />
+                                                <img class="second-image" src="assets/images/products/small-product/10.jpg" alt="Product" />
+                                            </a>
+                                        </div>
+                                        <div class="content">
+                                            <h5 class="title"><a href="single-product.html">Simple Woven Fabrics</a></h5>
+                                            <span class="price">
+													<span class="new">$86.00</span>
+                                            <span class="old">$90.00</span>
+                                            </span>
+                                            <span class="ratings">
+													<span class="rating-wrap">
+														<span class="star" style="width: 80%"></span>
+                                            </span>
+                                            <span class="rating-num">(1)</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <!-- Single Product List End -->
+
+                                    <!-- Single Product List Start -->
+                                    <div class="single-product-list product-hover mb-6">
+                                        <div class="thumb">
+                                            <a href="single-product.html" class="image">
+                                                <img class="first-image" src="assets/images/products/small-product/1.jpg" alt="Product" />
+                                                <img class="second-image" src="assets/images/products/small-product/5.jpg" alt="Product" />
+                                            </a>
+                                        </div>
+                                        <div class="content">
+                                            <h5 class="title"><a href="single-product.html">Brother Hoddies in Grey</a></h5>
+                                            <span class="price">
+													<span class="new">$38.00</span>
+                                            <span class="old">$42.50</span>
+                                            </span>
+                                            <span class="ratings">
+													<span class="rating-wrap">
+														<span class="star" style="width: 100%"></span>
+                                            </span>
+                                            <span class="rating-num">(4)</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <!-- Single Product List End -->
+
+                                </div>
+                                <!-- Product List Wrapper End -->
+
+                            </div>
+
+                            <!-- Swiper Pagination Start -->
+                            <!-- <div class="swiper-pagination d-md-none"></div> -->
+                            <!-- Swiper Pagination End -->
+
+                            <!-- Next Previous Button Start -->
+                            <div class="swiper-product-list-next swiper-button-next"><i class="pe-7s-angle-right"></i></div>
+                            <div class="swiper-product-list-prev swiper-button-prev"><i class="pe-7s-angle-left"></i></div>
+                            <!-- Next Previous Button End -->
+
+                        </div>
+                    </div>
+                    <!-- Product List Carousel End -->
+
+                </div>
+                <div class="col-md-6 col-lg-4 col-12 mb-8" data-aos="fade-up" data-aos-delay="500">
+                    <!-- Product List Title Start -->
+                    <div class="product-list-title">
+                        <h2 class="title pb-3 mb-0">New Products</h2>
+                        <span></span>
+                    </div>
+                    <!-- Product List Title End -->
+
+                    <!-- Product List Start -->
+                    <div class="product-list-carousel-2">
+                        <div class="swiper-container">
+                            <div class="swiper-wrapper">
+
+                                <!-- Product List Wrapper Start -->
+                                <div class="swiper-slide product-list-wrapper mb-n6">
+
+                                    <!-- Single Product List Start -->
+                                    <div class="single-product-list product-hover mb-6">
+                                        <div class="thumb">
+                                            <a href="single-product.html" class="image">
+                                                <img class="first-image" src="assets/images/products/small-product/5.jpg" alt="Product" />
+                                                <img class="second-image" src="assets/images/products/small-product/6.jpg" alt="Product" />
+                                            </a>
+                                        </div>
+                                        <div class="content">
+                                            <h5 class="title"><a href="single-product.html">Make Thing Happen T-Shirt</a></h5>
+                                            <span class="price">
+													<span class="new">$66.50</span>
+                                            <span class="old">$70.55</span>
+                                            </span>
+                                            <span class="ratings">
+													<span class="rating-wrap">
+														<span class="star" style="width: 100%"></span>
+                                            </span>
+                                            <span class="rating-num">(4)</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <!-- Single Product List End -->
+
+                                    <!-- Single Product List Start -->
+                                    <div class="single-product-list product-hover mb-6">
+                                        <div class="thumb">
+                                            <a href="single-product.html" class="image">
+                                                <img class="first-image" src="assets/images/products/small-product/4.jpg" alt="Product" />
+                                                <img class="second-image" src="assets/images/products/small-product/10.jpg" alt="Product" />
+                                            </a>
+                                        </div>
+                                        <div class="content">
+                                            <h5 class="title"><a href="single-product.html">Simple Woven Fabrics</a></h5>
+                                            <span class="price">
+													<span class="new">$86.00</span>
+                                            <span class="old">$90.00</span>
+                                            </span>
+                                            <span class="ratings">
+													<span class="rating-wrap">
+														<span class="star" style="width: 80%"></span>
+                                            </span>
+                                            <span class="rating-num">(1)</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <!-- Single Product List End -->
+
+                                    <!-- Single Product List Start -->
+                                    <div class="single-product-list product-hover mb-6">
+                                        <div class="thumb">
+                                            <a href="single-product.html" class="image">
+                                                <img class="first-image" src="assets/images/products/small-product/1.jpg" alt="Product" />
+                                                <img class="second-image" src="assets/images/products/small-product/5.jpg" alt="Product" />
+                                            </a>
+                                        </div>
+                                        <div class="content">
+                                            <h5 class="title"><a href="single-product.html">Brother Hoddies in Grey</a></h5>
+                                            <span class="price">
+													<span class="new">$38.00</span>
+                                            <span class="old">$42.50</span>
+                                            </span>
+                                            <span class="ratings">
+													<span class="rating-wrap">
+														<span class="star" style="width: 100%"></span>
+                                            </span>
+                                            <span class="rating-num">(4)</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <!-- Single Product List End -->
+
+                                </div>
+                                <!-- Product List Wrapper End -->
+
+                                <!-- Product List Wrapper Start -->
+                                <div class="swiper-slide product-list-wrapper mb-n6">
+
+                                    <!-- Single Product List Start -->
+                                    <div class="single-product-list product-hover mb-6">
+                                        <div class="thumb">
+                                            <a href="single-product.html" class="image">
+                                                <img class="first-image" src="assets/images/products/small-product/7.jpg" alt="Product" />
+                                                <img class="second-image" src="assets/images/products/small-product/9.jpg" alt="Product" />
+                                            </a>
+                                        </div>
+                                        <div class="content">
+                                            <h5 class="title"><a href="single-product.html">Basic Lather Sneaker</a></h5>
+                                            <span class="price">
+													<span class="new">$65.00</span>
+                                            </span>
+                                            <span class="ratings">
+													<span class="rating-wrap">
+														<span class="star" style="width: 100%"></span>
+                                            </span>
+                                            <span class="rating-num">(4)</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <!-- Single Product List End -->
+
+                                    <!-- Single Product List Start -->
+                                    <div class="single-product-list product-hover mb-6">
+                                        <div class="thumb">
+                                            <a href="single-product.html" class="image">
+                                                <img class="first-image" src="assets/images/products/small-product/11.jpg" alt="Product" />
+                                                <img class="second-image" src="assets/images/products/small-product/10.jpg" alt="Product" />
+                                            </a>
+                                        </div>
+                                        <div class="content">
+                                            <h5 class="title"><a href="single-product.html">Handmade Shoulder Bag</a></h5>
+                                            <span class="price">
+													<span class="new">$86.00</span>
+                                            </span>
+                                            <span class="ratings">
+													<span class="rating-wrap">
+														<span class="star" style="width: 80%"></span>
+                                            </span>
+                                            <span class="rating-num">(1)</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <!-- Single Product List End -->
+
+                                    <!-- Single Product List Start -->
+                                    <div class="single-product-list product-hover mb-6">
+                                        <div class="thumb">
+                                            <a href="single-product.html" class="image">
+                                                <img class="first-image" src="assets/images/products/small-product/3.jpg" alt="Product" />
+                                                <img class="second-image" src="assets/images/products/small-product/5.jpg" alt="Product" />
+                                            </a>
+                                        </div>
+                                        <div class="content">
+                                            <h5 class="title"><a href="single-product.html">Enjoy The Rest T-Shirt</a></h5>
+                                            <span class="price">
+													<span class="new">$44.00</span>
+                                            <span class="old">$48.50</span>
+                                            </span>
+                                            <span class="ratings">
+													<span class="rating-wrap">
+														<span class="star" style="width: 100%"></span>
+                                            </span>
+                                            <span class="rating-num">(4)</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <!-- Single Product List End -->
+
+                                </div>
+                                <!-- Product List Wrapper End -->
+
+                            </div>
+
+                            <!-- Swiper Pagination Start -->
+                            <!-- <div class="swiper-pagination d-md-none"></div> -->
+                            <!-- Swiper Pagination End -->
+
+                            <!-- Next Previous Button Start -->
+                            <div class="swiper-product-list-next swiper-button-next"><i class="pe-7s-angle-right"></i></div>
+                            <div class="swiper-product-list-prev swiper-button-prev"><i class="pe-7s-angle-left"></i></div>
+                            <!-- Next Previous Button End -->
+                        </div>
+                    </div>
+                    <!-- Product List End -->
+                </div>
+                <div class="col-md-6 col-lg-4 col-12 mb-8" data-aos="fade-up" data-aos-delay="700">
+                    <!-- Product List Title Start -->
+                    <div class="product-list-title">
+                        <h2 class="title pb-3 mb-0">Best Sellers</h2>
+                        <span></span>
+                    </div>
+                    <!-- Product List Title End -->
+
+                    <!-- Product List Start -->
+                    <div class="product-list-carousel-3">
+                        <div class="swiper-container">
+                            <div class="swiper-wrapper">
+
+                                <!-- Product List Wrapper Start -->
+                                <div class="swiper-slide product-list-wrapper mb-n6">
+
+                                    <!-- Single Product List Start -->
+                                    <div class="single-product-list product-hover mb-6">
+                                        <div class="thumb">
+                                            <a href="single-product.html" class="image">
+                                                <img class="first-image" src="assets/images/products/small-product/7.jpg" alt="Product" />
+                                                <img class="second-image" src="assets/images/products/small-product/9.jpg" alt="Product" />
+                                            </a>
+                                        </div>
+                                        <div class="content">
+                                            <h5 class="title"><a href="single-product.html">Basic Lather Sneaker</a></h5>
+                                            <span class="price">
+													<span class="new">$65.00</span>
+                                            </span>
+                                            <span class="ratings">
+													<span class="rating-wrap">
+														<span class="star" style="width: 100%"></span>
+                                            </span>
+                                            <span class="rating-num">(4)</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <!-- Single Product List End -->
+
+                                    <!-- Single Product List Start -->
+                                    <div class="single-product-list product-hover mb-6">
+                                        <div class="thumb">
+                                            <a href="single-product.html" class="image">
+                                                <img class="first-image" src="assets/images/products/small-product/11.jpg" alt="Product" />
+                                                <img class="second-image" src="assets/images/products/small-product/10.jpg" alt="Product" />
+                                            </a>
+                                        </div>
+                                        <div class="content">
+                                            <h5 class="title"><a href="single-product.html">Handmade Shoulder Bag</a></h5>
+                                            <span class="price">
+													<span class="new">$86.00</span>
+                                            </span>
+                                            <span class="ratings">
+													<span class="rating-wrap">
+														<span class="star" style="width: 80%"></span>
+                                            </span>
+                                            <span class="rating-num">(1)</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <!-- Single Product List End -->
+
+                                    <!-- Single Product List Start -->
+                                    <div class="single-product-list product-hover mb-6">
+                                        <div class="thumb">
+                                            <a href="single-product.html" class="image">
+                                                <img class="first-image" src="assets/images/products/small-product/3.jpg" alt="Product" />
+                                                <img class="second-image" src="assets/images/products/small-product/5.jpg" alt="Product" />
+                                            </a>
+                                        </div>
+                                        <div class="content">
+                                            <h5 class="title"><a href="single-product.html">Enjoy The Rest T-Shirt</a></h5>
+                                            <span class="price">
+													<span class="new">$44.00</span>
+                                            <span class="old">$48.50</span>
+                                            </span>
+                                            <span class="ratings">
+													<span class="rating-wrap">
+														<span class="star" style="width: 100%"></span>
+                                            </span>
+                                            <span class="rating-num">(4)</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <!-- Single Product List End -->
+
+                                </div>
+                                <!-- Product List Wrapper End -->
+
+                                <!-- Product List Wrapper Start -->
+                                <div class="swiper-slide product-list-wrapper mb-n6">
+
+                                    <!-- Single Product List Start -->
+                                    <div class="single-product-list product-hover mb-6">
+                                        <div class="thumb">
+                                            <a href="single-product.html" class="image">
+                                                <img class="first-image" src="assets/images/products/small-product/1.jpg" alt="Product" />
+                                                <img class="second-image" src="assets/images/products/small-product/5.jpg" alt="Product" />
+                                            </a>
+                                        </div>
+                                        <div class="content">
+                                            <h5 class="title"><a href="single-product.html">Brother Hoddies in Grey</a></h5>
+                                            <span class="price">
+													<span class="new">$38.00</span>
+                                            <span class="old">$42.50</span>
+                                            </span>
+                                            <span class="ratings">
+													<span class="rating-wrap">
+														<span class="star" style="width: 100%"></span>
+                                            </span>
+                                            <span class="rating-num">(4)</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <!-- Single Product List End -->
+
+                                    <!-- Single Product List Start -->
+                                    <div class="single-product-list product-hover mb-6">
+                                        <div class="thumb">
+                                            <a href="single-product.html" class="image">
+                                                <img class="first-image" src="assets/images/products/small-product/2.jpg" alt="Product" />
+                                                <img class="second-image" src="assets/images/products/small-product/3.jpg" alt="Product" />
+                                            </a>
+                                        </div>
+                                        <div class="content">
+                                            <h5 class="title"><a href="single-product.html">Basic Jogging Shorts</a></h5>
+                                            <span class="price">
+													<span class="new">$21.00</span>
+                                            <span class="old">$22.50</span>
+                                            </span>
+                                            <span class="ratings">
+													<span class="rating-wrap">
+														<span class="star" style="width: 60%"></span>
+                                            </span>
+                                            <span class="rating-num">(4)</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <!-- Single Product List End -->
+
+                                    <!-- Single Product List Start -->
+                                    <div class="single-product-list product-hover mb-6">
+                                        <div class="thumb">
+                                            <a href="single-product.html" class="image">
+                                                <img class="first-image" src="assets/images/products/small-product/4.jpg" alt="Product" />
+                                                <img class="second-image" src="assets/images/products/small-product/10.jpg" alt="Product" />
+                                            </a>
+                                        </div>
+                                        <div class="content">
+                                            <h5 class="title"><a href="single-product.html">Simple Woven Fabrics</a></h5>
+                                            <span class="price">
+													<span class="new">$86.00</span>
+                                            <span class="old">$90.00</span>
+                                            </span>
+                                            <span class="ratings">
+													<span class="rating-wrap">
+														<span class="star" style="width: 80%"></span>
+                                            </span>
+                                            <span class="rating-num">(1)</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <!-- Single Product List End -->
+
+                                </div>
+                                <!-- Product List Wrapper End -->
+
+                            </div>
+
+                            <!-- Swiper Pagination Start -->
+                            <!-- <div class="swiper-pagination d-md-none"></div> -->
+                            <!-- Swiper Pagination End -->
+
+                            <!-- Next Previous Button Start -->
+                            <div class="swiper-product-list-next swiper-button-next"><i class="pe-7s-angle-right"></i></div>
+                            <div class="swiper-product-list-prev swiper-button-prev"><i class="pe-7s-angle-left"></i></div>
+                            <!-- Next Previous Button End -->
+
+                        </div>
+                    </div>
+                    <!-- Product List End -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Product List End -->
+
+    <!-- Brand Logo Start -->
+    <div class="section">
+        <div class="container">
+            <div class="border-top">
+                <div class="row">
+                    <div class="col-12">
+                        <!-- Brand Logo Wrapper Start -->
+                        <div class="brand-logo-carousel">
+                            <div class="swiper-container">
+                                <div class="swiper-wrapper">
+
+                                    <!-- Single Brand Logo Start -->
+                                    <div class="swiper-slide single-brand-logo" data-aos="fade-up" data-aos-delay="300">
+                                        <a href="#"><img src="assets/images/brand-logo/1.png" alt="Brand Logo"></a>
+                                    </div>
+                                    <!-- Single Brand Logo End -->
+
+                                    <!-- Single Brand Logo Start -->
+                                    <div class="swiper-slide single-brand-logo" data-aos="fade-up" data-aos-delay="400">
+                                        <a href="#"><img src="assets/images/brand-logo/2.png" alt="Brand Logo"></a>
+                                    </div>
+                                    <!-- Single Brand Logo End -->
+
+                                    <!-- Single Brand Logo Start -->
+                                    <div class="swiper-slide single-brand-logo" data-aos="fade-up" data-aos-delay="500">
+                                        <a href="#"><img src="assets/images/brand-logo/3.png" alt="Brand Logo"></a>
+                                    </div>
+                                    <!-- Single Brand Logo End -->
+
+                                    <!-- Single Brand Logo Start -->
+                                    <div class="swiper-slide single-brand-logo" data-aos="fade-up" data-aos-delay="600">
+                                        <a href="#"><img src="assets/images/brand-logo/4.png" alt="Brand Logo"></a>
+                                    </div>
+                                    <!-- Single Brand Logo End -->
+
+                                    <!-- Single Brand Logo Start -->
+                                    <div class="swiper-slide single-brand-logo" data-aos="fade-up" data-aos-delay="700">
+                                        <a href="#"><img src="assets/images/brand-logo/5.png" alt="Brand Logo"></a>
+                                    </div>
+                                    <!-- Single Brand Logo End -->
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Brand Logo Wrapper End -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Brand Logo End -->
+
+    <!-- Footer Section Start -->
+    
+
+    <!-- Scroll Top Start -->
+    <a href="#" class="scroll-top" id="scroll-top">
+        <i class="arrow-top fa fa-long-arrow-up"></i>
+        <i class="arrow-bottom fa fa-long-arrow-up"></i>
+    </a>
+    <!-- Scroll Top End -->
+
+    <!-- Modal Start  -->
+    <div class="modalquickview modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <button class="btn close" data-bs-dismiss="modal">×</button>
+                <div class="row">
+                    <div class="col-md-6 col-12">
+
+                        <!-- Product Details Image Start -->
+                        <div class="modal-product-carousel">
+
+                            <!-- Single Product Image Start -->
+                            <div class="swiper-container">
+                                <div class="swiper-wrapper">
+                                    <a class="swiper-slide" href="#">
+                                        <img class="w-100" src="assets/images/products/large-size/1.jpg" alt="Product">
+                                    </a>
+                                    <a class="swiper-slide" href="#">
+                                        <img class="w-100" src="assets/images/products/large-size/2.jpg" alt="Product">
+                                    </a>
+                                    <a class="swiper-slide" href="#">
+                                        <img class="w-100" src="assets/images/products/large-size/3.jpg" alt="Product">
+                                    </a>
+                                    <a class="swiper-slide" href="#">
+                                        <img class="w-100" src="assets/images/products/large-size/4.jpg" alt="Product">
+                                    </a>
+                                    <a class="swiper-slide" href="#">
+                                        <img class="w-100" src="assets/images/products/large-size/5.jpg" alt="Product">
+                                    </a>
+                                    <a class="swiper-slide" href="#">
+                                        <img class="w-100" src="assets/images/products/large-size/6.jpg" alt="Product">
+                                    </a>
+                                </div>
+
+                                <!-- Swiper Pagination Start -->
+                                <!-- <div class="swiper-pagination d-md-none"></div> -->
+                                <!-- Swiper Pagination End -->
+
+                                <!-- Next Previous Button Start -->
+                                <div class="swiper-product-button-next swiper-button-next"><i class="pe-7s-angle-right"></i></div>
+                                <div class="swiper-product-button-prev swiper-button-prev"><i class="pe-7s-angle-left"></i></div>
+                                <!-- Next Previous Button End -->
+                            </div>
+                            <!-- Single Product Image End -->
+
+                        </div>
+                        <!-- Product Details Image End -->
+
+                    </div>
+                    <div class="col-md-6 col-12 overflow-hidden position-relative">
+
+                        <!-- Product Summery Start -->
+                        <div class="product-summery">
+
+                            <!-- Product Head Start -->
+                            <div class="product-head mb-3">
+                                <h2 class="product-title">Sample product</h2>
+                            </div>
+                            <!-- Product Head End -->
+
+                            <!-- Price Box Start -->
+                            <div class="price-box mb-2">
+                                <span class="regular-price">$80.00</span>
+                                <span class="old-price"><del>$90.00</del></span>
+                            </div>
+                            <!-- Price Box End -->
+
+                            <!-- Rating Start -->
+                            <span class="ratings justify-content-start">
+                        <span class="rating-wrap">
+                            <span class="star" style="width: 100%"></span>
+                            </span>
+                            <span class="rating-num">(4)</span>
+                            </span>
+                            <!-- Rating End -->
+
+                            <!-- SKU Start -->
+                            <div class="sku mb-3">
+                                <span>SKU: 12345</span>
+                            </div>
+                            <!-- SKU End -->
+
+                            <!-- Description Start -->
+                            <p class="desc-content mb-5">I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.</p>
+                            <!-- Description End -->
+
+                            <!-- Product Meta Start -->
+                            <div class="product-meta mb-3">
+                                <!-- Product Size Start -->
+                                <div class="product-size">
+                                    <span>Size :</span>
+                                    <a href="#"><strong>S</strong></a>
+                                    <a href="#"><strong>M</strong></a>
+                                    <a href="#"><strong>L</strong></a>
+                                    <a href="#"><strong>XL</strong></a>
+                                </div>
+                                <!-- Product Size End -->
+                            </div>
+                            <!-- Product Meta End -->
+
+                            <!-- Product Color Variation Start -->
+                            <div class="product-color-variation mb-3">
+                                <button type="button" class="btn bg-danger"></button>
+                                <button type="button" class="btn bg-primary"></button>
+                                <button type="button" class="btn bg-dark"></button>
+                                <button type="button" class="btn bg-success"></button>
+                            </div>
+                            <!-- Product Color Variation End -->
+
+                            <!-- Product Meta Start -->
+                            <div class="product-meta mb-5">
+                                <!-- Product Metarial Start -->
+                                <div class="product-metarial">
+                                    <span>Metarial :</span>
+                                    <a href="#"><strong>Metal</strong></a>
+                                    <a href="#"><strong>Resin</strong></a>
+                                    <a href="#"><strong>Lather</strong></a>
+                                    <a href="#"><strong>Polymer</strong></a>
+                                </div>
+                                <!-- Product Metarial End -->
+                            </div>
+                            <!-- Product Meta End -->
+
+                            <!-- Quantity Start -->
+                            <div class="quantity mb-5">
+                                <div class="cart-plus-minus">
+                                    <input class="cart-plus-minus-box" value="0" type="text">
+                                    <div class="dec qtybutton"></div>
+                                    <div class="inc qtybutton"></div>
+                                </div>
+                            </div>
+                            <!-- Quantity End -->
+
+                            <!-- Cart & Wishlist Button Start -->
+                            <div class="cart-wishlist-btn pb-4 mb-n3">
+                                <div class="add-to_cart mb-3">
+                                    <a class="btn btn-outline-dark btn-hover-primary" href="cart.html">Add to cart</a>
+                                </div>
+                                <div class="add-to-wishlist mb-3">
+                                    <a class="btn btn-outline-dark btn-hover-primary" href="wishlist.html">Add to Wishlist</a>
+                                </div>
+                            </div>
+                            <!-- Cart & Wishlist Button End -->
+
+                            <!-- Social Shear Start -->
+                            <div class="social-share">
+                                <span>Share :</span>
+                                <a href="#"><i class="fa fa-facebook-square facebook-color"></i></a>
+                                <a href="#"><i class="fa fa-twitter-square twitter-color"></i></a>
+                                <a href="#"><i class="fa fa-linkedin-square linkedin-color"></i></a>
+                                <a href="#"><i class="fa fa-pinterest-square pinterest-color"></i></a>
+                            </div>
+                            <!-- Social Shear End -->
+
+                            <!-- Product Delivery Policy Start -->
+                            <ul class="product-delivery-policy border-top pt-4 mt-4 border-bottom pb-4">
+                                <li> <i class="fa fa-check-square"></i> <span>Security Policy (Edit With Customer Reassurance Module)</span></li>
+                                <li><i class="fa fa-truck"></i><span>Delivery Policy (Edit With Customer Reassurance Module)</span></li>
+                                <li><i class="fa fa-refresh"></i><span>Return Policy (Edit With Customer Reassurance Module)</span></li>
+                            </ul>
+                            <!-- Product Delivery Policy End -->
+
+                        </div>
+                        <!-- Product Summery End -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
 </body>
 
-<!-- Mirrored from big-skins.com/frontend/foxic-html-demo/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 04 Oct 2021 03:55:25 GMT -->
+
+<!-- Mirrored from template.hasthemes.com/destry/destry/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 10 Oct 2021 05:41:52 GMT -->
 </html>

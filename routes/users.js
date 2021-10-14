@@ -4,30 +4,25 @@ var userHelper = require('../helpers/userHelpers')
 const productHelpers = require('../helpers/productHelpers');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', async function(req, res, next) {
   let user = req.session.user
-  console.log("sined up")
-  console.log(user)
+  
 
-  var banner = [{
-    image1 : "https://big-skins.com/frontend/foxic-html-demo/images/skins/fashion/slider/slide-fashion-01.webp"
-  },
-  {
-    image2 : "https://big-skins.com/frontend/foxic-html-demo/images/skins/fashion/slider/slide-fashion-02.webp"
-  },
-   
-]
-   var banner2 = [
-     {
-      image3 :"https://big-skins.com/frontend/foxic-html-demo/images/skins/fashion/banner-fashion2-full.webp"
-      } 
-   ]
+  let cate = req.query.cate
+  console.log(cate)
+  let categ =await productHelpers.getCategory(cate)
+  console.log("categ")
+  console.log(categ)
+  let categories =await productHelpers.getAllCategories()
   productHelpers.getAllProducts().then((products)=>{
-   
-    res.render('users/landing', {banner,banner2,admin:false,products,user});
+    res.render('users/landing', {admin:false,products,user,categories,categ});
   })
-
 });
+// router.get('/:categoryname',(req,res)=>{
+//   let cate = req.params.categoryname
+//   productHelpers.getCategory(cate)
+//   res.redirect('/')
+// })
 router.get('/signup',(req,res)=>{
   if(req.session.SignIn){
     res.redirect('/')
@@ -49,6 +44,8 @@ router.post('/signup',(req,res)=>{
   
 })
 router.get('/login',(req,res)=>{
+  let id = req.query.cate
+  console.log("jjjjjjjjjjjj"+id);
   if(req.session.loggedIn&&req.session.user){
     res.redirect('/')
   }else{
@@ -67,13 +64,19 @@ router.post('/login',(req,res)=>{
   })
 })
 router.get('/logout',(req,res)=>{
-  
   delete req.session.user
-
-  
   res.redirect('/')
- 
- 
 })
+
+router.get('/product-view/:id',(req, res)=>{
+  let proId = req.params.id
+  productHelpers.productView(proId).then((product)=>{
+    res.render('users/product-view',{admin:false,user:false,product})
+  })
+})
+router.get('/cart',(req,res)=>{
+  res.render('users/cart',{admin:false,user:true})
+})
+
 
 module.exports = router;
