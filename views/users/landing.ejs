@@ -251,7 +251,8 @@
                                                                 <span class="new">₹<%=items.price %></span>
                                                         </span>
                                                         
-                                                        <a href="/cart" class="btn btn-sm btn-outline-dark btn-hover-primary">Add To Cart</a>
+                                                        <button class="btn btn-sm btn-outline-dark btn-hover-primary" onclick="addToCart('<%=items._id %>')" >Add To Cart</button>
+                                                       
                                                     </div>
                                                 </div>
                                         <!-- Swiper Pagination Start -->
@@ -327,7 +328,7 @@
                                                         <span class="new">₹<%=items.price %></span>
                                                 </span>
                                                 
-                                                <a href="/cart" class="btn btn-sm btn-outline-dark btn-hover-primary">Add To Cart</a>
+                                                <button onclick="addToCart('<%=items._id%>')" class="btn btn-sm btn-outline-dark btn-hover-primary">Add To Cart</button>
                                             </div>
                                         </div>
                                 <!-- Swiper Pagination Start -->
@@ -1206,3 +1207,21 @@
 
 <!-- Mirrored from template.hasthemes.com/destry/destry/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 10 Oct 2021 05:41:52 GMT -->
 </html>
+<script>
+    function addToCart(proId){
+       
+        $.ajax({
+            url:'/add-to-cart/'+proId,
+            method:'get',
+            success:(response)=>{
+                console.log(response)
+               if(response.status){
+                   
+                    let count= document.getElementById("cartcount") 
+                    let newCount = parseInt(count.innerHTML)+1
+                    count.innerHTML = newCount
+                }
+            }
+        })
+    }
+</script>

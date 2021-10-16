@@ -1,6 +1,8 @@
 const mongoose = require('mongoose')
+var objectId = mongoose.Types.ObjectId
 const bcrypt = require('bcrypt')
 
+// schema for product collection
 const productSchema = new mongoose.Schema({
     productname:String,
     description:String,
@@ -12,15 +14,22 @@ const productSchema = new mongoose.Schema({
     image2:String,
     image3:String
 })
+// schema for category
 const catergorySchema = new mongoose.Schema({
     categoryname:String,
     subcategory:Array
 })
+//collection for category
 const categoryInfo = mongoose.model('category',catergorySchema)
-
-    
+// schema for cart
+const cartSchema = new mongoose.Schema({
+    user:String,
+    products:Array
+})
+// collection name for cart
+const cartInfo = mongoose.model('cart',cartSchema)    
    
-
+//collection for products
 const productInfo = mongoose.model('products',productSchema)
 module.exports={
   addProducts  : (product,id1,id2,id3)=>{
@@ -172,13 +181,114 @@ module.exports={
         })
     },
     getCategory:(categoryname)=>{
-        console.log("categoryname")
-        console.log(categoryname);
+       
         return new Promise((resolve,reject)=>{
           let cate =  productInfo.find({category:categoryname}).lean()
-          console.log(cate);
+        
           resolve(cate)
         })
+    },
+    addToCart :(proId,userId)=>{
+        
+        return new Promise(async(resolve,reject)=>{
+            let proObj={
+                items : objectId(proId),
+                quantity:1
+            }
+            let userCart =await cartInfo.findOne({user:userId})
+            console.log("useer id inside useercart");
+            console.log(userId)
+            if(userCart){
+                let proExist = userCart.products.findIndex(e=> e.items==proId)
+                console.log("proExist  in cart")
+                console.log(proExist)
+                if(proExist!=-1){
+                    cartInfo.updateOne({user:userId,'products.items':objectId(proId)},{$inc:{'products.$.quantity':1}}).then((res)=>{
+                        console.log("reponse of quantity")
+                        console.log(res)
+                       resolve(res)
+
+                    })
+                }else{
+                cartInfo.updateOne({user:userId},
+                    {
+                        $push:{
+                            products:proObj
+                        }
+                    }).then((response)=>{
+                       
+                        resolve(response)
+                    })
+            }
+            }else{
+                const cart = new cartInfo({
+                    user:userId,
+                    products:proObj
+                })
+                cart.save((err,details)=>{
+                    if(err){
+                        console.log("error"+err)
+                    }else{
+                        resolve(details)
+                    }
+                })
+            }
+        })
+    },
+    getCartProducts:(userId)=>{
+        return new Promise(async(resolve,reject)=>{
+            cartInfo.aggregate([
+                {
+                    $match:{user:userId}
+                },
+                {
+                    $unwind:'$products'
+                },
+               
+                {
+                    $lookup:{
+                        from:'products',
+                        localField:'products.items',
+                        foreignField:'_id',
+                        as:'cartproducts'
+                    }
+                },
+                
+                {$unwind:"$cartproducts"}
+                ]).then((result)=>{
+                    
+                    resolve(result)
+                })
+          
+            
+        })
+            
+    },
+    getCartCount:(userId)=>{
+        console.log("userId in cart count")
+        return new Promise(async(resolve,reject)=>{
+            let count = 0
+            let cart =await cartInfo.findOne({user:userId})
+            if(cart){
+                count=cart.products.length
+            }
+            console.log("count inside cart")
+            console.log(count);
+            resolve(count)
+        })
+    },
+    changeQuantity:(body)=>{
+        count= parseInt(body.count)
+        return new Promise((resolve,reject)=>{
+            if(proExist!=-1){
+                cartInfo.updateOne({_id:body.cartId,'products.items':objectId(proId)},{$inc:{'products.$.quantity':count}}).then((res)=>{
+                    console.log("reponse of quantity")
+                    console.log(res)
+                   resolve(res)
+
+                })
+        }})
     }
-    
+
+
 }

@@ -2,27 +2,36 @@ var express = require('express');
 var router = express.Router();
 var userHelper = require('../helpers/userHelpers')
 const productHelpers = require('../helpers/productHelpers');
-
+ 
+ 
+function verifyLogin(req,res,next){
+  if(req.session.user){
+    next()
+  }else{
+    res.redirect('/login')
+  }
+}
 /* GET home page. */
 router.get('/', async function(req, res, next) {
   let user = req.session.user
   
-
   let cate = req.query.cate
-  console.log(cate)
+  let cartCount
+  if(req.session.user){
+     cartCount =await productHelpers.getCartCount(req.session.user._id)
+     console.log("Cart count");
+     console.log(cartCount)
+    }else{
+      cartCount=null
+    } 
   let categ =await productHelpers.getCategory(cate)
-  console.log("categ")
-  console.log(categ)
+  
   let categories =await productHelpers.getAllCategories()
   productHelpers.getAllProducts().then((products)=>{
-    res.render('users/landing', {admin:false,products,user,categories,categ});
+    res.render('users/landing', {admin:false,products,user,categories,categ,cartCount});
   })
 });
-// router.get('/:categoryname',(req,res)=>{
-//   let cate = req.params.categoryname
-//   productHelpers.getCategory(cate)
-//   res.redirect('/')
-// })
+
 router.get('/signup',(req,res)=>{
   if(req.session.SignIn){
     res.redirect('/')
@@ -45,7 +54,7 @@ router.post('/signup',(req,res)=>{
 })
 router.get('/login',(req,res)=>{
   let id = req.query.cate
-  console.log("jjjjjjjjjjjj"+id);
+  
   if(req.session.loggedIn&&req.session.user){
     res.redirect('/')
   }else{
@@ -74,9 +83,40 @@ router.get('/product-view/:id',(req, res)=>{
     res.render('users/product-view',{admin:false,user:false,product})
   })
 })
-router.get('/cart',(req,res)=>{
-  res.render('users/cart',{admin:false,user:true})
+router.get('/cart',verifyLogin,async(req,res)=>{
+  let users = req.session.user
+  let userId = req.session.user._id
+ 
+  console.log("userid in cart page")
+  console.log(userId)
+  await productHelpers.getCartProducts(userId).then((products)=>{
+    res.render('users/cart',{admin:false,user:true, cartCount:products.length,products})
+  }).catch((err)=>{
+    console.log(err)
+  })
+  
+ 
 })
 
 
+
+
+router.get('/add-to-cart/:id',verifyLogin,(req,res)=>{
+  
+  let proId = req.params.id 
+  let userId = req.session.user._id
+  
+  productHelpers.addToCart(proId,userId).then((response)=>{
+    res.json({status:true})
+  })
+   
+  
+  
+})
+
+router.post('/inc-cart',(req,res)=>{
+  productHelpers.changeQuantity(req.body).then((response)=>{
+    
+  })
+})
 module.exports = router;

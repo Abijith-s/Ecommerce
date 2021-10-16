@@ -137,16 +137,14 @@
 										<li><a href="404-error.html">404 Error</a></li>
 									</ul>
 								</li>
+								<%if(user) {%>
 								<li class="has-children">
-									<a href="#"><span>Blog</span> <i class="fa fa-angle-down"></i></a>
-									<ul class="sub-menu">
-										<li><a href="blog.html">Blog</a></li>
-										<li><a href="blog-left-sidebar.html">Blog Left Sidebar</a></li>
-										<li><a href="blog-right-sidebar.html">Blog Right Sidebar</a></li>
-										<li><a href="blog-details.html">Blog Details</a></li>
-										<li><a href="blog-details-sidebar.html">Blog Details Sidebar</a></li>
-									</ul>
+									
+									<a href="/cart">Cart<span id="cartcount" class="badge badge-primary"><%=cartCount %></span> <i class="fa fa-angle-down"></i></a>
+									
+										
 								</li>
+								<%} %>
 								<li><a href="contact.html"> <span>Contact</span></a></li>
 							</ul>
 						</div>
@@ -267,14 +265,7 @@
 							</ul>
 						</li>
 						<li class="has-children">
-							<a href="#">Blog <i class="fa fa-angle-down" aria-hidden="true"></i></a>
-							<ul class="dropdown">
-								<li><a href="blog.html">Blog</a></li>
-								<li><a href="blog-left-sidebar.html">Blog Left Sidebar</a></li>
-								<li><a href="blog-right-sidebar.html">Blog Right Sidebar</a></li>
-								<li><a href="blog-details.html">Blog Details</a></li>
-								<li><a href="blog-details-sidebar.html">Blog Details Sidebar</a></li>
-							</ul>
+							<a href="#">Cart <i class="fa fa-angle-down" aria-hidden="true"></i></a>
 						</li>
 						<li><a href="about.html">About</a></li>
 						<li><a href="contact.html">Contact</a></li>

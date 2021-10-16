@@ -23,6 +23,7 @@ db.connect((err)=>{
     console.log("database connected successfully")
   }
 });
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
