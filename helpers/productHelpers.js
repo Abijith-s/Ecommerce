@@ -31,6 +31,16 @@ const cartInfo = mongoose.model('cart',cartSchema)
    
 //collection for products
 const productInfo = mongoose.model('products',productSchema)
+//schema for order
+const orderSchema = new mongoose.Schema({
+  deliverydetails:Object,
+  userId:String,
+  paymentmethod:String,
+  products:Array,
+  status:String
+})
+//collection for orders 
+const orderInfo =  mongoose.model('orders',orderSchema)
 module.exports={
   addProducts  : (product,id1,id2,id3)=>{
       console.log("product")
@@ -196,16 +206,13 @@ module.exports={
                 quantity:1
             }
             let userCart =await cartInfo.findOne({user:userId})
-            console.log("useer id inside useercart");
-            console.log(userId)
+           
             if(userCart){
                 let proExist = userCart.products.findIndex(e=> e.items==proId)
-                console.log("proExist  in cart")
-                console.log(proExist)
+                
                 if(proExist!=-1){
                     cartInfo.updateOne({user:userId,'products.items':objectId(proId)},{$inc:{'products.$.quantity':1}}).then((res)=>{
-                        console.log("reponse of quantity")
-                        console.log(res)
+                      
                        resolve(res)
 
                     })
@@ -236,6 +243,7 @@ module.exports={
         })
     },
     getCartProducts:(userId)=>{
+       
         return new Promise(async(resolve,reject)=>{
             cartInfo.aggregate([
                 {
@@ -265,30 +273,172 @@ module.exports={
             
     },
     getCartCount:(userId)=>{
-        console.log("userId in cart count")
+        
         return new Promise(async(resolve,reject)=>{
             let count = 0
             let cart =await cartInfo.findOne({user:userId})
             if(cart){
                 count=cart.products.length
             }
-            console.log("count inside cart")
-            console.log(count);
+            
             resolve(count)
         })
     },
     changeQuantity:(body)=>{
-        count= parseInt(body.count)
+        let count = parseInt(body.count)
+        console.log(body.count,body.cart,body.product)
         return new Promise((resolve,reject)=>{
-            if(proExist!=-1){
-                cartInfo.updateOne({_id:body.cartId,'products.items':objectId(proId)},{$inc:{'products.$.quantity':count}}).then((res)=>{
-                    console.log("reponse of quantity")
-                    console.log(res)
-                   resolve(res)
+           
+                cartInfo.updateOne({_id:objectId(body.cart),'products.items':objectId(body.product)},{$inc:{'products.$.quantity':count}}).then((res)=>{
+                  
+                   if(count==1){
+                       resolve(true)
+                   }else{
+                       resolve(false)
+                   }
+                   
 
                 })
-        }})
-    }
+        })
+    },
+    deleteItem:(id)=>{
+        return new Promise((resolve,rejection)=>{
+            let userId = id.userId
+            let proId = id.proId
+            cartInfo.updateOne({user:userId},{$pull:{products:{items:objectId(proId)}}}).then((res)=>{
+               
+                resolve(true)
+            })
+        })
+     
+    },
+    getTotalAmount:(body)=>{
+        return new Promise((resolve,reject)=>{
+            let userId = body
+            
+            cartInfo.aggregate([
+                {
+                    $match:{user:userId}
+                },
+                {
+                    $unwind:'$products'
+                },
+               
+                {
+                    $lookup:{
+                        from:'products',
+                        localField:'products.items',
+                        foreignField:'_id',
+                        as:'cartproducts'
+                    }
+                },
+                
+                {
+                    $unwind:"$cartproducts"
+                },
+                {
+                    $group:{
+                        _id:null,
+                     total:{
+                       $sum:{$multiply:['$products.quantity','$cartproducts.price']}  
+                     }
+                    }
+                }
+                ]).then((result)=>{
+                   
+                    resolve(result)
+                })
+       
+    
+        })
+    },
+    getSubTotal:(body)=>{
+       
+        return new Promise((resolve,reject)=>{
+            let userId = body
+            
+            cartInfo.aggregate([
+                {
+                    $match:{user:userId}
+                },
+                {
+                    $unwind:'$products'
+                },
+               
+                {
+                    $lookup:{
+                        from:'products',
+                        localField:'products.items',
+                        foreignField:'_id',
+                        as:'cartproducts'
+                    }
+                },
+                
+                {
+                    $unwind:"$cartproducts"
+                },
+                {
+                    $project:{
+                        _id:null,
+                     subtotal:{
+                       $multiply:['$products.quantity','$cartproducts.price'] 
+                     }
+                    }
+                }
+                ]).then((result)=>{
+                    
+                    resolve(result)
+                })
+       
+    
+        })
+    },
+getProductList:(userId)=>{
+    console.log("userid")
+    console.log(userId)
+    return new Promise((resolve,reject)=>{
+        cartInfo.findOne({user:userId}).then((res)=>{
+           
+            resolve(res)
+        })
+     
+    })
+},
+placeOrder:(order,products,total)=>{
+    console.log("hfuisrhafuihsadihiusadhfcihasdiufhuisdhfuisdahficdvuiashvisf")
+  console.log(order)
+  console.log(products)
+    return new Promise((resolve,reject)=>{
+        let  status = 'placed';
+       
+        let deliverystatus ={
+            phone:order.phone,
+            paymentmethod:order.payment,
+            address:order.address,
+            pincode:order.pin
 
+        }
+       const orders = new orderInfo({
+        deliverydetails:deliverystatus,
+        userId:order.userId,
+        paymentmethod:order.payment,
+        products:products,
+        totalamount:total,  
+        status:status
+       })
+       orders.save((err,details)=>{
+           if(err){
+            console.log("error"+err)
+           }else{
+               resolve(details)
+           }
+        cartInfo.deleteOne({user:order.userId}).then((res)=>{
+            console.log(res)
+        })
+       })
+       
+    })
+}
+       
 
 }

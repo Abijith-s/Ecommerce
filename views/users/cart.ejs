@@ -47,6 +47,7 @@
                         <!-- Table Body Start -->
                         <tbody>
                             <%for(var item of products){%>
+                              
                             <tr>
                                 
                                 <td class="pro-thumbnail"><a href="#"><img class="img-fluid" src=" /product-images/image1/<%=item.cartproducts.image1 %>.jpg" alt="Product" /></a></td>
@@ -58,20 +59,20 @@
                                     <div class="quantity">
                                         <div class="cart-plus-minus">
                                             
-                                            <input class="cart-plus-minus-box" value="<%=item.products.quantity%>" type="text">
-                                            <div class="dec qtybutton"><button onclick="changeQuantity('<%=item._id%>','<%=item.cartproducts._id%>',-1)"  >-</button></div>
+                                            <input id="qty+<%=item.cartproducts._id%>" class="cart-plus-minus-box" value="<%=item.products.quantity%>" type="text">
                                             
-                                            <div class="inc qtybutton"><button onclick="changeQuantity('<%=item._id%>','<%=item.cartproducts._id%>',-1)" >+</button></div>
-                                            <div class="dec qtybutton"><i class="fa fa-minus"></i></div>
-                                            <div class="inc qtybutton"><i class="fa fa-plus"></i></div>
+                                            <div class="dec qtybutton"><button onclick="changeQuantity('<%=item._id%>','<%=item.cartproducts._id%>',-1)"  >-</button><i class="fa fa-minus"></i></div>
+                                            <div class="inc qtybutton"><button onclick="changeQuantity('<%=item._id%>','<%=item.cartproducts._id%>',1)"  >+</button><i class="fa fa-plus"></i></div>
                                         </div>
                                     </div>
                                 </td>
-                                <td class="pro-subtotal"><span>$95.00</span></td>
-                                <td class="pro-remove"><a href="#"><i class="pe-7s-trash"></i></a></td>
+                                
+                                <td class="pro-subtotal"><span></span></td>
+                               
+                                <td class="pro-remove"><a onclick="deletItem('<%=item.cartproducts._id%>','<%=item.user%>')"><i class="pe-7s-trash"></i></a></td>
                                
                             </tr>
-                            
+                   
                            <%}%>
                         </tbody>
                         <!-- Table Body End -->
@@ -91,8 +92,6 @@
                         </form>
                     </div>
                     <!-- Apply Coupon Wrapper End -->
-
-                    <!-- Cart Update Start -->
                     <div class="cart-update mt-sm-16">
                         <a href="#" class="btn btn-dark btn-hover-primary rounded-0">Update Cart</a>
                     </div>
@@ -120,17 +119,23 @@
                         <!-- Responsive Table Start -->
                         <div class="table-responsive">
                             <table class="table">
+                                <%for (var j of subtotal){%>
                                 <tr>
                                     <td>Sub Total</td>
-                                    <td>$230</td>
+                                   
+                                    <td><%=j.subtotal%></td>
+                                  
                                 </tr>
+                                <%}%>
                                 <tr>
                                     <td>Shipping</td>
-                                    <td>$70</td>
+                                    <td></td>
                                 </tr>
                                 <tr class="total">
                                     <td>Total</td>
-                                    <td class="total-amount">$300</td>
+                                    <%for(var j of total){%>
+                                    <td class="total-amount">₹<%=j.total%></td>
+                                    <%}%>
                                 </tr>
                             </table>
                         </div>
@@ -140,7 +145,7 @@
                     <!-- Cart Calculate Items End -->
 
                     <!-- Cart Checktout Button Start -->
-                    <a href="checkout.html" class="btn btn-dark btn-hover-primary rounded-0 w-100">Proceed To Checkout</a>
+                    <a href="/checkout" class="btn btn-dark btn-hover-primary rounded-0 w-100">Proceed To Checkout</a>
                     <!-- Cart Checktout Button End -->
 
                 </div>
@@ -153,18 +158,58 @@
 </div>
 <!-- Shopping Cart Section End -->
 <script>
-function incCart(cartId,proId,count){
+function changeQuantity(cartId,proId,count){
+    var product = proId
     $.ajax({
-        url:'/inc-quantity',
+        
+        url:'/change-quantity',
         data:{
             cart:cartId,
             product:proId,
-            count
+            count:count
         },
         method:'post',
         success(response){
-            alert(response)
+           if(response.status){
+
+            
+            let quantity = document.getElementById(`qty+${product}`).value;
+            
+            let newQuantity = parseInt(quantity)+1
+            
+            let v=document.getElementById(`qty+${product}`).setAttribute('value', newQuantity);
+            
+           }else{
+            let quantity = document.getElementById(`qty+${product}`).value;
+            
+            let newQuantity = parseInt(quantity)-1
+            
+            let v=document.getElementById(`qty+${product}`).setAttribute('value', newQuantity);
+           }
         }
     })
 }
+</script>
+
+<script>
+    function deletItem(proId,userId){
+        $.ajax({
+            url:'/delete-cart-item',
+            data:{
+                proId:proId,
+                userId:userId
+            },
+            method:'post',
+            success:(response)=>{
+                
+                if(response){
+                    
+                    window.location.reload()
+                }
+            },error:()=>{
+               
+
+            }
+        })
+    }
 </script>
