@@ -163,7 +163,53 @@ router.post('/place-order',async(req,res)=>{
      res.json({status:true})
     
    })
-  //  res.redirect('/checkout')
+  
+})
+router.get('/success',verifyLogin,checkUserCartLength,(req,res)=>{
+  cartCount = req.session.cartCount
+  user = req.session.user
+  res.render('users/success',{admin:false,user,cartCount})
 })
 
+router.get('/order-history',verifyLogin,checkUserCartLength,(req,res)=>{
+  
+  cartCount = req.session.cartCount
+ 
+  user = req.session.user
+ 
+ userId = req.session.user._id
+ 
+  productHelpers.getOrders(userId).then((response)=>{
+    let order = response
+    
+    console.log(order)
+    res.render('users/order-history',{admin:false,user,cartCount,order})
+  })
+    
+  
+})
+// router.get('/view-order',verifyLogin,checkUserCartLength,async(req,res)=>{
+//   user = req.session.user
+//   cartCount = req.session.cartCount
+//  await productHelpers.viewOrder(req.session.user._id).then((response)=>{
+//    let view = response;
+ 
+//   res.render('users/order-history-view',{admin:false,user,cartCount,view})
+//  })
+// })
+router.get('/view-order/:id',verifyLogin,checkUserCartLength,async(req,res)=>{
+  let user = req.session.user
+ let orderId = req.params.id
+ 
+ let cartCount = req.session.cartCount
+  await productHelpers.viewOrder(orderId)
+ res.render('users/orderView',{admin:false,user})
+  
+})
+
+
+router.post('/cancel',(req,res)=>{
+  productHelpers.cancelOrder(req.body)
+    res.json({status:true})
+})
 module.exports = router;

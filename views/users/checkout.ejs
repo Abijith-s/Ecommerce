@@ -256,7 +256,7 @@
             <div class="col-md-12">
                 <div class="checkout-form-list">
                     <label>First Name <span class="required">*</span></label>
-                    <input placeholder="" type="text" required>
+                    <input placeholder="" type="text" >
                 </div>
             </div>
             <!-- First Name Input End -->
@@ -265,7 +265,7 @@
             <div class="col-md-12">
                 <div class="checkout-form-list">
                     <label>Last Name <span class="required">*</span></label>
-                    <input placeholder="" type="text" required>
+                    <input placeholder="" type="text" >
                 </div>
             </div>
             <!-- Last Name Input End -->
@@ -274,7 +274,7 @@
             <div class="col-md-12">
                 <div class="checkout-form-list">
                     <label>Company Name</label>
-                    <input placeholder="" type="text" required>
+                    <input placeholder="" type="text" >
                 </div>
             </div>
             <!-- Company Name End -->
@@ -283,7 +283,7 @@
             <div class="col-md-12">
                 <div class="checkout-form-list">
                     <label>Address <span class="required">*</span></label>
-                    <input placeholder="Street address" type="text" required>
+                    <input placeholder="Street address" type="text" >
                 </div>
             </div>
             <!-- Address Input End -->
@@ -291,7 +291,7 @@
             <!-- Optional Text Start -->
             <div class="col-md-12">
                 <div class="checkout-form-list">
-                    <input placeholder="Apartment, suite, unit etc. (optional)" type="text" required>
+                    <input placeholder="Apartment, suite, unit etc. (optional)" type="text" >
                 </div>
             </div>
             <!-- Optional Text End -->
@@ -300,7 +300,7 @@
             <div class="col-md-12">
                 <div class="checkout-form-list">
                     <label>Town / City <span class="required">*</span></label>
-                    <input  type="text" required> 
+                    <input  type="text" > 
                 </div>
             </div>
             <!-- Town or City Input End -->
@@ -309,7 +309,7 @@
             <div class="col-md-12">
                 <div class="checkout-form-list">
                     <label>State / County <span class="required">*</span></label>
-                    <input  placeholder="" type="text" required>
+                    <input  placeholder="" type="text" >
                 </div>
             </div>
             <!-- State or Country Input End -->
@@ -488,9 +488,9 @@
             data:$("#checkout-form").serialize(),
             method:'post',
             success:(response)=>{
-                if(response.status){
-                    location.href=''
-                }
+               if(response.status){
+                   location.href='/success'
+               }
             }
         })
     })

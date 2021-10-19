@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 var objectId = mongoose.Types.ObjectId
 const bcrypt = require('bcrypt')
+const { response } = require('express')
 
 // schema for product collection
 const productSchema = new mongoose.Schema({
@@ -37,7 +38,9 @@ const orderSchema = new mongoose.Schema({
   userId:String,
   paymentmethod:String,
   products:Array,
-  status:String
+  totalamount:String,
+  status:String,
+  date:Date
 })
 //collection for orders 
 const orderInfo =  mongoose.model('orders',orderSchema)
@@ -389,8 +392,7 @@ module.exports={
                     
                     resolve(result)
                 })
-       
-    
+
         })
     },
 getProductList:(userId)=>{
@@ -398,33 +400,38 @@ getProductList:(userId)=>{
     console.log(userId)
     return new Promise((resolve,reject)=>{
         cartInfo.findOne({user:userId}).then((res)=>{
-           
             resolve(res)
         })
      
     })
 },
 placeOrder:(order,products,total)=>{
-    console.log("hfuisrhafuihsadihiusadhfcihasdiufhuisdhfuisdahficdvuiashvisf")
-  console.log(order)
-  console.log(products)
+  let totalamount = total[0].total
+  console.log(totalamount)
     return new Promise((resolve,reject)=>{
         let  status = 'placed';
+        let current_datetime = new Date()
+        let formatted_date = current_datetime.getFullYear() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getDate() + " " + current_datetime.getHours() + ":" + current_datetime.getMinutes() + ":" + current_datetime.getSeconds() 
+
        
         let deliverystatus ={
+            name:order.firstname,
             phone:order.phone,
             paymentmethod:order.payment,
             address:order.address,
             pincode:order.pin
 
         }
+        console.log(products)
        const orders = new orderInfo({
         deliverydetails:deliverystatus,
         userId:order.userId,
         paymentmethod:order.payment,
-        products:products,
-        totalamount:total,  
-        status:status
+        products:[...products.products],
+        totalamount:totalamount,  
+        status:status,
+        date:formatted_date
+        
        })
        orders.save((err,details)=>{
            if(err){
@@ -437,6 +444,41 @@ placeOrder:(order,products,total)=>{
         })
        })
        
+    })
+},
+getOrders:(userId)=>{
+    return new Promise((resolve,reject)=>{
+     orderInfo.find({userId:userId}).lean().then((res)=>{
+        
+       resolve(res)
+     })
+       
+    })
+},
+viewOrder:(orderId)=>{
+   
+    return new Promise((resolve,reject)=>{
+     
+        console.log(orderId)
+
+ 
+    })
+  
+   
+},
+cancelOrder:(orderId)=>{
+
+    console.log(orderId)
+    let orderID = orderId.orderId
+    console.log("orderID")
+    console.log(orderID)
+    var ordersId = objectId(orderID)
+    console.log(ordersId)
+    return new Promise(async(resolve,reject)=>{
+       await orderInfo.updateOne({_id:ordersId},{$set:{status:"cancelled"}}).then((response)=>{
+        console.log("updated status")
+        console.log(response)
+    })
     })
 }
        
