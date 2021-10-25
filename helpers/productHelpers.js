@@ -1,8 +1,12 @@
 const mongoose = require('mongoose')
 var objectId = mongoose.Types.ObjectId
+ const Razorpay = require('razorpay')
 const bcrypt = require('bcrypt')
 const { response } = require('express')
-
+var instance = new Razorpay({
+    key_id: 'rzp_test_LqsPiBnf3p2Kjm',
+    key_secret: 'gj980xGE40154zsn2DvdGqUI',
+  });
 // schema for product collection
 const productSchema = new mongoose.Schema({
     productname:String,
@@ -40,10 +44,18 @@ const orderSchema = new mongoose.Schema({
   products:Array,
   totalamount:String,
   status:String,
-  date:Date
+  date:Date,
+  paymentMethod:String
+})
+//schema for address
+const addressSchema = new mongoose.Schema({
+    userId:String,
+    address:Array
 })
 //collection for orders 
 const orderInfo =  mongoose.model('orders',orderSchema)
+//collection for Address
+const addressInfo = mongoose.model('address',addressSchema)
 module.exports={
   addProducts  : (product,id1,id2,id3)=>{
       console.log("product")
@@ -276,7 +288,6 @@ module.exports={
             
     },
     getCartCount:(userId)=>{
-        
         return new Promise(async(resolve,reject)=>{
             let count = 0
             let cart =await cartInfo.findOne({user:userId})
@@ -405,62 +416,78 @@ getProductList:(userId)=>{
      
     })
 },
-placeOrder:(order,products,total)=>{
-  let totalamount = total[0].total
-  console.log(totalamount)
+placeOrder:(address,products,total,paymentMethod,userId)=>{
+  let totalAmount = total[0].total
+  console.log("body in radio button")
+   console.log(totalAmount)
+   console.log(products)
     return new Promise((resolve,reject)=>{
+        
         let  status = 'placed';
         let current_datetime = new Date()
         let formatted_date = current_datetime.getFullYear() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getDate() + " " + current_datetime.getHours() + ":" + current_datetime.getMinutes() + ":" + current_datetime.getSeconds() 
-
-       
-        let deliverystatus ={
-            name:order.firstname,
-            phone:order.phone,
-            paymentmethod:order.payment,
-            address:order.address,
-            pincode:order.pin
-
-        }
-        console.log(products)
-       const orders = new orderInfo({
-        deliverydetails:deliverystatus,
-        userId:order.userId,
-        paymentmethod:order.payment,
-        products:[...products.products],
-        totalamount:totalamount,  
-        status:status,
-        date:formatted_date
         
-       })
-       orders.save((err,details)=>{
-           if(err){
-            console.log("error"+err)
-           }else{
-               resolve(details)
-           }
-        cartInfo.deleteOne({user:order.userId}).then((res)=>{
-            console.log(res)
+      
+         const orders = new orderInfo({
+        
+         userId:userId,
+         deliverydetails:address,
+         products:[...products.products],
+         totalamount:totalAmount,  
+         status:status,
+         date:formatted_date,
+         paymentMethod:paymentMethod
+        
         })
-       })
+        orders.save((err,details)=>{
+            if(err){
+             console.log("error"+err)
+            }else{
+                console.log("placed orders")
+                console.log(details)
+                console.log("inserted value")
+                console.log(details._id)
+                resolve(details)
+            }
+         cartInfo.deleteOne({user:userId}).then((res)=>{
+           
+             console.log(res,"++++++++++++++++++++++++++++")
+         })
+        })
        
     })
 },
 getOrders:(userId)=>{
     return new Promise((resolve,reject)=>{
      orderInfo.find({userId:userId}).lean().then((res)=>{
-        
+         console.log("orde list")
+        console.log(res)
        resolve(res)
      })
        
     })
 },
 viewOrder:(orderId)=>{
-   
+    console.log("orderID")
+   console.log(orderId)
     return new Promise((resolve,reject)=>{
-     
-        console.log(orderId)
+         let orderNewId = objectId(orderId)
+      orderInfo.aggregate([
+            {$match:{_id:orderNewId}},
+            {$unwind:"$products"},
+            {$lookup:{
+                from:"products",
+                localField:"products.items",
+                foreignField:"_id",
+                as:"details"
 
+            }}
+        ]).then((rs)=>{
+            console.log(rs[0])  
+
+            resolve (rs)
+        })
+       
  
     })
   
@@ -479,6 +506,171 @@ cancelOrder:(orderId)=>{
         console.log("updated status")
         console.log(response)
     })
+    })
+},
+getAllOrders:()=>{
+    return new Promise((resolve,reject)=>{
+        orderInfo.find().then((res)=>{
+            console.log("get all orders")
+            console.log(res)
+            resolve(res)
+        })
+    })
+   
+},
+mangeOrder:(Id,status)=>{
+    
+    return new Promise(async(resolve,reject)=>{
+    let orderId = objectId(Id);
+     console.log("order id in mangemfjsd")
+    console.log(orderId)
+    console.log(status)
+      await orderInfo.updateOne({_id:orderId},{$set:{status:status}}).then((response)=>{
+        console.log(response)
+        resolve(response)
+      })
+      
+     
+    })
+   
+},
+addAddress:(body,userId,addressId)=>{
+    console.log("ivde ondo  ")
+ return new Promise(async(resolve,reject)=>{
+    
+     console.log("body in address")
+     console.log(userId)
+     console.log(body)
+     let addressObj ={
+         addressId:addressId,
+         name:body.name,
+         email:body.email,
+         pincode:body.pincode,
+         addressname:body.addressname,
+         address:body.address,
+        
+     }
+     addressInfo.updateOne({userId:userId},{$push:{address:addressObj}},{upsert:true}).then((result)=>{
+         console.log(result)
+         resolve(result)
+     })
+      
+        
+ })
+},
+getAddressId:(userId)=>{
+    
+    return new Promise((resolve,reject)=>{
+    addressInfo.aggregate([
+       {$match:{userId:userId}},
+       {$unwind:"$address"}
+    ]).then((res)=>{
+        console.log("result of aggregation")
+        console.log(res)
+        resolve(res)
+    })
+    
+   
+})
+},
+getAddress:(userId,addressId)=>{
+    return new Promise(async(resolve,reject)=>{
+        // addressID = objectId(addressId)
+        let addressFeild = "address.addressId"
+        console.log(addressId)
+      let findedAddress = await addressInfo.aggregate([
+        {$match:{userId:userId}},
+         {$unwind:"$address"},
+        {$match:{[addressFeild]:addressId}}
+        ])
+        console.log("finded adress")
+        console.log(findedAddress)
+        resolve(findedAddress)
+    })
+},
+// editAddress:(body)=>{
+//     // return new Promise
+//     let userId = body.userId
+//     let addressId = body.addressId
+//     let firstname = body.firstname
+//     let lastname = body.lastname
+//     let addressname = body.addressname
+//     let address = body.address
+//     let pincode = body.pincode
+//     let email = body.email
+//     let phone = body.phone
+//     console.log(userId)
+
+//      addressInfo.updateOne({userId:userId},{$push:{address:{
+//         firstname:addressId,
+//         lastname:lastname,
+//         addressname:addressname,
+//         address:address,
+//         pincode:pincode,
+//         email:email,
+//         phone:phone
+//     }}}).then((res)=>{
+//         console.log(res)
+//     })
+// },
+deleteAdress:(userId,addressId)=>{
+    console.log(userId)
+    console.log(addressId)
+    return new Promise((resolve,reject)=>{
+        addressInfo.updateOne({userId:userId},{$pull:{address:{addressId:addressId}}}).then((res)=>{
+            console.log("response after delete")
+            resolve(res)
+        })
+    })
+    
+},
+generateRazorPay:(orderID,total)=>{
+  console.log("razorpay")
+    return new Promise((resolve,reject)=>{
+        let orderId = ""+orderID+""
+        let totalAmount = total[0].total
+        console.log(totalAmount)
+        var options = {
+            amount: totalAmount*100,  // amount in the smallest currency unit
+            currency: "INR",
+            receipt: ""+orderId+""
+          };
+          
+       
+          instance.orders.create(options, function(err, order) {
+            if(err){
+                console.log(err)
+            }else{
+                console.log("new order :",order);
+            
+                resolve(order)
+            }
+           
+          });
+    })
+},
+verifyPayment:(body)=>{
+        return new Promise((resolve,reject)=>{
+         const   crypto = require('crypto')
+         let hmac = crypto.createHmac('sha256','gj980xGE40154zsn2DvdGqUI')
+         hmac.update(body['payment[razorpay_order_id]']+'|'+body['payment[razorpay_payment_id]'])
+         hmac=hmac.digest('hex')
+         if(hmac==body['payment[razorpay_signature]']){
+             resolve()
+         }else{
+             reject()
+         }
+        })
+},
+changePaymentStatus:(orderId)=>{
+    console.log("orderId in change")
+    console.log(orderId)
+    return new Promise((resolve,reject)=>{
+        orderInfo.updateOne({_id:orderId},{$set:{status:'placed'}}).then((res)=>{
+            console.log("updated status")
+            console.log(res)
+            resolve(res)
+        })
     })
 }
        

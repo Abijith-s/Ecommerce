@@ -54,7 +54,7 @@
                                            
                                             <td><img src="/product-images/image1/<%=item.image1 %>.jpg" style="width: 71px;height:81px;" alt=""></td>
                                             <td><a class="btn btn-primary"  href="/admin/delete/<%=item._id%>" onclick="return confirm('Are you sure you want to dlete this product')">Delete</a></td>
-                                            <td><a class="btn btn-warning" href="/admin/edit-product/<%=item._id%>">Edit</a></td>
+                                            <td><a class="btn btn-warning" href="/admin/edit-product?id=<%=item._id%>">Edit</a></td>
                                         </tr>
                                         <%}%>
                                 </table>

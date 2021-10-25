@@ -1,3 +1,89 @@
-<div class="cart-table table-responsive">
- <h1>this is working</h1>
-</div>
+
+<div class="main-panel">
+    <div class="content">
+        <div class="panel-header bg-white shadow-sm">
+            <div class="page-inner  py-3 mb-5">
+                <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+                    <div class="">
+                        <div class="header d-sm-flex align-items-center  text-center"> 
+                            <h1 class="page-header banner-title">Order history</h1>
+                         			
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-inner">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-head-row justify-content-between">
+                                <div class="card-title"><i class="fas fa-list"></i> Products List</div>
+                              
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="multi-filter-select" class="display table table-hover" >
+                                 
+                                    <thead>
+                                        <tr>
+                                            <th>Image</th>
+                                            <th>Product Name</th>
+                                            <th>Price</th>
+                                            
+                                           
+                                          
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% for(var i of products){%>
+                                        <tr>
+                                            <td><img src="/product-images/image1/<%=i.details[0].image1 %>.jpg" style="width: 71px;height:81px;" alt=""></td>
+                                            <td><%= i.details[0].productname %></td>
+                                            <td><%= i.details[0].price %></td>
+                                            <td><%= i.details[0].category %></td>
+                                           
+                                           
+                                            
+                                        </tr>
+                                        <%}%>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://aaryaweb.info/html/stylexpo/admin/assets/js/custom.js"></script>
+	<script >
+		$(document).ready(function() {
+			$('#multi-filter-select').DataTable( {
+				"pageLength": 6,
+				initComplete: function () {
+					this.api().columns().every( function () {
+						var column = this;
+						var select = $('<select class="form-control"><option value="">All</option></select>')
+						.appendTo( $(column.footer()).empty() )
+						.on( 'change', function () {
+							var val = $.fn.dataTable.util.escapeRegex(
+								$(this).val()
+								);
+
+							column
+							.search( val ? '^'+val+'$' : '', true, false )
+							.draw();
+						} );
+
+						column.data().unique().sort().each( function ( d, j ) {
+							select.append( '<option value="'+d+'">'+d+'</option>' )
+						} );
+					} );
+				}
+			});
+		});
+	</script>

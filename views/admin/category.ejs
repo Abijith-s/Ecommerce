@@ -71,14 +71,15 @@
                         </div>
                         
                         <div class="card-body">
-                            <form class="main-form full" action="/admin/category" method="POST">
+                            <form id="contact-form" class="main-form full" action="/admin/category" onsubmit="return addCategory()" method="POST">
                                   <div class="row">
                                     <div class="col-12">
                                           <div class="input-box form-group required">
                                             <div class="row">
                                                   <label for="p-name" class="col-md-3 control-label">Add Category</label>
+                                                  <p id="error1" style="color: red;"></p>
                                                   <div class="col-md-9">
-                                                    <input type="text" name="categoryname" class="form-control" id="p-name"  placeholder="subcategory name">
+                                                    <input type="text" name="categoryname" class="form-control" id="name1"  placeholder="subcategory name">
                                                   </div>
                                             </div>
                                           </div>
@@ -88,15 +89,17 @@
                                             <div class="row">
                                                   <label for="p-name" class="col-md-3 control-label">Add subcategory</label>
                                                   <div class="col-md-9">
-                                                    <input type="text" name="subcategoryname" class="form-control" id="p-name"  placeholder="subcategory name">
+                                                    <input type="text"  name="subcategoryname" class="form-control" id="name2"  placeholder="subcategory name">
+                                                    <p id="error2" style="color: red;"></p>
                                                   </div>
                                             </div>
                                           </div>
                                     </div>
                                  <div>
-                                    <button type="submit" class="btn btn-danger">Add category</button>
+                                    <button id="button" type="submit" class="btn btn-danger">Add category</button>
+                                    <p id="error3" style="color: red;"></p>
                                  </div>
-                                 <a title="Linkedin" href="#"><i class="fa fa-linkedin"></i></a>
+                                 
                                   </div>
                             </form>
                         </div>
@@ -133,3 +136,61 @@
 			});
 		});
 	</script>
+      <script>
+  
+          let nameChecking = false
+            $(document).ready(function(){
+                  $("#name1").on('input',function(){
+		   this.value=this.value.replace(/[^A-Za-z-,.;'&/.() ]|^ /g,'')
+		   let name = this.value
+		   let nameregex = /^[A-Za-z]+$/
+		   if(name.match(nameregex)&&name.length<3){
+			   $("#error1").html("enter minimum 3 charaters");
+			   nameChecking = false;
+		   }
+		   else if(name.includes("  ")){
+			   $("#error1").html("invalid ");
+			   nameChecking = false;
+		   }
+	       else if(name.match(nameregex)){
+		   $("#error1").html("");
+		   nameChecking = true;
+	            }
+		   
+	       })
+             $("#name2").on('input',function(){
+		   this.value=this.value.replace(/[^A-Za-z-,.;'&/.() ]|^ /g,'')
+		   let name = this.value
+		   let nameregex = /^[A-Za-z]+$/
+		   if(name.match(nameregex)&&name.length<3){
+			   $("#error2").html("enter minimum 3 charaters");
+			   nameChecking = false;
+		   }
+		   else if(name.includes("  ")){
+			   $("#error2").html("invalid ");
+			   nameChecking = false;
+		   }
+	       else if(name.match(nameregex)){
+		   $("#error2").html("");
+		   nameChecking = true;
+	            }
+		   
+	       })
+            
+            })
+            
+            
+            
+                      
+            
+            function addCategory(){
+                  
+            if(nameChecking){
+                  return true
+            }else{
+                  $("#error3").html("fill all feilds in format") 
+                  return false
+            }
+            }
+            
+            </script> 

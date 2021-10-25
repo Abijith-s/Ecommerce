@@ -45,18 +45,25 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                       <%for(var i of order){%>
+                                       <%for(var key of order){%>
                                         <tr>
-                                            <td><%=i.date%></td>
-                                            <td><%=i.deliverydetails.address%></td>
-                                            <td><%=i.deliverydetails.pincode%></td>
-                                            <td><%=i.deliverydetails.phone%></td>
-                                            <td><%=i.totalamount%></td>
-                                            <td><%=i.status%></td>
-                                            <td><a class="btn btn-danger"  onclick="cancelOrder('<%=i._id%>')">Cancel order</a></td>
-                                            <td><a class="btn btn-secondary" href="/view-order/<%=i._id%>">View order</a></td>
+                                            <td><%=key.date%></td>
+                                            <td><%=key.deliverydetails.address%></td>
+                                            <td><%=key.deliverydetails.pincode%></td>
+                                            <td><%=key.deliverydetails.phone%></td>
+                                            <td><%=key.totalamount%></td>
+                                            <td><%=key.status%></td>
+                                            <%if(key.status=='cancelled' || key.status=='admin cancelled'){%>
+                                            <td><a class="btn btn-danger"  onclick="cancelOrder('<%=key._id%>')">Cancel order</a></td>
+                                            
+                                            <%}else{%>
+                                                <td><a class="btn btn-danger"  onclick="cancelOrder('<%=key._id%>')">Cancel order</a></td>
+                                            <td><a class="btn btn-secondary" href="/view-order?id=<%=key._id%>">View order</a></td>
+                                            <%}%>
                                           <%}%>
                                         </tr>
+                                        </tbody>
+                                        
                                        
                                 </table>
                             </div>

@@ -2,8 +2,40 @@
 
 
 </head>
+
+
+<style>
+  .imagedi{
+  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f7f7f7;
+    min-width: 100%;
+    padding: 50px;
+  }
+  .content-div{
+  
+    display:flex;
+    flex-direction: column;
+     border-radius: 10%;
+    justify-content: center;
+    align-items: center;
+   
+    
+     
+   
+  }
+  .cropped1 {
+    width: 500px; /* width of container */
+    height:500px; /* height of container */
+    object-fit: contain;
+    object-position: 20% 10%;
+    
+}
+</style>
 <body>
-<div class=content>
+<!-- <div class=content>
 <div class="wrapper-1">
 <div class="wrapper-2">
   <img src="https://tulipex.com/wp-content/uploads/2019/06/Tulipex-Logo-Op.png" alt="" class="image">
@@ -20,16 +52,43 @@
 </div>
 
 </div>
-</div>
+</div> -->
+
+
+ 
+    <div class="imagedi"  >
+   
+      <img src="/assets/images/gif/a.gif" class="cropped1" style="height: 50%;"  alt="">
+      <div class="content-div container">
+       
+       <div style="padding: 30px;     text-align: center;width:100%; ">
+        <h1>order successs</h1>
+        <p>this is for your pur</p>
+       
+
+       </div>
+       <div class="m-1">
+        <a href="/"  class="btn btn-success">Go Home</a>
+        <a href="/order-history" class="btn btn-success">Order history</a>
+      </div>
+       
+      </div>
+    
+     
+  </div>
+ 
+
+
+
 
 </body>
 </html>
 <style>
-    *{
+    /* *{
   box-sizing:border-box;
  /* outline:1px solid ;*/
-}
-body{
+ 
+/* body{
 background: #ffffff;
 background: linear-gradient(to bottom, #ffffff 0%,#e1e8ed 100%);
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='pruple',GradientType=0 );
@@ -141,6 +200,6 @@ iframe {
   box-shadow: 4px 8px 40px 8px #a976b275;
 }
 
-}
+} */
 
 </style>

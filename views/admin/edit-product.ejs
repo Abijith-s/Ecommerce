@@ -28,14 +28,15 @@
                         </div>
                       
                         <div class="card-body">
-                            <form class="main-form full" action="/admin/edit-product/<%=product._id %>" method="POST" enctype="multipart/form-data">
+                            <form class="main-form full" action="/admin/edit-product?id=<%=product._id %>" method="POST" onsubmit="return editProduct()" enctype="multipart/form-data">
                                   <div class="row">
                                     <div class="col-12">
                                           <div class="input-box form-group required">
                                             <div class="row">
                                                   <label for="p-name" class="col-md-3 control-label">Product Name</label>
                                                   <div class="col-md-9">
-                                                    <input type="text" name="productname" class="form-control" id="p-name" required placeholder="Product Name" value="<%=product.productname %>">
+                                                    <input type="text"  name="productname" class="form-control" id="name1" required placeholder="Product Name" value="<%=product.productname %>">
+                                                    <p id="error1" style="color: red;"></p>
                                                   </div>
                                             </div>
                                           </div>
@@ -46,7 +47,8 @@
                                             <div class="row">
                                                   <label for="description" class="col-md-3 control-label">Description</label>
                                                   <div class="col-md-9">
-                                                    <input id="summernote" name="description" class="form-control" placeholder="Description" rows="10" cols="30" name="Description" value="<%=product.description %>">
+                                                    <input id="name2" name="description" class="form-control" placeholder="Description" rows="10" cols="30" name="Description" value="<%=product.description %>">
+                                                    <p id="error2" style="color: red;"></p>
                                                   </div>
                                             </div>
                                           </div>
@@ -56,7 +58,8 @@
                                             <div class="row">
                                                   <label for="input-price" class="col-md-3 control-label">Price</label>
                                                   <div class="col-md-9">
-                                                    <input type="text" name="price"  placeholder="Price" id="input-price" class="form-control" value="<%=product.price %>" >
+                                                    <input type="text" name="price"  placeholder="Price" id="name3" class="form-control" value="<%=product.price %>" >
+                                                    <p id="error3" style="color: red;"></p>
                                                   </div>
                                             </div>
                                           </div>
@@ -67,7 +70,8 @@
                                             <div class="row">
                                                   <label for="input-quantity" class="col-md-3 control-label">Quantity</label>
                                                   <div class="col-md-9">
-                                                    <input type="text" name="quantity" class="form-control"  id="input-quantity" placeholder="Quantity" value="<%=product.quantity %>">
+                                                    <input type="text" name="quantity" class="form-control"  id="name4" placeholder="Quantity" value="<%=product.quantity %>">
+                                                    <p id="error4" style="color: red;"></p>
                                                   </div>
                                             </div>
                                           </div>
@@ -104,3 +108,107 @@
             document.getElementById('img3').src=URL.createObjectURL(event.target.files[0])
         }
     </script>
+  <script>
+    let nameChecking = false
+             $(document).ready(function(){
+                   $("#name1").on('input',function(){
+        this.value=this.value.replace(/[^A-Za-z-,.;'&/.() ]|^ /g,'')
+        let name = this.value
+        let nameregex = /^[A-Za-z]+$/
+        if(name.match(nameregex)&&name.length<3){
+          $("#error1").html("enter minimum 3 charaters");
+          nameChecking = false;
+        }
+        else if(name.includes("  ")){
+          $("#error1").html("invalid ");
+          nameChecking = false;
+        }
+          else if(name.match(nameregex)){
+        $("#error1").html("");
+        nameChecking = true;
+               }
+        
+          })
+              $("#name2").on('input',function(){
+        this.value=this.value.replace(/[^A-Za-z-,.;'&/.() ]|^ /g,'')
+        let name = this.value
+        let nameregex = /^[A-Za-z]+$/
+        if(name.match(nameregex)&&name.length<10){
+          $("#error2").html("enter minimum 10 charaters");
+          nameChecking = false;
+        }
+        else if(name.includes("  ")){
+          $("#error2").html("invalid ");
+          nameChecking = false;
+        }
+          else if(name.match(nameregex)){
+        $("#error2").html("");
+        nameChecking = true;
+               }
+        
+          })
+            $("#name4").on("input",function(){
+        this.value=this.value.replace(/[^\d]/,'') 
+        let phone = this.value
+        let phoneregex = /^[0-9]*$/
+        if(phone==""){
+          $("#error4").html("enter the quantity")
+          numberChecking = false;
+        }
+        else if(phone.match(/^[A-Za-z]+$/)) {
+          $("#error4").html("enter numbers only")
+          numberChecking = false;
+        }
+       
+       
+        else if(phone.match(phoneregex)){
+          numberChecking=true
+          $("#error4").html("")
+          return true
+        }
+        else{
+          return false;
+        }
+        
+      })
+        $("#name3").on("input",function(){
+        this.value=this.value.replace(/[^\d]/,'') 
+        let phone = this.value
+        let phoneregex = /^[0-9]*$/
+        if(phone==""){
+          $("#error3").html("enter the price")
+          numberChecking = false;
+        }
+        else if(phone.match(/^[A-Za-z]+$/)) {
+          $("#error3").html("enter numbers only")
+          numberChecking = false;
+        }
+       
+       
+        else if(phone.match(phoneregex)){
+          numberChecking=true
+          $("#error3").html("")
+          return true
+        }
+        else{
+          return false;
+        }
+        
+      })
+             
+             })
+             
+             
+             
+                       
+             
+             function editProduct(){
+               alert()
+             if(nameChecking){
+                   return true
+             }else{
+                   $("#error5").html("fill all feilds in format") 
+                   return false
+             }
+             }  
+ </script>

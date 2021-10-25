@@ -29,29 +29,36 @@
 		<!-- Login Title & Content End -->
 
 		<!-- Form Action Start -->
-		<form action="/signup" method="post">
+		<form action="/signup" onsubmit="return addAllUsers()" method="post">
 
 			<!-- Input First Name Start -->
 			<div class="single-input-item mb-3">
-				<input type="text" name="firstname" placeholder="First Name">
+				<input id="name" type="text" name="firstname" placeholder="First Name">
+				<p id="error1" style="color: red;"></p> 
 			</div>
 			<!-- Input First Name End -->
 
 			<!-- Input Last Name Start -->
 			<div class="single-input-item mb-3">
-				<input type="text" name="lastname"  placeholder="Last Name">
+				<input id="name" type="text" name="lastname"  placeholder="Last Name">
+				<p id="error1" style="color: red;"></p> 
 			</div>
 			<!-- Input Last Name End -->
 
 			<!-- Input Email Or Username Start -->
 			<div class="single-input-item mb-3">
-				<input type="email" name="email" placeholder="Email or Username">
+				<input id="email" type="email" name="email" placeholder="Email or Username">
+				<p id="error2" style="color: red;"></p>  
 			</div>
 			<!-- Input Email Or Username End -->
-
+			<div class="single-input-item mb-3">
+				<input id="phone" type="number" name="phone" placeholder="Enter the number">
+				<p class="Err" id="error3" style="color: red;"></p>
+			</div>
 			<!-- Input Password Start -->
 			<div class="single-input-item mb-3">
-				<input type="password" name="password" placeholder="Enter your Password">
+				<input id="password" type="password" name="password" placeholder="Enter your Password">
+				<p id="error4" style="color: red;"></p> 
 			</div>
 			<!-- Input Password End -->
 
@@ -70,7 +77,9 @@
 
 			<!-- Register Button Start -->
 			<div class="single-input-item mb-3">
+				
 				<button class="btn btn btn-dark btn-hover-primary rounded-0">Register</button>
+				<p id="error6" style="color: red;"></p>
 			</div>
 			<!-- Register Button End -->
 
@@ -86,3 +95,102 @@
 </div>
 <!-- Login | Register Section End -->
 
+<script>
+	let nameChecking = false;
+   let emailChecking = false;
+   let numberChecking = false;
+   let passwordChecking = false;
+   $(document).ready(function(){
+
+	   $("#name").on('input',function(){
+		   this.value=this.value.replace(/[^A-Za-z-,.;'&/.() ]|^ /g,'')
+		   let name = this.value
+		   let nameregex = /^[A-Za-z]+$/
+		   if(name.match(nameregex)&&name.length<3){
+			   $("#error1").html("enter minimum 3 charaters");
+			   nameChecking = false;
+		   }
+		   else if(name.includes("  ")){
+			   $("#error1").html("invalid ");
+			   nameChecking = false;
+		   }
+	   else if(name.match(nameregex)){
+		   $("#error1").html("");
+		   nameChecking = true;
+	   }
+		   
+	   })
+   
+   
+	   
+		   $("#email").keyup(function(){
+		   let email = this.value
+		   let emailregex = /^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/;
+		   
+		   if(email.match(emailregex)){
+			   $("#error2").html("")
+			   emailChecking = true;
+		   }
+		   else{
+			   $("#error2").html("enter a valid email")
+			   emailChecking = false;
+		   }
+	   })
+   
+	   
+		   $("#phone").on("input",function(){
+		   this.value=this.value.replace(/[^\d]/,'') 
+		   let phone = this.value
+		   let phoneregex = /^[0-9]*$/
+		   if(phone==""){
+			   $("#error3").html("enter 10 numbers")
+			   numberChecking = false;
+		   }
+		   else if(phone.match(/^[A-Za-z]+$/)) {
+			   $("#error3").html("enter numbers only")
+			   numberChecking = false;
+		   }
+		   else if(phone.match(phoneregex)&&phone.length<10){
+			   $("#error3").html("enter 10 numbers")
+			   return false;
+		   }
+		   else if(phone.match(phoneregex)&&phone.length>10){
+			   $("#error3").html("enter a valid number")
+			   numberChecking = false
+		   }
+		   else if(phone.match(phoneregex)){
+			   numberChecking=true
+			   $("#error3").html("")
+			   return true
+		   }
+		   else{
+			   return false;
+		   }
+		   
+	   })
+   
+   
+	   $("#password").keyup(function(){
+			   let password = this.value
+			   if(password==""){
+				   $("#error4").html("enter a password")
+			   }else if(password.length<=3){
+                     $("#error4").html("enter minimum 4 charaters")
+			   }else{
+				   $('#error4').html("")
+				   passwordChecking = true;
+			   }
+		   })
+	   
+   })
+   
+   function addAllUsers(){
+   if(emailChecking&&passwordChecking&&numberChecking&&nameChecking){
+	   return true
+   }else{
+	$("#error6").html("fill all feilds in format") 
+	   return false
+   }
+   }
+   
+   </script> 

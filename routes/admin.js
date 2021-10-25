@@ -11,31 +11,33 @@ var password = 12345
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   
-  res.render('admin/adminlogin',{admin:true});
+  res.render('admin/adminlogin',{admin:true,logged:false});
   
 });
 
 router.post('/',(req,res)=>{
   if(req.body.name==admin && req.body.password==password ){
     res.redirect('/admin/adminlanding')
+   
   }else{
-    res.render('admin/adminlogin',{admin:true});
+   
+    res.render('admin/adminlogin',{admin:true,logged:false});
   }
 })
 router.get('/adminlanding', function(req, res, next) {
-  res.render('admin/adminlanding',{admin:true});
+  res.render('admin/adminlanding',{admin:true,logged:true});
 });
 
 router.get('/userlist', function(req, res, next) {
   userHelper.getAllUsers().then((users)=>{
-    res.render('admin/userlist',{admin:true,users});
+    res.render('admin/userlist',{admin:true,users,logged:true});
   })
 });
 router.get('/category', function(req, res, next) {
   productHelpers.getAllCategories().then((categories)=>{
     console.log("categorie");
     console.log(categories)
-    res.render('admin/category',{admin:true,categories});
+    res.render('admin/category',{admin:true,categories,logged:true});
   })
   
 });
@@ -76,7 +78,7 @@ router.get('/unblock/:id',(req,res)=>{
 })
 router.get('/products', function(req, res, next) {
   productHelpers.getAllProducts().then((products)=>{
-    res.render('admin/products',{admin:true,products});
+    res.render('admin/products',{admin:true,products,logged:true});
   })
  
 });
@@ -84,7 +86,7 @@ router.get('/add-product', function(req, res, next) {
   productHelpers.findCategory().then((response)=>{
     console.log("ivde vannath")
     console.log(response)
-    res.render('admin/add-product',{admin:true,response});
+    res.render('admin/add-product',{admin:true,response,logged:true});
   })
   
 
@@ -122,13 +124,18 @@ router.get('/delete/:id',(req,res)=>{
   })
   
 })
-router.get('/edit-product/:id', async(req, res)=> {
-  let proId = req.params.id
+router.get('/edit-product', async(req, res)=> {
+  console.log("helooo")
+  let proId = req.query.id
+  console.log("proId in query")
+  console.log(proId)
   let product =await productHelpers.getProductDetails(proId)
-      res.render('admin/edit-product',{admin:true,product})
+      res.render('admin/edit-product',{admin:true,product,logged:true})
 });
-router.post('/edit-product/:id',(req,res)=>{
-  let proId = req.params.id
+router.post('/edit-product',(req,res)=>{
+  console.log(proId+"sdfhuksfhuisdhfishdifh")
+  let proId = req.query.id
+  console.log(proId)
   productHelpers.editProducts(req.body,proId).then((response)=>{
     if(req.files.image1){
       let image1 = req.files.image1
@@ -176,6 +183,25 @@ router.get('/deletesubcat/:id/:name',(req,res)=>{
   })
   
   
+})
+router.get('/view-order',(req,res)=>{
+  productHelpers.getAllOrders().then((order)=>{
+    console.log("response in function call")
+    console.log(order)
+    res.render('admin/view-order',{admin:true,order,logged:true})
+  })
+})
+router.post('/manage-order',(req,res)=>{
+  console.log("hdsfukhsfhsdhfuihsdiufhiuh")
+  console.log(req.body)
+  let Id = req.body.orderId
+  console.log(Id)
+  let manageorder = req.body.manage
+  console.log(manageorder)
+  productHelpers.mangeOrder(Id,manageorder).then((response)=>{
+    res.json({status:response})
+  })
+
 })
 
 

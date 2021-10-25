@@ -1,3 +1,6 @@
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<meta name="google-signin-client_id" content="271754934598-r9gag7rfcoka093scca7jgj9ds41vtr4.apps.googleusercontent.com">
+
 <div class="section">
 
 	<!-- Breadcrumb Area Start -->
@@ -34,17 +37,30 @@
 		<!-- Login Title & Content End -->
 
 		<!-- Form Action Start -->
-		<form action="/login" method="post">
+		<form action="/login" onclick="return addAllUsers()" method="post">
 
 			<!-- Input Email Start -->
 			<div class="single-input-item mb-3">
-				<input type="email" name="email" placeholder="Email or Username">
+				<%if(blockedUser){%>
+					<p id="err" style="color: red;">User blocked by admin</p>
+					<%}%>
+				<input type="email" id="email" name="email" placeholder="Email or Username">
+				<p id="error2" style="color: red;"></p>
 			</div>
 			<!-- Input Email End -->
 
 			<!-- Input Password Start -->
 			<div class="single-input-item mb-3">
-				<input type="password" name="password" placeholder="Enter your Password">
+				<input type="password" id="password" name="password" placeholder="Enter your Password">
+				<p id="error4" style="color: red;"></p>
+				
+					<%if(loginErr){%>
+					<p id="err" style="color: red;">Invalid username or password</p>
+					<%}else{%>
+						<p id="err" style="color: red;"></p>
+						<%}%>
+						
+					
 			</div>
 			<!-- Input Password End -->
 
@@ -53,11 +69,22 @@
 				<div class="login-reg-form-meta d-flex align-items-center justify-content-between">
 					<div class="remember-meta mb-3">
 						<div class="custom-control custom-checkbox">
-							<input type="checkbox" class="custom-control-input" id="rememberMe">
+							<input type="checkbox" class="custom-cont rol-input"id="rememberMe">
+							
 							<label class="custom-control-label" for="rememberMe">Remember Me</label>
 						</div>
 					</div>
-					<a href="#" class="forget-pwd mb-3">Forget Password?</a>
+					<a  style="cursor: pointer;" onclick="forget()">Forget Password?</a>
+					<div id="inp1" class="col-4" style="display:none;">
+						<input   class="custom-cont rol-input" type="text" placeholder="enter your phone number"  id="login">
+						<a class="btn btn-dark " onclick="verify()" >Verify</a>
+					</div>
+					<br>
+					<div id="inp2" class="col-4" style="display:none ;">
+						<input   class="custom-cont rol-input" type="text"  id="otp">
+						<a class="btn btn-dark " onclick="login()">Login</a>
+					</div>
+				
 				</div>
 			</div>
 			<!-- Checkbox/Forget Password End -->
@@ -65,12 +92,14 @@
 			<!-- Login Button Start -->
 			<div class="single-input-item mb-3">
 				<button class="btn btn btn-dark btn-hover-primary rounded-0">Login</button>
+				<p id="error3" style="color: red;"></p>
+			
 			</div>
 			<!-- Login Button End -->
-
+				<div class="g-signin2" data-onsuccess="onSignIn"></div>
 			<!-- Lost Password & Creat New Account Start -->
 			<div class="lost-password">
-				<a href="login-register.html">Create Account</a>
+				<a href="/signup">Create Account</a>
 			</div>
 			<!-- Lost Password & Creat New Account End -->
 
@@ -87,3 +116,133 @@
 	</div>
 </div>
 <!-- Login | Register Section End -->
+<script>
+	function forget(){
+		
+		 document.getElementById("inp1").style.display=""
+		
+	}
+</script>
+<script>
+	function verify(){
+		document.getElementById("inp1").style.display="none"
+		document.getElementById("inp2").style.display=""
+		console.log("loggedin")
+		let input = document.getElementById("login").value
+		let otpbox = document.getElementById("otp")
+		console.log("otp loggin")
+		$.ajax({
+			url:'/phone',
+			data:{
+				phone:input
+			},
+			method:'post',
+			success:(response)=>{
+				if(response.status){
+					alert("otp has send to your mobile")
+				}
+				else if(response.statuss=="user not exist"){
+
+				}
+				else{
+					console.log("otp failed")
+				}
+			}
+		})
+	}
+</script>
+<script>
+	function login(){
+		console.log("loggedin")
+		let otp = document.getElementById("otp").value;
+		let input = document.getElementById("login").value;
+		$.ajax({
+			url:'/otp-login',
+			data:{
+				otp:otp,
+				number:input
+			},
+			method:'post',
+			success:(response)=>{
+				console.log(response);
+				if(response.status){
+					window.location.reload()
+				}
+			}
+		})
+	}
+</script>
+<script>
+  
+   let emailChecking = false;
+   
+   let passwordChecking = false;
+   $(document).ready(function(){
+		   $("#email").keyup(function(){
+		   let email = this.value
+		   let emailregex = /^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/;
+		   
+		   if(email.match(emailregex)){
+			   $("#error2").html("")
+			   emailChecking = true;
+		   }
+		   else{
+			   $("#error2").html("enter a valid email")
+			   emailChecking = false;
+		   }
+	   })
+   
+   
+   
+		   $("#password").keyup(function(){
+			   let password = this.value
+			   if(password==""){
+				   $("#error4").html("enter a password")
+			   }else if(password.length<=3){
+                     $("#error4").html("enter minimum 4 charaters")
+			   }else{
+				   $('#error4').html("")
+				   passwordChecking = true;
+			   }
+		   })
+	   
+   })
+   
+   function addAllUsers(){
+	   console.log("log cheyy myre")
+   if(emailChecking&&passwordChecking){
+	   return true
+   }else{
+	$("#error4").html("fill all feilds in format") 
+	   return false
+   }
+   }
+   
+   </script> 
+
+<!-- google login -->
+<script>
+
+
+function onSignIn(googleUser) {
+	  var id_token = googleUser.getAuthResponse().id_token;
+	  
+	  $.ajax({
+		  url:"/googlelogin",
+		  data:{token:id_token},
+		  method:"POST",
+		  success:function (response){
+			  if(response.status){
+				location.href ="/"
+			}else{
+				alert("invalid")
+			}
+		  },
+		  error:function(err){
+			  alert("something error")
+		  }
+	  })
+
+}
+
+</script>
