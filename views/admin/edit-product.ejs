@@ -1,102 +1,372 @@
-<div class="main-panel">
-    <div class="content">
-        <div class="panel-header bg-white shadow-sm">
-            <div class="page-inner  py-3 mb-5">
-                <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
-                    <div class="">
-                        <div class="header d-sm-flex align-items-center  text-center"> 
-                            <h1 class="page-header banner-title">Products</h1>
-                            <ul class="breadcrumb justify-content-sm-start justify-content-center">
-                                  <li><a href="../index.html"><i class="icon-home"></i></a></li>
-                                 
-                            </ul> 			
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="page-inner">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="card-head-row justify-content-between">
-                                <div class="card-title"><i class="fas fa-pen"></i> Edit Product</div>
-                                products
-                            </div>
-                        </div>
-                      
-                        <div class="card-body">
-                            <form class="main-form full" action="/admin/edit-product?id=<%=product._id %>" method="POST" onsubmit="return editProduct()" enctype="multipart/form-data">
-                                  <div class="row">
-                                    <div class="col-12">
-                                          <div class="input-box form-group required">
-                                            <div class="row">
-                                                  <label for="p-name" class="col-md-3 control-label">Product Name</label>
-                                                  <div class="col-md-9">
-                                                    <input type="text"  name="productname" class="form-control" id="name1" required placeholder="Product Name" value="<%=product.productname %>">
-                                                    <p id="error1" style="color: red;"></p>
-                                                  </div>
-                                            </div>
-                                          </div>
-                                    </div>
+
+
+
+
+
+
+
+
+    <div class="main-panel">
+      <div class="content">
+          <div class="panel-header bg-white shadow-sm">
+              <div class="page-inner  py-3 mb-5">
+                  <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+                      <div class="">
+                          <div class="header d-sm-flex align-items-center  text-center"> 
+                              <h1 class="page-header banner-title">Products</h1>
+                              <ul class="breadcrumb justify-content-sm-start justify-content-center">
+                                    <li><a href="../index.html"><i class="icon-home"></i></a></li>
                                    
-                                    <div class="col-12">
-                                          <div class="input-box form-group">
-                                            <div class="row">
-                                                  <label for="description" class="col-md-3 control-label">Description</label>
-                                                  <div class="col-md-9">
-                                                    <input id="name2" name="description" class="form-control" placeholder="Description" rows="10" cols="30" name="Description" value="<%=product.description %>">
-                                                    <p id="error2" style="color: red;"></p>
+                              </ul> 			
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          
+          <div class="page-inner">
+              <div class="row">
+                  <div class="col-md-12">
+                      <div class="card">
+                          <div class="card-header">
+                              <div class="card-head-row justify-content-between">
+                                  <div class="card-title"><i class="fas fa-pen"></i> Add Product</div>
+                              
+                              </div>
+                          </div>
+                          
+                          <div class="card-body">
+                              <form class="main-form full" action="/admin/edit-product" method="POST" onsubmit="return addProduct()" enctype="multipart/form-data">
+                                    <div class="row">
+                                      <div class="col-12">
+                                            <div class="input-box form-group required">
+                                              <div class="row">
+                                                    <label for="p-name" class="col-md-3 control-label">Product Name</label>
+                                                    <div class="col-md-9">
+                                                      <input  type="text" name="productname" class="form-control" value="<%=product.productname %>" id="name1" required placeholder="Product Name">
+                                                      <p id="error1" style="color: red;"></p>
                                                   </div>
+                                              </div>
                                             </div>
-                                          </div>
-                                    </div>
-                                  }  <div class="col-12">
-                                          <div class="input-box form-group">
-                                            <div class="row">
-                                                  <label for="input-price" class="col-md-3 control-label">Price</label>
-                                                  <div class="col-md-9">
-                                                    <input type="text" name="price"  placeholder="Price" id="name3" class="form-control" value="<%=product.price %>" >
-                                                    <p id="error3" style="color: red;"></p>
+                                      </div>
+                                     
+                                      <div class="col-12">
+                                            <div class="input-box form-group">
+                                              <div class="row">
+                                                    <label for="description" class="col-md-3 control-label">Description</label>
+                                                    <div class="col-md-9">
+                                                      <textarea id="name2" name="description" class="form-control" placeholder="Description" rows="10" cols="30" value="<%=product.description %>" name="Description"></textarea>
+                                                      <p id="error2" style="color: red;"></p>
                                                   </div>
+                                              </div>
                                             </div>
-                                          </div>
-                                    </div>
-                                  
-                                    <div class="col-12">
-                                          <div class="input-box form-group">
-                                            <div class="row">
-                                                  <label for="input-quantity" class="col-md-3 control-label">Quantity</label>
-                                                  <div class="col-md-9">
-                                                    <input type="text" name="quantity" class="form-control"  id="name4" placeholder="Quantity" value="<%=product.quantity %>">
-                                                    <p id="error4" style="color: red;"></p>
+                                      </div>
+                                      <div class="col-12">
+                                            <div class="input-box form-group">
+                                              <div class="row">
+                                                    <label for="input-price" class="col-md-3 control-label">Price</label>
+                                                    <div class="col-md-9">
+                                                      <input type="text" name="price" value="<%=product.price %>"  placeholder="Price" id="name3" class="form-control">
+                                                      <input name="proId" value="<%=product._id %>" type="text" hidden>
+                                                      <p id="error3" style="color: red;"></p>
                                                   </div>
+                                              </div>
                                             </div>
-                                          </div>
-                                        }                    <div class="col-md-9">
-                                                  <img style="width: 71px;height:81px;" src="/product-images/image1/<%=product.image1 %>.jpg" alt="" id="img1">
-                                                  <input type="file" class="form-control" name="image1"  id="input-quantity" placeholder="Quantity " onchange="viewImage1(event)">
-                                                  <img style="width: 71px;height:81px;" src="/product-images/image2/<%=product.image2 %>.jpg" alt="" id="img2">
-                                                  <input type="file" class="form-control" name="image2"  id="input-quantity" placeholder="Quantity" onchange="viewImage2(event)">
-                                                  <img style="width: 71px;height:81px;" src="/product-images/image3/<%=product.image3 %>.jpg" alt="" id="img3">
-                                                  <input type="file" class="form-control" name="image3"  id="input-quantity" placeholder="Quantity" onchange="viewImage3(event)" >
-                                                </div>
+                                      </div>
+                                    
+                                      <div class="col-12">
+                                            <div class="input-box form-group">
+                                              <div class="row">
+                                                    <label for="input-quantity" class="col-md-3 control-label">Quantity</label>
+                                                    <div class="col-md-9">
+                                                      <input type="text" name="quantity" class="form-control"   id="name4" placeholder="Quantity">
+                                                      <p id="error4" style="color: red;"></p>
+                                                  </div>
+                                              </div>
+                                            </div>
+                                      </div>
+                                      <div class="col-12">
+                                        <div class="input-box form-group">
+                                          <div class="row">
+                                                <label for="input-quantity" class="col-md-3 control-label">Category</label>
+                                                  <div class="col-md-9">
+                                                    <select name="category" id="category" style="width: 200px;" id="cars">
+                                                      <% for(var items of category){ %>
+    
+                                                      <option name="category" value="<%= items.categoryname %>"><%= items.categoryname %></option>
+                                                      <% } %>
+                                                    </select>
+                                                    </div>
+                                                  </div>
                                           </div>
                                         </div>
+                                    </div>
+                                  <div class="col-12">
+                                    <div class="input-box form-group">
+                                      <div class="row">
+                                            <label for="input-quantity" class="col-md-3 control-label">Subcategory</label>
+                                              <div class="col-md-9">
+                                                <label for="cars">Choose a Subcategory</label>
+    
+                                              <select name="subcategory" id="subcategory" style="width: 200px;" id="cars">
+                                                
+                                                <option name="subcategory" value="volvo"> </option>
+                                              
+                                              </select>
+    
+                                              </div>
+                                      </div>
+                                    </div>
                                   </div>
-                                 
-                               <button type="submit" class="btn btn-danger">Edit product</button>
-                                  </div>
-                            </form>
-                        </div>
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                                      <div class="col-12">
+                                          <div class="input-box form-group">
+                                            <div class="row">
+                                                  <label for="input-quantity" class="col-md-3 control-label">Add Image</label>
+                                                  <div class="col-md-9">
+                                                    <div class="container">
+                                                      <!-- {{!-- item 1 start --}} -->
+                                                      <div class="col-12">
+                                                        <h4 class="title"> Image 1</h4>
+                                                        <div class="fileinput fileinput-new text-center">
+                                                            <div class="fileinput-new thumbnail">
+                                                                <img style="width: 200px;" src="/product-images/image1/<%=product.image1 %>.jpg" alt="...">
+                                            
+                                                            </div>
+                                                            <div>
+                                                                <span class="btn btn-rose btn-round btn-file">
+                                                                    <span class="fileinput-new" style="color: aliceblue;">Choose file</span>
+                                                                    <input   type="file" style="font-size: large ;color: black;" id="image1" name="file1" accept="image/gif, image/jpeg, image/png" onchange="viewImage1(event)"   />
+                                                                    <textarea name="image1_b64" id="imageValue1" cols="30" rows="10" hidden></textarea>
+                                                                    <p class="errormsg" style="color:red ;" id="checkimage1"></p> 
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                            
+                                                 <!-- {{!-- item 1 end--}} -->
+                                            
+                                            
+                                            
+                                                  <!-- {{!-- item 2 start --}} -->
+                                                    <div class="col-12">
+                                                        <h4 class="title"> Image 2</h4>
+                                                        <div class="fileinput fileinput-new text-center">
+                                                            <div class="fileinput-new thumbnail">
+                                                                <img style="width: 200px" src="/product-images/image2/<%=product.image2 %>.jpg"  id="chekPreview2" alt="...">
+                                            
+                                                            </div>
+                                                            <div>
+                                                                <span class="btn btn-rose btn-round btn-file">
+                                                                    <span class="fileinput-new"  style="color: aliceblue;">Choose file</span>
+                                                                    <input type="file" id="image2" name="file2" onchange="viewImage2(event)"   accept="image/gif, image/jpeg, image/png"  />
+                                                                    
+                                                                    <textarea name="image2_b64" id="imageValue2" cols="30" rows="10"   hidden></textarea>
+                                                                     <p class="errormsg" style="color:red ;" id="checkimage2"></p> 
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                            
+                                                 <!-- {{!-- item 2 end--}} -->
+                                            
+                                            
+                                                <!-- {{!-- item 3 start --}} -->
+                                                    <div class="col-12">
+                                                        <h4 class="title"> Image 3</h4>
+                                                        <div class="fileinput fileinput-new text-center">
+                                                            <div class="fileinput-new thumbnail">
+                                                                <img style="width: 200px" src="/product-images/image2/<%=product.image2 %>.jpg" style="height: 100px; width: 100px;" id="chekPreview3" alt="...">
+                                            
+                                                            </div>
+                                                            <div>
+                                                                <span class="btn btn-rose btn-round btn-file">
+                                                                    <span class="fileinput-new"  style="color: aliceblue;">Choose file</span>
+                                                                    <input type="file" id="image3" onchange="viewImage3(event)" name="file3" accept="image/gif, image/jpeg, image/png"/>
+                                                                     
+                                                                    <textarea name="image3_b64" id="imageValue3" cols="30" rows="10"   hidden></textarea>
+                                                                    <p class="errormsg" style="color:red ;" id="checkimage3"></p> 
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                            
+                                                 <!-- {{!-- item 3 end--}} -->
+                                            
+                                            
+                                                 <!-- {{!-- item 4 start --}} -->
+                                                     
+                                            
+                                                 <!-- {{!-- item 4 end--}} -->
+                                            
+                                            
+                                            
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Modal 1-->
+                                            <div class="modal fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                                aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Crop Image Here</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="img-container">
+                                                                <div class="row">
+                                                                    <div class="col-md-8">
+                                                                        <img src="" id="sampleImage1" />
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <div class="preview" id="preview1"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                            
+                                                            <button type="button" id="crop1" class="btn btn-primary">Crop</button>
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Modal  1 end-->
+                                            
+                                            
+                                            
+                                            <!-- Modal 2-->
+                                            <div class="modal fade" id="modal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                                aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Crop Image Here</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="img-container">
+                                                                <div class="row">
+                                                                    <div class="col-md-8">
+                                                                        <img src="" id="sampleImage2" />
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <div class="preview" id="preview2"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                            
+                                                            <button type="button" id="crop2" class="btn btn-primary">Crop</button>
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Modal  2 end-->
+                                            
+                                            
+                                            <!-- Modal 3-->
+                                            <div class="modal fade" id="modal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                                aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Crop Image Here</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="img-container">
+                                                                <div class="row">
+                                                                    <div class="col-md-8">
+                                                                        <img src="" id="sampleImage3" />
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <div class="preview" id="preview3"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                            
+                                                            <button type="button" id="crop3" class="btn btn-primary">Crop</button>
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Modal  3 end-->
+                                            
+                                            <!-- Modal 4-->
+                                            <div class="modal fade" id="modal4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                                aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Crop Image Here</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="img-container">
+                                                                <div class="row">
+                                                                    <div class="col-md-8">
+                                                                        <img src="" id="sampleImage4" />
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <div class="preview" id="preview4"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                            
+                                                            <button type="button" id="crop4" class="btn btn-primary">Crop</button>
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Modal  4 end-->
+                                                  </div>
+                                                  
+                                                
+                                                    <!-- <img style="width: 71px;height:81px;" src="/product-images/image1/<%=product.image1 %>.jpg" alt="" id="img1">
+                                                    <input type="file" class="form-control" name="image1"  id="input-quantity" placeholder="Quantity " onchange="viewImage1(event)">
+                                                    <img style="width: 71px;height:81px;" src="/product-images/image2/<%=product.image2 %>.jpg" alt="" id="img2">
+                                                    <input type="file" class="form-control" name="image2"  id="input-quantity" placeholder="Quantity" onchange="viewImage2(event)">
+                                                    <img style="width: 71px;height:81px;" src="/product-images/image3/<%=product.image3 %>.jpg" alt="" id="img3">
+                                                    <input type="file" class="form-control" name="image3"  id="input-quantity" placeholder="Quantity" onchange="viewImage3(event)" > -->
+                                                
+                                            </div>
+                                          </div>
+                                   
+                                   
+                                 <button type="submit" class="btn btn-danger">Edit product</button>
+                                 <p id="error5" style="color: red;"></p>
+                                   
+                              </form>
+                            </div>
+                            </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
     <script>
         function viewImage1(event){
             document.getElementById('img1').src=URL.createObjectURL(event.target.files[0])
@@ -108,6 +378,26 @@
             document.getElementById('img3').src=URL.createObjectURL(event.target.files[0])
         }
     </script>
+      <!-- edit subcategory Ajax function start-->
+  <script>
+    document.getElementById("category").onchange= e=>{
+      catname = e.target.value  
+      console.log(catname)
+      $.ajax({
+        url:"/admin/getsubcategory",
+        method:"POST",
+        data : {catname},
+        success:(res)=>{
+          document.getElementById("subcategory").innerHTML=""
+          for(var i=0;i<res.length;i++){
+            var subcat = "<option>"+res[i]+"</option>"
+            document.getElementById("subcategory").innerHTML+=subcat
+          }
+        }
+      })
+    }
+  </script>
+   <!-- edit subcategory Ajax function end-->
   <script>
     let nameChecking = false
              $(document).ready(function(){
@@ -132,16 +422,13 @@
               $("#name2").on('input',function(){
         this.value=this.value.replace(/[^A-Za-z-,.;'&/.() ]|^ /g,'')
         let name = this.value
-        let nameregex = /^[A-Za-z]+$/
-        if(name.match(nameregex)&&name.length<10){
-          $("#error2").html("enter minimum 10 charaters");
+        
+        if(name.length<10){
+          $("#error2").html("enter minimum charaters");
           nameChecking = false;
         }
-        else if(name.includes("  ")){
-          $("#error2").html("invalid ");
-          nameChecking = false;
-        }
-          else if(name.match(nameregex)){
+       
+          else {
         $("#error2").html("");
         nameChecking = true;
                }
@@ -212,3 +499,261 @@
              }
              }  
  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  $('document').ready(function() {
+//modal1 and image 1
+  var image1 = document.getElementById('sampleImage1');
+  var modal1 = $('#modal1');
+  var cropper1;
+
+  $('#image1').change(function (event) {
+      var files = event.target.files;
+
+      var done = function (url) {
+          image1.src = url;
+          modal1.modal('show');
+      };
+
+      if (files && files.length > 0) {
+          reader = new FileReader();
+          reader.onload = function (event) {
+              done(reader.result);
+          };
+          reader.readAsDataURL(files[0]);
+      }
+  });
+
+  modal1.on('shown.bs.modal', function () {
+      cropper1 = new Cropper(image1, {
+          aspectRatio: 1/1,
+          viewMode: 10,
+          preview: '#preview1'
+      });
+  }).on('hidden.bs.modal', function () {
+      cropper1.destroy();
+      cropper1 = null;
+  });
+
+  $('#crop1').click(function () {
+      canvas = cropper1.getCroppedCanvas({
+          width: 621,
+          height: 869
+      });
+
+      canvas.toBlob(function (blob) {
+          url = URL.createObjectURL(blob);
+          var reader = new FileReader();
+          reader.readAsDataURL(blob);
+          reader.onloadend = function () {
+              var base64data = reader.result;
+              modal1.modal('hide');
+              $("#imageValue1").val(base64data)
+              $('#chekPreview1').attr('src', base64data);
+          };
+      });
+  });
+//modal1 and image 1 end
+
+//modal2 and image 2
+  var image2 = document.getElementById('sampleImage2');
+  var modal2 = $('#modal2');
+  var cropper2;
+
+  $('#image2').change(function (event) {
+      var files = event.target.files;
+
+      var done = function (url) {
+          image2.src = url;
+          modal2.modal('show');
+      };
+
+      if (files && files.length > 0) {
+          reader = new FileReader();
+          reader.onload = function (event) {
+              done(reader.result);
+          };
+          reader.readAsDataURL(files[0]);
+      }
+  });
+
+  modal2.on('shown.bs.modal', function () {
+      cropper2 = new Cropper(image2, {
+          aspectRatio: 1/1,
+          viewMode: 10,
+          preview: '#preview2'
+      });
+  }).on('hidden.bs.modal', function () {
+      cropper2.destroy();
+      cropper2 = null;
+  });
+
+  $('#crop2').click(function () {
+      canvas = cropper2.getCroppedCanvas({
+          width: 621,
+          height: 869
+      });
+
+      canvas.toBlob(function (blob) {
+          url = URL.createObjectURL(blob);
+          var reader = new FileReader();
+          reader.readAsDataURL(blob);
+          reader.onloadend = function () {
+              var base64data = reader.result;
+              modal2.modal('hide');
+              $("#imageValue2").val(base64data)
+              $('#chekPreview2').attr('src', base64data);
+          };
+      });
+  });
+//image 2 and modal 2 end
+
+
+//modal3 and image 3 start
+  var image3 = document.getElementById('sampleImage3');
+  var modal3 = $('#modal3');
+  var cropper3;
+
+  $('#image3').change(function (event) {
+      var files = event.target.files;
+
+      var done = function (url) {
+          image3.src = url;
+          modal3.modal('show');
+      };
+
+      if (files && files.length > 0) {
+          reader = new FileReader();
+          reader.onload = function (event) {
+              done(reader.result);
+          };
+          reader.readAsDataURL(files[0]);
+      }
+  });
+
+  modal3.on('shown.bs.modal', function () {
+      cropper3 = new Cropper(image3, {
+          aspectRatio: 1/1,
+          viewMode: 10,
+          preview: '#preview3'
+      });
+  }).on('hidden.bs.modal', function () {
+      cropper3.destroy();
+      cropper3 = null;
+  });
+
+  $('#crop3').click(function () {
+      canvas = cropper3.getCroppedCanvas({
+          width: 621,
+          height: 869
+      });
+
+      canvas.toBlob(function (blob) {
+          url = URL.createObjectURL(blob);
+          var reader = new FileReader();
+          reader.readAsDataURL(blob);
+          reader.onloadend = function () {
+              var base64data = reader.result;
+              modal3.modal('hide');
+              $("#imageValue3").val(base64data)
+              $('#chekPreview3').attr('src', base64data);
+          };
+      });
+  });
+//image 3 and modal 3 end
+
+//modal4 and image 4 start
+  var image4 = document.getElementById('sampleImage4');
+  var modal4 = $('#modal4');
+  var cropper4;
+
+  $('#image4').change(function (event) {
+      var files = event.target.files;
+
+      var done = function (url) {
+          image4.src = url;
+          modal4.modal('show');
+      };
+
+      if (files && files.length > 0) {
+          reader = new FileReader();
+          reader.onload = function (event) {
+              done(reader.result);
+          };
+          reader.readAsDataURL(files[0]);
+      }
+  });
+
+  modal4.on('shown.bs.modal', function () {
+      cropper4 = new Cropper(image4, {
+          aspectRatio: 1/1,
+          viewMode: 10,
+          preview: '#preview4'
+      });
+  }).on('hidden.bs.modal', function () {
+      cropper4.destroy();
+      cropper4 = null;
+  });
+
+  $('#crop4').click(function () {
+      canvas = cropper4.getCroppedCanvas({
+          width: 621,
+          height: 869
+      });
+
+      canvas.toBlob(function (blob) {
+          url = URL.createObjectURL(blob);
+          var reader = new FileReader();
+          reader.readAsDataURL(blob);
+          reader.onloadend = function () {
+              var base64data = reader.result;
+              modal4.modal('hide');
+              $("#imageValue4").val(base64data)
+              $('#chekPreview4').attr('src', base64data);
+          };
+      });
+  });
+//image 4 and modal 4 end
+
+
+
+  });
+
+</script>
+
+
+
+
+
+
+
+
+
+<script>
+    function viewImage1(event){
+        document.getElementById('image1').src=URL.createObjectURL(event.target.files[0])
+    }
+    function viewImage2(event){
+        document.getElementById('image2').src=URL.createObjectURL(event.target.files[0])
+    }
+    function viewImage3(event){
+        document.getElementById('image3').src=URL.createObjectURL(event.target.files[0])
+    }
+</script>

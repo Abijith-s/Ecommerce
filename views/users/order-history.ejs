@@ -54,11 +54,11 @@
                                             <td><%=key.totalamount%></td>
                                             <td><%=key.status%></td>
                                             <%if(key.status=='cancelled' || key.status=='admin cancelled'){%>
-                                            <td><a class="btn btn-danger"  onclick="cancelOrder('<%=key._id%>')">Cancel order</a></td>
+                                            <td><a class="btn btn btn-warning  btn-hover-danger btn-sm rounded-0"  onclick="cancelOrder('<%=key._id%>')">Cancel order</a></td>
                                             
                                             <%}else{%>
-                                                <td><a class="btn btn-danger"  onclick="cancelOrder('<%=key._id%>')">Cancel order</a></td>
-                                            <td><a class="btn btn-secondary" href="/view-order?id=<%=key._id%>">View order</a></td>
+                                                <td><a class="btn btn btn-warning btn-hover-danger btn-sm rounded-0"  onclick="cancelOrder('<%=key._id%>')">Cancel order</a></td>
+                                            <td><a class="btn btn btn-dark btn-hover-primary btn-sm rounded-0" href="/view-order?id=<%=key._id%>">View order</a></td>
                                             <%}%>
                                           <%}%>
                                         </tr>

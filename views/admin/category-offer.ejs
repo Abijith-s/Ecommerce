@@ -1,0 +1,164 @@
+<div class="main-panel">
+    <div class="content">
+    <div class="page-inner">
+          <div class="row">
+              <div class="col-md-12">
+                  <div class="card">
+                      <div class="card-header">
+                          <div class="card-head-row justify-content-between">
+                              <div class="card-title"><i class="fas fa-pen"></i>Add Offer</div>
+                          
+                          </div>
+                      </div>
+                      
+                      <div class="card-body">offer
+                          <form action="/admin/category-offer" id="offer-form"  class="main-form full"   method="POST">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="input-box form-group">
+                                          <div class="row">
+                                                <label for="discount-type" class="col-md-3 control-label">Category</label>
+                                                <div class="col-md-9">
+                                                  <select id="categoryname"  name="categoryname" id="discount-type" class="form-control">
+                                                        <%for(var i of category){%>
+                                                         <option onchange="" value="<%=i.categoryname%>" id="productname"  selected="selected"><%=i.categoryname%></option>
+                                                         <%}%>
+                                                  </select>
+                                                </div>
+                                          </div>
+                                        </div>
+                                  </div>
+                                
+                                    <div class="col-12">
+                                        <div class="input-box form-group required">
+                                          <div class="row">
+                                                <label for="coupan-name" class="col-md-3 control-label">Offer Percentage</label>
+                                                <div class="col-md-9">
+                                                  <input type="text" name="offerpercentage" class="form-control" id="offerpercentage" required  placeholder="Percentage">
+                                                </div>
+                                          </div>
+                                        </div>
+                                  </div>
+                                  <div class="col-12">
+                                    <div class="input-box form-group">
+                                      <div class="row">
+                                            <label for="start-date" class="col-md-3 control-label">Start Date</label>
+                                            <div class="col-md-9">
+                                                <div class="datepicker date input-group">
+                                                  <input type="date" name="startdate" placeholder="Start Date" class="form-control" id="startdate">
+                                                  <div class="input-group-append">
+                                                      <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                    </div>
+                              </div>
+                              <div class="col-12">
+                                <div class="input-box form-group">
+                                  <div class="row">
+                                        <label for="end-date" class="col-md-3 control-label">End Date</label>
+                                        <div class="col-md-9">
+                                            <div class="datepicker date input-group ">
+                                              <input type="date" placeholder="End Date" class="form-control" name="enddate" id="enddate">
+                                              <div class="input-group-append">
+                                                  <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                                </div>
+                            </div>
+                               <div>
+                                  <button id="button" type="submit" class="btn btn-danger">Add Offer</button>
+                                  <p id="error3" style="color: red;"></p>
+                               </div>
+                               
+                                </div>
+                          </form>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+   </div> 
+
+ 
+<!-- <script>
+   function addOffer(){
+       
+    Form = $("#offer-form").serialize()
+    console.log(Form)
+    $('#offer-form').submit((e)=>{
+        e.preventDefault()
+        $.ajax({
+            url:'/admin/add-order',
+            data:Form,
+            method:'post',
+            success:(response)=>{
+                document.getElementById("product").innerHTML=""
+                for(var i=0;i<response.length;i++){
+            var proname = "<td>"+response[i].productname+"</td>"
+            console.log(response[i].productname)
+            document.getElementById("product").innerHTML+=proname
+          }
+            }
+        })
+    })
+     
+}
+    
+</script> -->
+
+
+
+
+
+<!-- data table script starts -->
+<script >
+    $(document).ready(function() {
+        $('#multi-filter-select').DataTable( {
+            "pageLength": 6,
+            initComplete: function () {
+                this.api().columns().every( function () {
+                    var column = this;
+                    var select = $('<select class="form-control"><option value="">All</option></select>')
+                    .appendTo( $(column.footer()).empty() )
+                    .on( 'change', function () {
+                        var val = $.fn.dataTable.util.escapeRegex(
+                            $(this).val()
+                            );
+
+                        column
+                        .search( val ? '^'+val+'$' : '', true, false )
+                        .draw();
+                    } );
+
+                    column.data().unique().sort().each( function ( d, j ) {
+                        select.append( '<option value="'+d+'">'+d+'</option>' )
+                    } );
+                } );
+            }
+        });
+    });
+</script>
+
+<!-- data table script ends -->
+<!-- <script>
+    document.getElementById("categoryname").onchange= e=>{
+      catname = e.target.value
+      console.log(catname)
+      $.ajax({
+        url:"/admin/findsubcategory",
+        method:"POST",
+        data : {catname},
+        success:(res)=>{
+          document.getElementById("subcategory").innerHTML=""
+          for(var i=0;i<res.length;i++){
+            var subcat = "<option>"+res[i]+"</option>"
+            document.getElementById("subcategory").innerHTML+=subcat
+          }
+        }
+      })
+    }
+  </script> -->

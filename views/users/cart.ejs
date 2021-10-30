@@ -1,3 +1,5 @@
+
+
 <!-- Breadcrumb Section Start -->
 <div class="section">
   <!-- Breadcrumb Area Start -->
@@ -19,12 +21,23 @@
 <!-- Breadcrumb Section End -->
 
 <!-- Shopping Cart Section Start -->
+<%if(products.length==0){%>
+  <div class="row d-flex justify-content-center">
+  <div class="card px-4 pt-5  mt-4" style="width: 18rem;">
+    <img class="card-img-top" src="https://www.nicepng.com/png/detail/322-3224210_your-cart-is-currently-empty-empty-shopping-cart.png" alt="Card image cap">
+    <div class="card-body">
+      <h1 class="card-text">Your Cart is Empty</h1>
+    </div>
+  </div>
+</div>
+  <%}else{%>
 <div class="section section-margin">
   <div class="container">
     <div class="row">
       <div class="col-12">
         <!-- Cart Table Start -->
         <div class="cart-table table-responsive">
+         
           <table class="table table-bordered">
             <!-- Table Head Start -->
             <thead>
@@ -42,7 +55,7 @@
             <!-- Table Body Start -->
             <tbody>
               <%for(var item in products){%>
-
+             
               <tr>
                 <td class="pro-thumbnail">
                   <a href="#"
@@ -111,7 +124,8 @@
                   </div>
                
                 </td>
-                <td ><span id="sub+<%=products[item].cartproducts._id%>"><%=subtotal[item].subtotal%></span></td>
+                
+                <td ><span id="sub+<%=products[item].cartproducts._id%>"><%=total[item].subtotal%></span></td>
                 <td class="pro-remove">
                   <a
                     onclick="deletItem('<%=products[item].cartproducts._id%>','<%=products[item].user%>')"
@@ -124,6 +138,7 @@
             </tbody>
             <!-- Table Body End -->
           </table>
+         
         </div>
         <!-- Cart Table End -->
 
@@ -131,25 +146,8 @@
         <div
           class="cart-update-option d-block d-md-flex justify-content-between"
         >
-          <!-- Apply Coupon Wrapper Start -->
-          <div class="apply-coupon-wrapper">
-            <form action="#" method="post" class="d-block d-md-flex">
-              <input
-                type="text"
-                placeholder="Enter Your Coupon Code"
-                required
-              />
-              <button class="btn btn-dark btn-hover-primary rounded-0">
-                Apply Coupon
-              </button>
-            </form>
-          </div>
-          <!-- Apply Coupon Wrapper End -->
-          <div class="cart-update mt-sm-16">
-            <a href="#" class="btn btn-dark btn-hover-primary rounded-0"
-              >Update Cart</a
-            >
-          </div>
+        
+         
           <!-- Cart Update End -->
         </div>
         <!-- Cart Update Option End -->
@@ -169,19 +167,19 @@
             <!-- Responsive Table Start -->
             <div class="table-responsive">
               <table class="table">
-                <%for (var j of subtotal){%>
+               
                 <tr>
                 </tr>
-                <%}%>
+               
                 <tr>
                   <td>Shipping</td>
                   <td></td>
                 </tr>
                 <tr class="total">
                   <td>Total</td>
-                  <%for(var j of total){%>
-                  <td id="total" class="total-amount"><%=j.total%></td>
-                  <%}%>
+                 
+                  <td id="total" class="total-amount"><%=totalAmount%></td>
+                  
                 </tr>
               </table>
             </div>
@@ -202,7 +200,7 @@
     </div>
   </div>
 </div>
-
+<%}%>
 <!-- Shopping Cart Section End -->
 <script>
 
@@ -282,6 +280,15 @@
 
 <script>
   function deletItem(proId, userId) {
+    swal({
+  title: "Are you sure?",
+  text: "Once deleted, you will not be able to recover this imaginary file!",
+  icon: "warning",
+  buttons: true,
+  dangerMode: true,
+})
+.then((willDelete) => {
+  if (willDelete) {
     $.ajax({
       url: "/delete-cart-item",
       data: {
@@ -296,6 +303,10 @@
       },
       error: () => {},
     });
+
+  } 
+});
+    
   }
 </script>
 <script>

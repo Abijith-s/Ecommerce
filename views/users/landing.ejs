@@ -117,16 +117,21 @@
                                                     <div class="content">
                                                         <h2 class="sub-title"><a href="/product-view?id=<%=items._id%>"> <%=items.productname %></a></h2>
                                                         
-                                                        <span class="ratings">
-                                                                <span class="rating-wrap">
-                                                                    <span class="star" style="width: 100%"></span>
-                                                        </span>
-                                                        <span class="rating-num">(4)</span>
-                                                        </span>
+                                                        
+                                                        <%if(items.offerprice){%>
                                                         <span class="price">
-                                                                <span class="new">₹<%=items.price %></span>
+                                                                <span class="old">₹<%=items.price %></span>
+                                                                <span class="new">₹<%=items.offerprice %></span>
+                                                        </span>
+                                                        <span style="    margin-top: -22px;">
+                                                            <p>₹<%=items.offerpercentage %>% off</p>
                                                         </span>
                                                         
+                                                        <%}else{%>
+                                                            <span class="price">
+                                                                <span class="new">₹<%=items.price %></span>
+                                                        </span>
+                                                        <%}%>
                                                         <button class="btn btn-sm btn-outline-dark btn-hover-primary" onclick="addToCart('<%=items._id %>')" >Add To Cart</button>
                                                        
                                                     </div>
@@ -501,3 +506,22 @@
         })
     }
 </script>
+<script>
+
+    gapi.load('auth2', function () {
+        gapi.auth2.init();
+    });
+    function onLoad() {
+        gapi.load('auth2', function () {
+        gapi.auth2.init();
+    });
+    }
+    function signOut() {
+
+        console.log("signout triggered")
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function () {
+            console.log('User signed out.');
+        });
+
+    }</script>

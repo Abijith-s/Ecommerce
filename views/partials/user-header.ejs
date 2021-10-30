@@ -106,7 +106,7 @@
 							<!-- Search Header Action Button End -->
 
 							<!-- User Account Header Action Button Start -->
-							<a href="/login" class="header-action-btn d-none d-md-block"><i class="pe-7s-user"></i></a>
+							<a href="/user-profile" class="header-action-btn d-none d-md-block"><i class="pe-7s-user"></i></a>
 							<!-- User Account Header Action Button End -->
 							
 							<!-- Register User Account Header Action Button Start -->
@@ -412,23 +412,24 @@
 		<!-- Cart Offcanvas Inner End -->
 	<!-- </div> -->
 	<!-- Cart Offcanvas End -->
-	<script>
 
-		gapi.load('auth2', function () {
-			gapi.auth2.init();
-		});
-		function onLoad() {
-			gapi.load('auth2', function () {
-			gapi.auth2.init();
-		});
-		}
-		function signOut() {
-	
-			console.log("signout triggered")
-			var auth2 = gapi.auth2.getAuthInstance();
-			auth2.signOut().then(function () {
-				console.log('User signed out.');
-			});
-
-		}</script>
 </div>
+<script>
+
+	gapi.load('auth2', function () {
+		gapi.auth2.init();
+	});
+	function onLoad() {
+		gapi.load('auth2', function () {
+		gapi.auth2.init();
+	});
+	}
+	function signOut() {
+
+		console.log("signout triggered")
+		var auth2 = gapi.auth2.getAuthInstance();
+		auth2.signOut().then(function () {
+			console.log('User signed out.');
+		});
+
+	}</script>

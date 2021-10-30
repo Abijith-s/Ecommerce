@@ -1,0 +1,248 @@
+<div class="container">
+<form id="submit-form" onsubmit="return addProduct()" >
+<div id="checkout-login" class="coupon-content">
+    <!-- row based input field start -->
+    <div class="row px-3">
+   
+      <!-- second item start -->
+     
+    <div class="row px-3">
+        <!-- first item start -->
+        <div class="form-group col-6">
+          <label for="exampleInputEmail1">Name</label>
+          <input  type="text" name="name" class="form-control"  value="<%=data.address.name%>" id="name" aria-describedby="emailHelp" placeholder="Enter name">
+          <p id="error1" style="color: red;"></p>
+          <input type="text" value="<%=Aid%>" name="addressId" id="" hidden>
+        </div>  
+        <!-- first item end -->
+        <!-- second item start -->
+        <div class="form-group col-6">
+            <label for="exampleInputEmail1">Address</label>
+            <input type="text" name="address" class="form-control" value="<%=data.address.address%>" id="address" aria-describedby="emailHelp" placeholder="Enter address">
+            <p id="error2" style="color: red;"></p>
+          </div>
+         
+           <!-- second item end -->
+    </div>
+         <!-- second item end -->
+     </div>
+     <div class="row px-3">
+      <!-- first item start -->
+      <div class="form-group col-6">
+        <label for="exampleInputEmail1"> Email</label>
+        <input type="email" name="email" class="form-control" value="<%=data.address.email%>" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+        <p id="error3" style="color: red;"></p>
+      </div>  
+      <!-- first item end -->
+      <!-- second item start -->
+      <div class="form-group col-6">
+        <label for="exampleInputEmail1"> Pincode</label>
+        <input type="number" name="pincode" value="<%=data.address.pincode%>" class="form-control" id="pincode" aria-describedby="emailHelp" placeholder="Enter pincode">
+        <p id="error4" style="color: red;"></p>
+      </div>
+         <!-- second item end -->
+     </div>
+     <div class="row px-3">
+      <!-- first item start -->
+      <div class="form-group col-6">
+        <label for="exampleInputEmail1"> Phone</label>
+        <input type="number'" name="phone" value="<%=data.address.phone%>" class="form-control" id="phone" aria-describedby="emailHelp" placeholder="Enter phone">
+        <p id="error5" style="color: red;"></p>
+      </div>
+
+      <!-- first item end -->
+      <!-- second item start -->
+      <div class="form-group col-6">
+        <label for="exampleInputEmail1"> Address Name  </label>
+        <input type="text" name="addressname" value="<%=data.address.addressname%>" class="form-control" id="addressname" aria-describedby="emailHelp" placeholder="Enter Address name">
+        <p id="error6" style="color: red;"></p>
+      </div>
+         <!-- second item end -->
+     </div>
+  <!-- row based input field end -->
+  <p id="error8" style="color: red;"></p>
+    
+    <div >
+        <button type="submit"  onclick="editAddress()"   class="btn btn btn-dark btn-hover-primary rounded-0"><i class="fa fa-edit me-2"></i>Edit </button> 
+    
+    </div>
+    
+  </div>
+</form>
+</div>
+<script>
+ function editAddress(Aid){
+      Form = $("#submit-form").serialize()
+   
+    console.log(Form)
+    $("#submit-form").submit((e)=>{
+        e.preventDefault()
+        $.ajax({
+        url:'/edit-single-address',
+        data:Form,
+        method:'post',
+        success:(response)=>{
+            if(response.status){
+                window.location.reload()
+            }
+        }
+    })
+    })
+   
+}
+    
+
+
+
+</script>
+
+
+
+
+
+<script>
+  let nameChecking = false;
+   let emailChecking = false;
+   let numberChecking = false;
+ 
+           $(document).ready(function(){
+                 $("#name").on('input',function(){
+      this.value=this.value.replace(/[^A-Za-z-,.;'&/.() ]|^ /g,'')
+      let name = this.value
+      let nameregex = /^[A-Za-z]+$/
+      if(name.match(nameregex)&&name.length<3){
+        $("#error1").html("enter minimum 3 charaters");
+        nameChecking = false;
+      }
+      else if(name.includes("  ")){
+        $("#error1").html("invalid ");
+        nameChecking = false;
+      }
+        else if(name.match(nameregex)){
+      $("#error1").html("");
+      nameChecking = true;
+             }
+      
+        })
+        $("#addressname").on('input',function(){
+      this.value=this.value.replace(/[^A-Za-z-,.;'&/.() ]|^ /g,'')
+      let name = this.value
+      let nameregex = /^[A-Za-z]+$/
+      if(name.match(nameregex)&&name.length<3){
+        $("#error6").html("enter minimum 3 charaters");
+        nameChecking = false;
+      }
+      else if(name.includes("  ")){
+        $("#error6").html("invalid ");
+        nameChecking = false;
+      }
+        else if(name.match(nameregex)){
+      $("#error6").html("");
+      nameChecking = true;
+             }
+      
+        })
+            $("#address").on('input',function(){
+      this.value=this.value.replace(/[^A-Za-z-,.;'&/.() ]|^ /g,'')
+      let name = this.value
+      
+      if(name.length<5){
+        $("#error2").html("enter minimum 5 charaters");
+        nameChecking = false;
+      }
+      else if(name.includes("  ")){
+        $("#error2").html("invalid ");
+        nameChecking = false;
+      }
+        else {
+      $("#error2").html("");
+      nameChecking = true;
+             }
+      
+        })
+        $("#email").keyup(function(){
+		   let email = this.value
+		   let emailregex = /^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/;
+		   
+		   if(email.match(emailregex)){
+			   $("#error3").html("")
+			   emailChecking = true;
+		   }
+		   else{
+			   $("#error3").html("enter a valid email")
+			   emailChecking = false;
+		   }
+	   })
+     $("#phone").on("input",function(){
+		   this.value=this.value.replace(/[^\d]/,'') 
+		   let phone = this.value
+		   let phoneregex = /^[0-9]*$/
+		   if(phone==""){
+			   $("#error5").html("enter 10 numbers")
+			   numberChecking = false;
+		   }
+		   else if(phone.match(/^[A-Za-z]+$/)) {
+			   $("#error5").html("enter numbers only")
+			   numberChecking = false;
+		   }
+		   else if(phone.match(phoneregex)&&phone.length<10){
+			   $("#error5").html("enter 10 numbers")
+			   return false;
+		   }
+		   else if(phone.match(phoneregex)&&phone.length>10){
+			   $("#error5").html("enter a valid number")
+			   numberChecking = false
+		   }
+		   else if(phone.match(phoneregex)){
+			   numberChecking=true
+			   $("#error5").html("")
+			   return true
+		   }
+		   else{
+			   return false;
+		   }
+		   
+	   })
+    $("#pincode").on("input",function(){
+      this.value=this.value.replace(/[^\d]/,'') 
+      let phone = this.value
+      let phoneregex = /^[0-9]*$/
+      if(phone==""){
+        $("#error4").html("enter the pincode")
+        numberChecking = false;
+      }
+      else if(phone.match(/^[A-Za-z]+$/)) {
+        $("#error4").html("enter numbers only")
+        numberChecking = false;
+      }
+     
+     
+      else if(phone.match(phoneregex)){
+        numberChecking=true
+        $("#error4").html("")
+        return true
+      }
+      else{
+        return false;
+      }
+      
+    })
+           
+           })
+           
+           
+           
+                     
+           
+           function addProduct(){
+              alert(nameChecking)
+              alert(nameChecking)
+              alert(emailChecking)
+           if(nameChecking&&emailChecking&&numberChecking){
+                 return false
+           }else{
+                 $("#error8").html("fill all feilds in format") 
+                 return false
+           }
+           }  
+</script>

@@ -82,17 +82,18 @@
 					                        	</div>
 					                        	<a title="Forgot Password" class="forgot-password" href="javascript:void(0)">Forgot password?</a>
 												
-													<p id="error3" style="color: red;"></p>
-												
-													
-													<p id="error3" style="color: red;">Invalid username or password</p>
+												<%if(logErr){%>
+													<p id="err" style="color: red;">Invalid username or password</p>
+													<%}else{%>
+														<p id="err" style="color: red;"></p>
+														<%}%>
 													
 											</div>
 					                      	<div class="login-btn">
 					                        	<button name="submit" type="submit" class="btn btn-primary btn-lg w-100">
 													
 					                          		<i class="fas fa-sign-in-alt"></i><span> Log In</span>
-													  <p id="error3" style="color: red;"></p>
+													 
 					                        	</button>
 					                      	</div>
 					                      	<!-- <div class="different-login text-center my-4">

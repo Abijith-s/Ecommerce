@@ -74,14 +74,14 @@
 							<label class="custom-control-label" for="rememberMe">Remember Me</label>
 						</div>
 					</div>
-					<a  style="cursor: pointer;" onclick="forget()">Forget Password?</a>
+					<a  style="cursor: pointer;" onclick="forget()">Otp Login</a>
 					<div id="inp1" class="col-4" style="display:none;">
 						<input   class="custom-cont rol-input" type="text" placeholder="enter your phone number"  id="login">
 						<a class="btn btn-dark " onclick="verify()" >Verify</a>
 					</div>
 					<br>
 					<div id="inp2" class="col-4" style="display:none ;">
-						<input   class="custom-cont rol-input" type="text"  id="otp">
+						<input   class="custom-cont rol-input" placeholder="enter otp" type="text"  id="otp">
 						<a class="btn btn-dark " onclick="login()">Login</a>
 					</div>
 				
@@ -96,7 +96,8 @@
 			
 			</div>
 			<!-- Login Button End -->
-				<div class="g-signin2" data-onsuccess="onSignIn"></div>
+				<!-- <div class="g-signin2" data-onsuccess="onSignIn"></div> -->
+			<div style="margin-left: 2em;" class="g-signin2" id="googlebutton" data-onsuccess="onSignIn"></div>
 			<!-- Lost Password & Creat New Account Start -->
 			<div class="lost-password">
 				<a href="/signup">Create Account</a>
@@ -221,7 +222,7 @@
    </script> 
 
 <!-- google login -->
-<script>
+<!-- <script>
 
 
 function onSignIn(googleUser) {
@@ -245,4 +246,36 @@ function onSignIn(googleUser) {
 
 }
 
-</script>
+</script> -->
+<script>
+	function onSignIn(googleUser) {
+	  console.log(googleUser)
+		var id_token = googleUser.getAuthResponse().id_token;
+	  
+		  $.ajax({
+			url:"/googlelogin",
+			method:"post",
+			data:{token:id_token},
+			success:function(e){
+			  if(e.status){
+				location.href="/"
+			  }else{
+				document.getElementById('blocked').innerHTML="You are blocked by admin!"
+				document.getElementById('googlebutton').style="display:hidden"
+
+
+			  }
+			}
+		  })
+
+	  //   var xhr = new XMLHttpRequest();
+	  //     xhr.open('POST', '/glogin');
+	  //     xhr.setRequestHeader('Content-Type', 'application/json');
+	  //     xhr.onload = function() {
+	  //       console.log('Signed in as: ' + xhr.responseText);
+	  //     };
+	   
+
+	  // xhr.send(JSON.stringify({token:id_token}));
+	}
+  </script>

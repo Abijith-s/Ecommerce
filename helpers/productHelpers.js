@@ -3,6 +3,8 @@ var objectId = mongoose.Types.ObjectId
  const Razorpay = require('razorpay')
 const bcrypt = require('bcrypt')
 const { response } = require('express')
+const { resolve } = require('path')
+const userHelpers = require('./userHelpers')
 var instance = new Razorpay({
     key_id: 'rzp_test_LqsPiBnf3p2Kjm',
     key_secret: 'gj980xGE40154zsn2DvdGqUI',
@@ -12,6 +14,9 @@ const productSchema = new mongoose.Schema({
     productname:String,
     description:String,
     price:Number,
+    offerprice:Number,
+    offerpercentage:Number,
+    enddate:Date,
     quantity:Number,
     category:String,
     subcategory:String,
@@ -56,6 +61,21 @@ const addressSchema = new mongoose.Schema({
 const orderInfo =  mongoose.model('orders',orderSchema)
 //collection for Address
 const addressInfo = mongoose.model('address',addressSchema)
+
+//Schema for coupons
+const couponSchema = new mongoose.Schema({
+    couponname:String,
+    couponcode:String,
+    discount:Number,
+    maxdiscount:Number,
+    maxpurchase:Number,
+    enddate:Date,
+    status:Boolean,
+    createdAt: { type: Date, expires: '2m', default: Date.now }
+})
+
+//collection for coupons
+const couponInfo = mongoose.model('coupons',couponSchema)
 module.exports={
   addProducts  : (product,id1,id2,id3)=>{
       console.log("product")
@@ -87,6 +107,7 @@ module.exports={
 
       return new Promise(async(resolve,reject)=>{
           let products =await productInfo.find().lean()
+     
           resolve(products)
       })
   },
@@ -106,6 +127,7 @@ module.exports={
     })
   },
   editProducts:(product,proId)=>{
+      console.log("###################################")
       return new Promise(async(resolve,reject)=>{
          await productInfo.updateOne({id:proId},{$set:{
             productname:product.productname,
@@ -121,6 +143,9 @@ module.exports={
                 image2:product.image2,
                 image3:product.image3
             }  
+            console.log("edit product")
+            console.log(response)
+
             resolve(res)
           })
       })
@@ -329,7 +354,6 @@ module.exports={
     getTotalAmount:(body)=>{
         return new Promise((resolve,reject)=>{
             let userId = body
-            
             cartInfo.aggregate([
                 {
                     $match:{user:userId}
@@ -350,17 +374,28 @@ module.exports={
                 {
                     $unwind:"$cartproducts"
                 },
-                {
-                    $group:{
-                        _id:null,
-                     total:{
-                       $sum:{$multiply:['$products.quantity','$cartproducts.price']}  
-                     }
-                    }
-                }
+                // {
+                //     $group:{
+                //         _id:null,
+                //      total:{
+                //        $sum:{$multiply:['$products.quantity','$cartproducts.price']}  
+                //      }
+                //     }
+                // }
                 ]).then((result)=>{
                    
-                    resolve(result)
+
+
+
+
+                //    we need to find the subtotal ?  1 we need to find the offer price. if exist offer price * qty and it will attach to the object , if not exist price * qty to be return as subtotal
+
+                //   let alldetail  =result.map (i=> i.offer? {...i , subtota: i.cartprodut.offer * i.pro.qty }: {...i,sub: i.carp.prce * i.pro.qty})
+                  
+                
+                  let cartDetails = result.map(i=>i.cartproducts.offerprice?{...i,subtotal:(i.cartproducts.offerprice)*(i.products.quantity)}:{...i,subtotal:(i.cartproducts.price)*(i.products.quantity)})
+              
+                    resolve(cartDetails)
                 })
        
     
@@ -407,8 +442,7 @@ module.exports={
         })
     },
 getProductList:(userId)=>{
-    console.log("userid")
-    console.log(userId)
+    
     return new Promise((resolve,reject)=>{
         cartInfo.findOne({user:userId}).then((res)=>{
             resolve(res)
@@ -417,15 +451,13 @@ getProductList:(userId)=>{
     })
 },
 placeOrder:(address,products,total,paymentMethod,userId)=>{
-  let totalAmount = total[0].total
-  console.log("body in radio button")
-   console.log(totalAmount)
-   console.log(products)
+  
+  
+  
     return new Promise((resolve,reject)=>{
         
         let  status = 'placed';
-        let current_datetime = new Date()
-        let formatted_date = current_datetime.getFullYear() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getDate() + " " + current_datetime.getHours() + ":" + current_datetime.getMinutes() + ":" + current_datetime.getSeconds() 
+        
         
       
          const orders = new orderInfo({
@@ -433,20 +465,16 @@ placeOrder:(address,products,total,paymentMethod,userId)=>{
          userId:userId,
          deliverydetails:address,
          products:[...products.products],
-         totalamount:totalAmount,  
+         totalamount:total,  
          status:status,
-         date:formatted_date,
-         paymentMethod:paymentMethod
-        
+         paymentMethod:paymentMethod,
+         date:new Date().toISOString().replace(/T/,' ').replace(/\..+/,''),
         })
         orders.save((err,details)=>{
             if(err){
              console.log("error"+err)
             }else{
-                console.log("placed orders")
-                console.log(details)
-                console.log("inserted value")
-                console.log(details._id)
+        
                 resolve(details)
             }
          cartInfo.deleteOne({user:userId}).then((res)=>{
@@ -460,8 +488,6 @@ placeOrder:(address,products,total,paymentMethod,userId)=>{
 getOrders:(userId)=>{
     return new Promise((resolve,reject)=>{
      orderInfo.find({userId:userId}).lean().then((res)=>{
-         console.log("orde list")
-        console.log(res)
        resolve(res)
      })
        
@@ -545,13 +571,13 @@ addAddress:(body,userId,addressId)=>{
          addressId:addressId,
          name:body.name,
          email:body.email,
+         phone:body.phone,
          pincode:body.pincode,
          addressname:body.addressname,
          address:body.address,
         
      }
      addressInfo.updateOne({userId:userId},{$push:{address:addressObj}},{upsert:true}).then((result)=>{
-         console.log(result)
          resolve(result)
      })
       
@@ -565,30 +591,95 @@ getAddressId:(userId)=>{
        {$match:{userId:userId}},
        {$unwind:"$address"}
     ]).then((res)=>{
-        console.log("result of aggregation")
-        console.log(res)
         resolve(res)
     })
     
    
 })
 },
-getAddress:(userId,addressId)=>{
+getAddress:(userId,aid)=>{
     return new Promise(async(resolve,reject)=>{
         // addressID = objectId(addressId)
         let addressFeild = "address.addressId"
-        console.log(addressId)
-      let findedAddress = await addressInfo.aggregate([
-        {$match:{userId:userId}},
-         {$unwind:"$address"},
-        {$match:{[addressFeild]:addressId}}
+        console.log("get adress aid")
+       
+
+
+        console.log(userId)
+        let addressId ="address.addressId"
+        let singleAddress =await addressInfo.aggregate([
+            {$match:{userId:userId}},
+            {$unwind:"$address"},
+            {$match:{[addressFeild]:aid.addressId}}
         ])
-        console.log("finded adress")
-        console.log(findedAddress)
-        resolve(findedAddress)
+        console.log("aggregated single address")
+        console.log(singleAddress)
+        resolve(singleAddress[0])
+        
+         
     })
 },
-// editAddress:(body)=>{
+getSingleAddress:(userId,aid)=>{
+    return new Promise(async(resolve,reject)=>{
+        // addressID = objectId(addressId)
+        let addressFeild = "address.addressId"
+        
+       
+
+
+        console.log(userId)
+        let addressId ="address.addressId"
+        let singleAddress =await addressInfo.aggregate([
+            {$match:{userId:userId}},
+            {$unwind:"$address"},
+            {$match:{[addressFeild]:aid}}
+        ])
+        console.log("aggregated single address")
+        console.log(singleAddress)
+        resolve(singleAddress[0])
+        
+         
+    })
+},
+ediAddress:(body,userId)=>{
+    console.log(body)
+    console.log(userId)
+    let name = body.name
+    let email = body.email
+    let address =  body.address
+    let pincode = body.pincode
+    let addressname = body.addressname
+    let phone = body.phone
+    console.log(name,email,address)
+    return new Promise((resolve,reject)=>{
+        let updatedName= "address.$.name"
+        let updatedEmail =  "address.$.email"
+        let updatedAddress = "address.$.address"
+        let updatedPincode = "address.$.pincode"
+        let updatedAddressName ="address.$.addressname"
+        let updatedPhone = "address.$.phone"
+    
+     addressInfo.updateOne({userId:userId,address:{$elemMatch:{addressId:body.addressId}}},
+            {
+                $set:{
+                    "address.$.name":name,
+                  "address.$.email":email,
+                  "address.$.address":address,
+                  "address.$.pincode":pincode,
+                  "address.$.addressname":addressname,
+                   "address.$.phone":phone,
+                }
+            }
+             
+            ).then((res)=>{
+                console.log(res)
+                resolve(res)
+            })
+          
+    })
+},
+
+// editAddress:(userId,body)=>{
 //     // return new Promise
 //     let userId = body.userId
 //     let addressId = body.addressId
@@ -613,11 +704,13 @@ getAddress:(userId,addressId)=>{
 //         console.log(res)
 //     })
 // },
-deleteAdress:(userId,addressId)=>{
+deleteAdress:(body)=>{
+    let userId = body.userID
+    let Aid = body.aid
     console.log(userId)
-    console.log(addressId)
+    console.log(Aid)
     return new Promise((resolve,reject)=>{
-        addressInfo.updateOne({userId:userId},{$pull:{address:{addressId:addressId}}}).then((res)=>{
+        addressInfo.updateOne({userId:userId},{$pull:{address:{addressId:Aid}}}).then((res)=>{
             console.log("response after delete")
             resolve(res)
         })
@@ -628,10 +721,9 @@ generateRazorPay:(orderID,total)=>{
   console.log("razorpay")
     return new Promise((resolve,reject)=>{
         let orderId = ""+orderID+""
-        let totalAmount = total[0].total
-        console.log(totalAmount)
+       
         var options = {
-            amount: totalAmount*100,  // amount in the smallest currency unit
+            amount: total*100,  // amount in the smallest currency unit
             currency: "INR",
             receipt: ""+orderId+""
           };
@@ -663,16 +755,175 @@ verifyPayment:(body)=>{
         })
 },
 changePaymentStatus:(orderId)=>{
-    console.log("orderId in change")
-    console.log(orderId)
+   
     return new Promise((resolve,reject)=>{
         orderInfo.updateOne({_id:orderId},{$set:{status:'placed'}}).then((res)=>{
-            console.log("updated status")
-            console.log(res)
+         
             resolve(res)
         })
     })
-}
+},
+addProductOffer:(body)=>{
+    let offerPercentage = body.offerpercentage
+    return new Promise(async(resolve,reject)=>{
+    let Price = await productInfo.findOne({productname:body.productname},{_id:0,price:1})
+    console.log(Price)
+    let productPrice = Price.price
+    let offerPrice =Math.round( productPrice - (productPrice*offerPercentage/100))
+  
+     await   productInfo.updateOne({productname:body.productname},{$set:
+            {
+            offerpercentage:offerPercentage,
+            offerprice:offerPrice,    
+            enddate:body.enddate
+            }
+        },{upsert:true}).then((result)=>{
+            resolve(result)
+        })
+     
+   
+    })
+},
+findOfferProducts:()=>{
+    return new Promise(async(resolve,reject)=>{
+        let offerProduct =await productInfo.find({offerprice:{$exists:true}})
+       console.log(offerProduct)
+      resolve(offerProduct)
+    })
+},
+offerExpiration:()=>{
+    return new Promise(async(resolve,reject)=>{
+    let offerProduct =await productInfo.find({offerprice:{$exists:true}}).then(async(result)=>{
+        console.log(result)
+        let newDate = new Date()
+        console.log("---------------------------------------")
+        console.log(newDate)
+        let OldDate
+        let flag = 0
+        for(i in result){
+          oldDate = result[i].enddate
+          console.log(oldDate)
+
+          if(newDate>=oldDate){
+            productInfo.updateOne({_id:result[i]._id},{
+                $unset:{
+                    offerpercentage:1,
+                    offerprice:1,    
+                    enddate:1
+                }
+            }).then((result)=>{
+                console.log("++++++++++++++++++++++++++++++++++++++++++++++++")
+                console.log(result)
+                
+            })
+          }
+        }
+        
+       
+       
+    })
+    
+    })
+},
+addCategoryOffer:(body)=>{
+ return new Promise(async(resolve,reject)=>{
+    
+    console.log(body)
+    let category = await productInfo.find({category:body.categoryname})
+   
+    console.log(category)
+    for(var i in category){
+        if(category[i].offerprice){
+            console.log("no offer for you")
+            console.log(category[i].productname)
+        }else{
+            let Price = category[i].price
+            let OfferDiscount = Math.round((Price*body.offerpercentage)/100)
+            let newPrice = Price-OfferDiscount
+            console.log(newPrice)
+            productInfo.updateMany({_id:category[i]._id},{
+                $set:{
+                    offerprice:newPrice,
+                    offerpercentage:body.offerpercentage,
+                    enddate:body.enddate  
+                }   
+            }).then(async(result)=>{
+                console.log(result)
+              let list = await   productInfo.find({$and:[{offerprice:{$exists:true}},{category:body.categoryname}]})
+            }).then((result)=>{
+                console.log(result)
+            })
+         
+        }
+    }
+ })
+},
+addCoupons:(body)=>{
+    console.log(body)
+    return new Promise((resolve,reject)=>{
+        const coupons = new couponInfo({
+            couponname:body.couponname,
+            couponcode:body.couponcode,
+            discount:body.coupondiscount,
+            maxdiscount:body.Maxdiscount,
+            maxpurchase:body.maxpurchase,
+            enddate:body.enddate,
+            createdAt:body.enddate,
+            status:true
+        })
+        coupons.save((err,details)=>{
+            if(err){
+                console.log("error"+err)
+            }else{
+                
+                console.log(details)
+                resolve(details)
+            }
+        })
+    })
+},
+findCoupons:()=>{
+    return new Promise(async(resolve,reject)=>{
+      await   couponInfo.find().lean().then((result)=>{
+          console.log("result +++++++++++++++++++++++++++")
+          console.log(result)
+          resolve(result)
+        })
+    })
+},
+compareCoupon:(body,totalAmount)=>{
+   
+    return new Promise(async(resolve,reject)=>{
+     let couponOffer =  await couponInfo.findOne({couponcode:body.coupon}).lean()
+     console.log("-----------------------------------------------------------------------")
+     console.log(couponOffer)
+        if(couponOffer){
+         await   couponInfo.find({couponcode:body.coupon}).then((result)=>{
+            
+            if(totalAmount>=result[0].maxpurchase){
+                let discountPrice = ((totalAmount*result[0].discount)/100)
+                
+                console.log(discountPrice)
+                if(discountPrice<=result[0].maxdiscount){
+                    totalAmount = totalAmount-discountPrice
+                    
+                    console.log(totalAmount)
+                    resolve(totalAmount)
+                }
+            }else{
+                reject("please purchase with maxm amount to avail offer")
+            }
+       
+            
+     })
+    }else{
+       
+         reject("Coupon not exists")
+    }   
+    })
+},
+
+
        
 
 }

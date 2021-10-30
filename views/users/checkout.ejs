@@ -42,7 +42,7 @@
                   <option selected>choose an option</option></option>
                   <%for(var i of addresses){%> 
                   <option ><%=i.address. addressname%></option>
-                  <option id="addressId" value="<%=i.address. addressId%>" type="text" hidden></option>
+                  <option id="addressId"  value="<%=i.address. addressId%>" type="text" hidden></option>
                   <%}%>
                 </select>
               </div>
@@ -51,7 +51,7 @@
               <!-- second item start -->
               <div class="form-group col-6">
                 <label for="exampleInputEmail1">Name</label>
-                <input  type="text" name="name" class="form-control" id="name" aria-describedby="emailHelp" placeholder="Enter name">
+                <input  type="text" name="name" class="form-control" id="name" aria-describedby="emailHelp" placeholder="Enter name" required>
               </div>
                  <!-- second item end -->
              </div>
@@ -59,13 +59,13 @@
               <!-- first item start -->
               <div class="form-group col-6">
                 <label for="exampleInputEmail1"> Email</label>
-                <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+                <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" required>
               </div>  
               <!-- first item end -->
               <!-- second item start -->
               <div class="form-group col-6">
                 <label for="exampleInputEmail1"> Pincode</label>
-                <input type="number" name="pincode" class="form-control" id="pincode" aria-describedby="emailHelp" placeholder="Enter pincode">
+                <input type="number" name="pincode" class="form-control" id="pincode" aria-describedby="emailHelp" placeholder="Enter pincode" required>
               </div>
                  <!-- second item end -->
              </div>
@@ -73,14 +73,14 @@
               <!-- first item start -->
               <div class="form-group col-6">
                 <label for="exampleInputEmail1"> Phone</label>
-                <input type="number'" name="phone" class="form-control" id="phone" aria-describedby="emailHelp" placeholder="Enter phone">
+                <input type="number'" name="phone" class="form-control" id="phone" aria-describedby="emailHelp" placeholder="Enter phone" required>
               </div>
 
               <!-- first item end -->
               <!-- second item start -->
               <div class="form-group col-6">
                 <label for="exampleInputEmail1"> Address Name  </label>
-                <input type="text" name="addressname" class="form-control" id="addressname" aria-describedby="emailHelp" placeholder="Enter Address name">
+                <input type="text" name="addressname" class="form-control" id="addressname" aria-describedby="emailHelp" placeholder="Enter Address name" required>
               </div>
                  <!-- second item end -->
              </div>
@@ -88,7 +88,7 @@
 
              <div class="form-group">
               <label for="exampleInputEmail1">Address</label>
-              <input type="text" name="address" class="form-control" id="address" aria-describedby="emailHelp" placeholder="Enter address">
+              <input type="text" name="address" class="form-control" id="address" aria-describedby="emailHelp" placeholder="Enter address" required>
             </div>
             <div class="form-group">
             <input type="checkbox" class="form-check-input" name="saveAddres" id="exampleCheck1">
@@ -115,6 +115,7 @@
           <h3 class="title">
             Have a coupon?
             <span id="showcoupon">Click here to enter your code</span>
+           
           </h3>
           <!-- Title End -->
 
@@ -122,13 +123,15 @@
           <div id="checkout_coupon" class="coupon-checkout-content">
             <div class="coupon-info">
               <p class="checkout-coupon d-flex">
-                <input placeholder="Coupon code" type="text" />
-                <input
+                <input id="couponcode" value="" placeholder="Coupon code" type="text" />
+                
+                <a  onclick="applyCoupon()"
                   class="btn btn-dark btn-hover-primary rounded-0"
                   value="Apply Coupon"
-                  type="submit"
-                />
+                 
+                >Apply Coupon</a>
               </p>
+              <p id="errormsg" style="color: red;"></p> 
             </div>
           </div>
           <!-- Checkout Coupon End -->
@@ -173,13 +176,14 @@
                 <tr class="cart-subtotal">
                   <th class="text-start ps-0">Cart Subtotal</th>
                   <td class="text-end pe-0">
-                    <span class="amount"><%=total[0].total%></span>
+                    <span class="amount"><%=totalAmount%></span>
                   </td>
                 </tr>
                 <tr class="order-total">
                   <th class="text-start ps-0">Order Total</th>
                   <td class="text-end pe-0">
-                    <strong><span class="amount"><%=total[0].total%></span></strong>
+                    <strong><span id="totalamount" class="amount"><%=totalAmount%></span></strong>
+                    <p></p>
                   </td>
                 </tr>
               </tfoot>
@@ -223,7 +227,7 @@
                       <input
                       id="paypal-radio"
                         name="payment"
-                        value="COD"
+                        value="Paypal"
                         type="radio"
                         required
                       />Paypal
@@ -244,10 +248,10 @@
                       <input
                       id="Onlinepayment-radio"
                         name="payment"
-                        value="Online"  
+                        value="Razorpay"  
                         type="radio"
                         required
-                      />Online Payment
+                      />Razorpay
                     </li>
                   </ul>
                 </h5>
@@ -312,17 +316,20 @@ function addAddress(){
   console.log(form)
  $("#submit-form").submit((e)=>{
    $.ajax({
-     url:'place-order',
+     url:'/place-order',
      method:'post',
      data:form,
      success:(response)=>{
       console.log(response)
       if(response.status){
-        window.location.href = '/success'
-      }else{
+        window.location.href = '/succes'
+      }else if(response.response){
         alert("ready for razorpay")
         razorpayPayment(response.data,response.user)
         alert(response.data)
+      }else if(response.data){
+        window.location.href=response.data
+        
       }
      }
    })
@@ -394,7 +401,7 @@ function verifyPayment(payment,order){
           method:'post',
           success:(response)=>{
             if(response.status){
-              location.href = '/success'
+              location.href = '/succes'
             }else{
               alert("payment failed")
             }
@@ -415,11 +422,34 @@ function verifyPayment(payment,order){
      success:(response)=>{
        let address = response.status
       console.log(address)
-      if(response.status){
-        
-        console.log(fname)
-      }
+      document.getElementById("name").value= address.address.name
+       document.getElementById("email").value = address.address.email
+      document.getElementById("pincode").value = address.address.pincode
+      document.getElementById("addressname").value = address.address.addressname
+        document.getElementById("address").value = address.address.address
+        document.getElementById("phone").value = address.address.phone
      }
+    })
+  }
+</script>
+<script>
+  function applyCoupon(){
+    console.log("hii nan vannu")
+    let coupon = document.getElementById("couponcode").value
+   
+    $.ajax({
+      url:"/apply-coupon",
+      data:{coupon},
+      method:'post',
+      success:(response)=>{
+        
+        if(response.status){
+          document.getElementById("totalamount").innerHTML=response.offerAmount
+        }else{
+          document.getElementById("errormsg").innerHTML =response.message
+        }
+      }
+
     })
   }
 </script>
