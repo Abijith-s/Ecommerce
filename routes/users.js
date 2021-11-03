@@ -172,7 +172,7 @@ router.get("/logout", (req, res) => {
   res.redirect("/");
 });
 
-router.get("/product-view", checkUserCartLength, verifyLogin,(req, res) => {
+router.get("/product-view", checkUserCartLength,(req, res) => {
   let proId = req.query.id;
   console.log("proId")
   console.log(proId)
@@ -194,7 +194,6 @@ router.get("/cart", checkUserCartLength, async (req, res) => {
   console.log("njn kerumbo thanne varum")
   console.log(req.session.user.offerAmount)
   let total = await productHelpers.getTotalAmount(userId);
- 
   console.log(total)
   let subtotalA
   let totalAmount = 0
@@ -202,7 +201,7 @@ router.get("/cart", checkUserCartLength, async (req, res) => {
     totalAmount=totalAmount+total[i].subtotal
   }
   
-  // console.log(subtotalA)
+  console.log(subtotalA)
   await productHelpers.getCartProducts(userId).then((products) => {
     console.log("ppppppppppppppppp")
     console.log(products)
@@ -221,10 +220,14 @@ router.get("/cart", checkUserCartLength, async (req, res) => {
 router.get("/add-to-cart/:id", verifyLogin, (req, res) => {
   let proId = req.params.id;
   let userId = req.session.user._id;
+  if(req.session.user){
+    productHelpers.addToCart(proId, userId).then((response) => {
+      res.json({ status: true });
+    });
+  }else{
+    res.json({status:false})
+  }
 
-  productHelpers.addToCart(proId, userId).then((response) => {
-    res.json({ status: true });
-  });
 });
 
 router.post("/change-quantity",async(req,res) => {
@@ -285,7 +288,8 @@ router.post("/place-order", async (req, res) => {
   console.log(user)
   let userId = req.session.user._id
   console.log(userId)
-
+ 
+ 
   let PaymentMethod = req.body.payment
   if(req.body.saveAddres){
     console.log("ivde keritond")
@@ -295,6 +299,8 @@ router.post("/place-order", async (req, res) => {
   if(req.body.payment == 'COD'){
     let products=await productHelpers.getProductList(userId)
     let total = await productHelpers.getTotalAmount(userId);
+    console.log("ithanu products ++++++++++++++++++++++++++++++++++++++")
+    console.log(products)
   
   console.log(total)
   let subtotalA
@@ -313,9 +319,16 @@ router.post("/place-order", async (req, res) => {
     console.log("total and producst ")
     console.log(totalAmount)
     productHelpers.placeOrder(req.body,products,totalAmount,PaymentMethod,userId).then((result)=>{
+      if(req.session.offerDetails){
+      let offerPrice = req.session.offerDetails
+      let couponId = offerPrice.couponCode
+      userHelper.markCoupon(userId,couponId)
      
       delete req.session.offerDetails
       res.json({status:result})
+    }else{
+      res.json({status:result})
+    }
     })
   }else if(req.body.payment=='Razorpay'){
     console.log("ee casil varanondo")
@@ -337,16 +350,19 @@ router.post("/place-order", async (req, res) => {
        }
      }
     productHelpers.placeOrder(req.body,products,totalAmount,PaymentMethod,userId).then((result)=>{
-     
-  
-      
-      delete req.session.offerDetails
+      if(req.session.offerDetails){
+        let offerPrice = req.session.offerDetails
+        let couponId = offerPrice.couponCode
+        userHelper.markCoupon(userId,couponId)
+        delete req.session.offerDetails
+      }
 
       let orderId = result._id
       console.log("orderId ")
       console.log(orderId)
 
       productHelpers.generateRazorPay(orderId,totalAmount).then((response)=>{
+        
         console.log("response of razor pay")
         console.log(response)
         res.json({response,data:response,user:user})
@@ -376,9 +392,14 @@ router.post("/place-order", async (req, res) => {
     totalAmount=Math.round(totalAmount)
     console.log(totalAmount)
     productHelpers.placeOrder(req.body,products,totalAmount,PaymentMethod,userId)
-  
-   
-    delete req.session.offerDetails
+    if(req.session.offerDetails){
+      let offerPrice = req.session.offerDetails
+      let couponId = offerPrice.couponCode
+      userHelper.markCoupon(userId,couponId)
+     
+      delete req.session.offerDetails
+    }
+    
     const create_payment_json = {
       "intent": "sale",
       "payer": {
@@ -633,9 +654,6 @@ router.get('/edit-address',verifyLogin,checkUserCartLength,async(req,res)=>{
  
   let  cartCount = req.session.cartCount
    let Aid = req.query.id
-  
- 
-
   productHelpers.getSingleAddress(userId,Aid).then((data)=>{
    
     res.render('users/edit-address',{admin:false,user,cartCount,Aid,data})
@@ -673,8 +691,9 @@ router.get('/edit-address',verifyLogin,checkUserCartLength,async(req,res)=>{
 router.post('/change-password',async(req,res)=>{
   console.log("body vallom vanno")
   console.log(req.body)
-  let currentUser = await userHelper.findUser(req.body.userId)
-  await  userHelper.changePassword(req.body,currentUser).then((response)=>{
+ user = req.session.user
+  await  userHelper.changePassword(req.body,user).then((response)=>{
+    console.log("/////////////////////////////")
     console.log(response)
     res.json({status:true,data:response})
   })
@@ -697,7 +716,7 @@ router.post('/apply-coupon',async(req,res)=>{
   let message ;
 
   // chekcing the coupon details
-   await productHelpers.compareCoupon(req.body,totalAmount).then((amount)=>{
+   await userHelper.compareCoupon(req.body,totalAmount,userId).then((amount)=>{
      status = true
      offerAmount= amount
         req.session.offerDetails = {
@@ -705,8 +724,7 @@ router.post('/apply-coupon',async(req,res)=>{
           couponCode:req.body.coupon
         }
       }).catch((data)=>{
-        console.log("===================")
-        console.log(data)
+      
         message = data
 
         status= false
@@ -717,5 +735,26 @@ router.post('/apply-coupon',async(req,res)=>{
     // sendng the response belongs to the result
     res.json({status,offerAmount,message})
  
+})
+ router.get('/create-address',verifyLogin,checkUserCartLength,(req,res)=>{
+   console.log("ivde vannoda")
+  let  user = req.session.user
+
+  let  cartCount = req.session.cartCount
+  
+   res.render('users/create-address',{admin:false,user,cartCount})
+ })
+router.post('/create-address',(req,res)=>{
+  console.log("ivdem vare vanoda")
+  var adId = uuid.v4()
+  console.log(adId)
+  userId = req.session.user._id
+  console.log("****************")
+  console.log(userId)
+  productHelpers.createAddress(req.body,adId,userId).then((response)=>{
+    
+  })
+  res.redirect('/user-profile')
+  
 })
 module.exports = router;

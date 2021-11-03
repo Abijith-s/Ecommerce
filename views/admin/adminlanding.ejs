@@ -32,10 +32,10 @@
 							</div>
 							<div class="statistics-detail">
 								<p class="stat-text">Total Orders</p>
-								<h3 class="number">29.75 K<small> This Month</small></h3>
+								<h3 class="number"><%=totalOrder%><small> This Month</small></h3>
 							</div>
 						</div>
-						<div class="tile-footer pt-2"><a href="#">View more...</a></div>
+					
 					  </div>
 					</div>
 					<div class="col-sm-6 ">
@@ -46,10 +46,10 @@
 							</div>
 							<div class="statistics-detail">
 								<p class="stat-text">Total Sales </p>
-								<h3 class="number">51.25 K<small> This Month</small></h3>
+								<h3 class="number"><%=totalSails%><small> This Month</small></h3>
 							</div>
 						</div>
-						<div class="tile-footer pt-2"><a href="#">View more...</a></div>
+						
 					  </div>
 					</div>
 				  </div>
@@ -64,10 +64,10 @@
 							</div>
 							<div class="statistics-detail">
 								<p class="stat-text">Total Customers </p>
-								<h3 class="  number">66.89 M<small> This Month</small></h3>
+								<h3 class="  number"><%=totalCustomer%><small> This Month</small></h3>
 							</div>
 						</div>
-						<div class="tile-footer pt-2"><a href="#">View more...</a></div>
+						
 					  </div>
 					</div>
 					<div class="col-sm-6 ">
@@ -77,11 +77,11 @@
 								<i class="icon-people"></i>
 							</div>
 							<div class="statistics-detail">
-								<p class="stat-text">Users online</p>
-								<h3 class=" number">1,250 k<small> This Month</small></h3>
+								<p class="stat-text">Cancelled Orders</p>
+								<h3 class=" number"><%=totalCancelled%><small> This Month</small></h3>
 							</div>
 						</div>
-						<div class="tile-footer pt-2"><a href="#">View more...</a></div>
+						
 					  </div>
 					</div>
 				  </div>
@@ -89,8 +89,15 @@
 			  </div>
 			</div>
 			<!-- Statistics data -->
+			<div class="row">
+				<div class="col-md-6">
+					<div id="piechart" style="width: 900px; height: 500px;"></div>
+					<div id="donutchart" style="width: 900px; height: 500px;"></div>
+				</div>
+			</div>
+    
 
-			
+
 			<div class="row">
 				<div class="col-xl-8 col-lg-7">
 					<div class="card">
@@ -104,219 +111,112 @@
 								<table class="table table-hover">
 									<thead>
 										<tr>
-											<th>Order ID</th>
+											<th>Address</th>
 											<th>Customer</th>
 											<th>Status</th>
 											<th>Date Added</th>
 											<th>Total</th>
-											<th class="text-right">Action</th>
+											
 										</tr>
 									</thead>
 									<tbody>
+										<%for(var i of order){%>
 										<tr>
-											<td>#515345</td>
-											<td>John Doe</td>
-											<td><span class="badge badge-success">Delivered</span></td>
-											<td>Dec 08,2020</td>
-											<td>$95.00</td>
-											<td class="text-right">
-												<a class="btn btn-primary" href="sales/orders-details.html" data-toggle="tooltip" title="" data-original-title="View Details"><i class="fas fa-pen"></i></a>
-											</td>
+											<td><%=i.deliverydetails.address%></td>
+											<td><%=i.deliverydetails.pincode%></td>
+											<td><span class="badge badge-success"><%=i.status%></span></td>
+											<td><%=i.date%></td>
+											<td><%=i.totalamount%></td>
+											
 										</tr>
-										<tr>
-											<td>#515346</td>
-											<td>Holio Mako</td>
-											<td><span class="badge badge-primary">Shipped</span></td>
-											<td>Dec 19,2020</td>
-											<td>$205.00</td>
-											<td class="text-right">
-												<a class="btn btn-primary" href="sales/orders-details.html" data-toggle="tooltip" title="" data-original-title="View Details"><i class="fas fa-pen"></i></a>
-											</td>
-										</tr>
-										<tr>
-											<td>#515347</td>
-											<td>Mohsib lara</td>
-											<td><span class="badge badge-warning">Processing</span></td>
-											<td>Nov 30,2020</td>
-											<td>$100.00</td>
-											<td class="text-right">
-												<a class="btn btn-primary" href="sales/orders-details.html" data-toggle="tooltip" title="" data-original-title="View Details"><i class="fas fa-pen"></i></a>
-											</td>
-										</tr>
-										<tr>
-											<td>#515348</td>
-											<td>Hileri Soli</td>
-											<td><span class="badge badge-dark">Cancelled</span></td>
-											<td>Nov 29,2020</td>
-											<td>$105.00</td>
-											<td class="text-right">
-												<a class="btn btn-primary" href="sales/orders-details.html" data-toggle="tooltip" title="" data-original-title="View Details"><i class="fas fa-pen"></i></a>
-											</td>
-										</tr>
-										<tr>
-											<td>#515349</td>
-											<td>Pusiz bia</td>
-											<td><span class="badge badge-primary">Shipped</span></td>
-											<td>May 18,2020</td>
-											<td>$474.99</td>
-											<td class="text-right">
-												<a class="btn btn-primary" href="sales/orders-details.html" data-toggle="tooltip" title="" data-original-title="View Details"><i class="fas fa-pen"></i></a>
-											</td>
-										</tr>
+										<%}%>
 									</tbody>
 								</table>
 							</div>
 							<div class="">
-								<a  href="sales/orders.html" class="btn btn-primary btn-round">View All Orders</a>
+								<a  href="/admin/view-order" class="btn btn-primary btn-round">View All Orders</a>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="col-xl-4 col-lg-5">
-					<div class="card full-height">
-						<div class="card-header">
-							<div class="card-head-row">
-								<div class="card-title"><i class="far fa-calendar-alt"></i> Recent Activity</div>
-							</div>
-						</div>
-						<div class="card-body">
-							<h1 class="mt-2 mb-4">17</h1>
-							<h4 class="mt-3 pb-2 mb-5">Page view per minutes</h4>
-							<div id="activeUsersChart"></div>
-							<h4 class="mt-5 pb-3 mb-0">Top active pages</h4>
-							<ul class="list-unstyled">
-								<li class="d-flex justify-content-between pb-1 pt-1">
-									<small>/product/stylexpo/index.html</small> <span>7</span>
-								</li>
-								<li class="d-flex justify-content-between pb-1 pt-1">
-									<small>/product/stylexpo/demo.html</small> <span>10</span>
-								</li>
-							</ul>
-						</div>
-					</div>
+				
+					
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-md-6">
-					<div class="card">
-						<div class="card-header">
-							<div class="card-head-row">
-								<div class="card-title">Empolyee Status</div>
-							</div>
-						</div>
-						<div class="card-body">
-							<div class="card-list">
-								<div class="item-list">
-									<div class="profile">
-										<img src="https://aaryaweb.info/html/stylexpo/admin/assets/img/profile-1.jpg" alt="..." class="profile-img rounded-circle">
-									</div>
-									<div class="info-user ml-3">
-										<div class="username">Ginger Johnston</div>
-										<div class="status">Graphic Designer</div>
-									</div>
-									<button class="btn btn-icon btn-primary btn-round btn-xs">
-										<i class="fa fa-plus"></i>
-									</button>
-								</div>
-								<div class="item-list">
-									<div class="profile">
-										<img src="https://aaryaweb.info/html/stylexpo/admin/assets/img/profile-2.jpg" alt="..." class="profile-img rounded-circle">
-									</div>
-									<div class="info-user ml-3">
-										<div class="username">Hileri Jecno</div>
-										<div class="status">CEO Zeleaf</div>
-									</div>
-									<button class="btn btn-icon btn-primary btn-round btn-xs">
-										<i class="fa fa-plus"></i>
-									</button>
-								</div>
-								<div class="item-list">
-									<div class="profile">
-										<img src="https://aaryaweb.info/html/stylexpo/admin/assets/img/profile-3.jpg" alt="..." class="profile-img rounded-circle">
-									</div>
-									<div class="info-user ml-3">
-										<div class="username">John Smith</div>
-										<div class="status">Front End Designer</div>
-									</div>
-									<button class="btn btn-icon btn-primary btn-round btn-xs">
-										<i class="fa fa-plus"></i>
-									</button>
-								</div>
-								<div class="item-list">
-									<div class="profile">
-										<img src="https://aaryaweb.info/html/stylexpo/admin/assets/img/profile-4.jpg" alt="..." class="profile-img rounded-circle">
-									</div>
-									<div class="info-user ml-3">
-										<div class="username">John Doe</div>
-										<div class="status">Back End Developer</div>
-									</div>
-									<button class="btn btn-icon btn-primary btn-round btn-xs">
-										<i class="fa fa-plus"></i>
-									</button>
-								</div>
-								<div class="item-list">
-									<div class="profile">
-										<img src="https://aaryaweb.info/html/stylexpo/admin/assets/img/profile-5.jpg" alt="..." class="profile-img rounded-circle">
-									</div>
-									<div class="info-user ml-3">
-										<div class="username">John Smith</div>
-										<div class="status">Front End Designer</div>
-									</div>
-									<button class="btn btn-icon btn-primary btn-round btn-xs">
-										<i class="fa fa-plus"></i>
-									</button>
-								</div>
-								<div class="item-list">
-									<div class="profile">
-										<img src="https://aaryaweb.info/html/stylexpo/admin/assets/img/profile-6.jpg" alt="..." class="profile-img rounded-circle">
-									</div>
-									<div class="info-user ml-3">
-										<div class="username">Ginger Johnston</div>
-										<div class="status">Graphic Designer</div>
-									</div>
-									<button class="btn btn-icon btn-primary btn-round btn-xs">
-										<i class="fa fa-plus"></i>
-									</button>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="card full-height">
-						<div class="card-header">
-							<div class="card-title">Feed Activity</div>
-						</div>
-						<div class="card-body">
-							<ol class="activity-feed">
-								<li class="feed-item feed-item-secondary">
-									<time class="date" datetime="9-25">Dec 25</time>
-									<span class="text">Meeting Started <a href="#">"Call Pong in Lord Howe"</a></span>
-								</li>
-								<li class="feed-item feed-item-success">
-									<time class="date" datetime="9-24">Dec 24</time>
-									<span class="text">Development <a href="#">"Volunteer Activities"</a></span>
-								</li>
-								<li class="feed-item feed-item-info">
-									<time class="date" datetime="9-23">Dec 23</time>
-									<span class="text">Joined the group <a href="#">"Boardsmanship Forum"</a></span>
-								</li>
-								<li class="feed-item feed-item-warning">
-									<time class="date" datetime="9-21">Dec 21</time>
-									<span class="text">Project Briefing <a href="#">"In-Kind Opportunity"</a></span>
-								</li>
-								<li class="feed-item feed-item-danger">
-									<time class="date" datetime="9-18">Dec 18</time>
-									<span class="text">Functional Logics <a href="#">"Volunteer Opportunity"</a></span>
-								</li>
-								<li class="feed-item">
-									<time class="date" datetime="9-17">Dec 17</time>
-									<span class="text">Stakeholder Meeting <a href="#">"Some New Event"</a></span>
-								</li>
-							</ol>
-						</div>
-					</div>
-				</div>
-			</div>
+	
 		</div>
 	</div>
+	
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+	  let cod= '<%=cod%>'
+	 cod= parseInt(cod)
+	  console.log(cod)
+	  let RazorPay='<%=RazorPay%>'
+	  RazorPay = parseInt(RazorPay)
+	  console.log(RazorPay)
+	  let paypal='<%=paypal%>'
+	  paypal = parseInt(paypal)
+	  console.log(paypal)
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Payment-Method', 'Order'],
+          ['COD', cod],
+          ['RazorPay',RazorPay],
+          ['Paypal',paypal]
+        
+        ]);
+
+        var options = {
+          title: 'Payment Details',
+          legend: 'none',
+          pieSliceText: 'label',
+          slices: {  4: {offset: 0.2},
+                    12: {offset: 0.3},
+                    14: {offset: 0.4},
+                    15: {offset: 0.5},
+          },
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        chart.draw(data, options);
+      }
+    </script>
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+	  let placed = '<%=placed%>'
+	  placed = parseInt(placed)
+	  let delivered ='<%=delivered%>'
+	  delivered = parseInt(delivered)
+	  let cancelled = '<%=cancelled%>'
+	  cancelled = parseInt(cancelled)
+	  let shipped = '<%=shipped%>'
+	  shipped = parseInt(shipped)
+	  console.log(placed,delivered,cancelled,shipped)
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Status', 'Order'],
+          ['Placed', placed],
+          ['Delivered', delivered],
+          ['Cancelled', cancelled],
+          ['Shipped', shipped]
+         
+        ]);
+
+        var options = {
+          title: 'Order Status',
+          pieHole: 0.4,
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+        chart.draw(data, options);
+      }
+    </script>
+  
+  
+    
+  

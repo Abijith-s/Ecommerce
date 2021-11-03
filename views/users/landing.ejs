@@ -105,8 +105,8 @@
                                                 <div class="product product-border-left mb-10" data-aos="fade-up" data-aos-delay="300">
                                                     <div class="thumb">
                                                         <a href="/product-view?id=<%=items._id%>" class="image">
-                                                            <img class="first-image" style="width: 300px;height: 400px;" src="/product-images/image1/<%=items.image1 %>.jpg"  />
-                                                            <img class="second-image" style="width: 300px;height: 400px;" src="/product-images/image2/<%=items.image2 %>.jpg"  />
+                                                            <img class="first-image" style="width: 300px;" src="/product-images/image1/<%=items.image1 %>.jpg"  />
+                                                            <img class="second-image" style="width: 300px" src="/product-images/image2/<%=items.image2 %>.jpg"  />
                                                         </a>
                                                         <div class="actions">
                                                             <a href="#" class="action wishlist"><i class="pe-7s-like"></i></a>
@@ -501,6 +501,8 @@
                     let count= document.getElementById("cartcount") 
                     let newCount = parseInt(count.innerHTML)+1
                     count.innerHTML = newCount
+                }else{
+                    location.href='/login'
                 }
             }
         })

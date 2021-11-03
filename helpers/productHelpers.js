@@ -45,12 +45,13 @@ const productInfo = mongoose.model('products',productSchema)
 const orderSchema = new mongoose.Schema({
   deliverydetails:Object,
   userId:String,
-  paymentmethod:String,
+  paymentmethod:Number,
   products:Array,
   totalamount:String,
   status:String,
   date:Date,
-  paymentMethod:String
+  paymentMethod:String,
+
 })
 //schema for address
 const addressSchema = new mongoose.Schema({
@@ -63,19 +64,9 @@ const orderInfo =  mongoose.model('orders',orderSchema)
 const addressInfo = mongoose.model('address',addressSchema)
 
 //Schema for coupons
-const couponSchema = new mongoose.Schema({
-    couponname:String,
-    couponcode:String,
-    discount:Number,
-    maxdiscount:Number,
-    maxpurchase:Number,
-    enddate:Date,
-    status:Boolean,
-    createdAt: { type: Date, expires: '2m', default: Date.now }
-})
+const couponInfo = require("./couponSchema")
 
-//collection for coupons
-const couponInfo = mongoose.model('coupons',couponSchema)
+ 
 module.exports={
   addProducts  : (product,id1,id2,id3)=>{
       console.log("product")
@@ -182,18 +173,31 @@ module.exports={
             })
         })
     },
-    manageCategories:(body)=>{
-        
-        console.log(body.categoryname,body.subcategory)
+    checkSubcategory:(body)=>{
         return new Promise(async(resolve,reject)=>{
-         let updatedCategory = await categoryInfo.updateOne({categoryname:body.categoryname},{$push:{subcategory:body.subcategoryname}}).then((response)=>{
-             console.log("databasinn olla response")
-             console.log(response);
-         })
-         
-             resolve(updatedCategory)
+           await categoryInfo.findOne({categoryname:body.category}).then((result)=>{
+                let sub = result.subcategory
+                console.log(sub)
+                if(sub.indexOf(body.subcategoryname)==-1){
+                    resolve(false)
+                }else{
+                    resolve(true)
+                } 
+            })
         })
-        
+    },
+    addSubategories:(body)=>{
+        console.log("=========================")
+        console.log(body)
+        console.log(body.subcategoryname,body.category)
+        return new Promise(async(resolve,reject)=>{
+            
+                let updatedCategory = await categoryInfo.updateOne({categoryname:body.category},{$push:{subcategory:body.subcategoryname}},{upsert:true}).then((response)=>{
+                    console.log("databasinn olla response")
+                    console.log(response);
+                    resolve(response)
+                })
+         })  
     },
     getAllCategories:()=>{
       return new Promise(async(resolve,reject)=>{
@@ -218,14 +222,30 @@ module.exports={
     },
     deleteCategory:(id)=>{
         return new Promise((resolve,reject)=>{
-            categoryInfo.remove({_id:id}).then((response)=>{
+            categoryInfo.findOne({_id:id}).then((res)=>{
+                productInfo.deleteOne({category:res.categoryname}).then((response)=>{
+                    console.log("mwone njn pova bei")
+                    console.log(response)
+                })
+             })
+            categoryInfo.deleteOne({_id:id}).then((response)=>{
                 resolve(response)
             })
         })
     },
     deleteSubCategory : (id,name)=>{
+        console.log("------------------------------")
+        console.log(name)
         return new Promise((resolve,reject)=>{
+            categoryInfo.findOne({_id:id},{subcategory:name}).then((result)=>{
+                console.log("+++++++++++++++++++++++++/////////////////// ")
+                productInfo.deleteMany({subcategory:name}).then((res)=>{
+                    console.log("_____________________________________")
+                    console.log(res)
+                })
+            })
             categoryInfo.updateOne({_id:id},{$pull:{subcategory:name}}).then((response)=>{
+
                 resolve(response)
             })
         })
@@ -394,7 +414,6 @@ module.exports={
                   
                 
                   let cartDetails = result.map(i=>i.cartproducts.offerprice?{...i,subtotal:(i.cartproducts.offerprice)*(i.products.quantity)}:{...i,subtotal:(i.cartproducts.price)*(i.products.quantity)})
-              
                     resolve(cartDetails)
                 })
        
@@ -891,39 +910,135 @@ findCoupons:()=>{
         })
     })
 },
-compareCoupon:(body,totalAmount)=>{
-   
-    return new Promise(async(resolve,reject)=>{
-     let couponOffer =  await couponInfo.findOne({couponcode:body.coupon}).lean()
-     console.log("-----------------------------------------------------------------------")
-     console.log(couponOffer)
-        if(couponOffer){
-         await   couponInfo.find({couponcode:body.coupon}).then((result)=>{
-            
-            if(totalAmount>=result[0].maxpurchase){
-                let discountPrice = ((totalAmount*result[0].discount)/100)
-                
-                console.log(discountPrice)
-                if(discountPrice<=result[0].maxdiscount){
-                    totalAmount = totalAmount-discountPrice
-                    
-                    console.log(totalAmount)
-                    resolve(totalAmount)
-                }
-            }else{
-                reject("please purchase with maxm amount to avail offer")
-            }
-       
-            
-     })
-    }else{
-       
-         reject("Coupon not exists")
-    }   
+deleteCoupon:(couponId)=>{
+    return new Promise((resolve,reject)=>{
+        couponInfo.deleteOne({_id:couponId}).then((res)=>{
+            console.log("delete aayo myre")
+            console.log(res)
+            resolve(res)
+        })
     })
 },
-
-
+deleteOffer:(offerId)=>{
+    return new Promise((resolve,reject)=>{
+        productInfo.updateOne({_id:offerId},{
+            $unset:{
+                offerprice:1,
+                offerpercentage:1,
+                enddate:1
+            }
+        }).then((result)=>{
+         
+            resolve(result)
+        })
+    })
+},
+totalOrders:()=>{
+    return new Promise((resolve,reject)=>{
+        orderInfo.find().then((result)=>{
+            console.log("vaada moooooone")
+            console.log(result)
+           let orderCount = result.length
+           console.log(orderCount)
+           resolve(orderCount) 
+        })
+    })
+},
+totalSails:()=>{
+    return new Promise(async(resolve,reject)=>{
+       await orderInfo.find({status:'placed'}).then((result)=>{
+            console.log(result.length)
+            resolve(result.length)
+        })
+    })
+},
+cancelledOrders:()=>{
+    return new Promise(async(resolve,reject)=>{
+       await orderInfo.find({status:'cancelled'}).lean().then((result)=>{
+            console.log(result.length)
+            resolve(result.length)
+        })
+    })
+},
+totalRazorpay:()=>{
+    return new Promise(async(resolve,reject)=>{
+        await orderInfo.find({paymentMethod:'Razorpay'}).then((result)=>{
+            console.log("++++++++++++++++++++++")
+            
+            console.log(result.length)
+            resolve(result.length)
+        })
+    })
+},
+totalPaypal:()=>{
+    return new Promise(async(resolve,reject)=>{
+        await orderInfo.find({paymentMethod:'Paypal'}).then((result)=>{
+            console.log("/////////////////////////////////////////")
+            
+            console.log(result.length)
+            resolve(result.length)
+        })
+    })
+},
+totalCod:()=>{
+    return new Promise(async(resolve,reject)=>{
+        await orderInfo.find({paymentMethod:'COD'}).then((result)=>{
+            console.log("---------------------------------")
+            
+            console.log(result.length)
+            resolve(result.length)
+        })
+    })
+},
+placedOrder:()=>{
+    return new Promise((resolve,reject)=>{
+        orderInfo.find({status:'placed'}).then((result)=>{
+            console.log(result.length)
+            resolve(result.length)
+        })
+    })
+},
+deliveredOrder:()=>{
+    return new Promise((resolve,reject)=>{
+        orderInfo.find({status:'Delivered'}).then((result)=>{
+            console.log(result.length)
+            resolve(result.length)
+        })
+    })
+},
+cancelledOrder:()=>{
+    return new Promise((resolve,reject)=>{
+        orderInfo.find({status:'cancelled'}).then((result)=>{
+            console.log(result.length)
+            resolve(result.length)
+        })
+    })
+},
+shippedOrder:()=>{
+    return new Promise((resolve,reject)=>{
+        orderInfo.find({status:'shipped'}).then((result)=>{
+            console.log(result.length)
+            resolve(result.length)
+        })
+    })
+},
+createAddress:(body,addressId,userId)=>{
+    return new Promise((resolve,reject)=>{
+        let obj={
+            addressId:addressId,
+            name:body.name,
+            email:body.email,
+            phone:body.phone,
+            pincode:body.pincode,
+            addressname:body.addressname,
+            address:body.address
+        }
+        addressInfo.updateOne({userId:userId},{$push:{address:obj}},{upsert:true}).then((result)=>{
+            console.log("+++++++++++++++++")
+            console.log(result)
+    })
+    })
+}
        
 
 }

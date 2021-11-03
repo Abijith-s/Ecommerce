@@ -94,6 +94,7 @@
                     <th>Actual price</th>
                     <th>Offer Price</th>
                     <th>Expire Date</th>
+                    <td>Action</td>
                     
                 </tr>
             </thead>
@@ -106,7 +107,15 @@
                     <td id="price">₹<%=j.price%></td>
                     <td id="offerprice">₹<%=j.offerprice%></td>
                     <td id="expdate"><%=j.enddate%></td>
-                     
+                    
+                    <td class="text-right">
+                        <div class="form-button-action">
+                          
+                            <a  href="/admin/delete-pro-offer?id=<%=j._id%>" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </td>
                     
                
                 </tr>
@@ -148,7 +157,7 @@
 <!-- data table script starts -->
 <script >
     $(document).ready(function() {
-        $('#multi-filter-select').DataTable( {
+        $('#multi -filter-select').DataTable( {
             "pageLength": 6,
             initComplete: function () {
                 this.api().columns().every( function () {

@@ -70,7 +70,11 @@
                   <a href="#"><%=products[item].cartproducts.productname%> <br /></a>
                 </td>
                 <td class="pro-price">
-                  <span  id="price<%=products[item].cartproducts._id%>"><%=products[item].cartproducts.price%> </span>
+                  <%if(products[item].cartproducts.offerprice){%>
+                    <span  id="price<%=products[item].cartproducts._id%>"><%=products[item].cartproducts.offerprice%> </span>
+                  <%}else{%>
+                    <span  id="price<%=products[item].cartproducts._id%>"><%=products[item].cartproducts.price%> </span>
+                    <%}%>
                 </td>
 
                 <td class="pro-quantity">
@@ -254,8 +258,6 @@
                 newSubTotal = newQuantity * price
               document.getElementById(`sub+${product}`).innerHTML = newSubTotal;
               document.getElementById("total").innerHTML = totalPrice + newSubTotal
-            
-         
         } else {
           // if(currentQuantity<=1){
           //   document.getElementById("minus").disabled = true
@@ -268,10 +270,8 @@
           let v = document
             .getElementById(`qty+${product}`)
             .setAttribute("value", newQuantity);
-            document.getElementById("total").innerHTML = totalPrice + newSubTotal
+            document.getElementById("total").innerHTML = totalPrice - newSubTotal
             document.getElementById(`sub+${product}`).innerHTML = newSubTotal;
-
-          
         }
       },
     });

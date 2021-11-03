@@ -537,3 +537,62 @@
   
     }
     </script>
+     <div class="product-details-img">
+
+      <!-- Single Product Image Start -->
+      <div class="single-product-img swiper-container gallery-top">
+          <div class="swiper-wrapper popup-gallery">
+              <a class="swiper-slide w-100" href="/product-images/image1/<%=product.image1 %>.jpg">
+                  
+                  <div class="xzoom-container">
+                      <img class="xzoom" id="xzoom-default" src="/product-images/image1/<%=product.image1 %>.jpg" xoriginal="../img/javascript/01-big.jpg" />
+                        <div class="xzoom-thumbs mt-3">
+                          <a href="../img/javascript/01-big.jpg"><img class="xzoom-gallery" width="80" src="../img/javascript/01-thumb.jpg" xpreview="../img/javascript/01-medium.jpg"></a>
+                          <a href="../img/javascript/02-big.jpg"><img class="xzoom-gallery" width="80" src="../img/javascript/02-thumb.jpg" xpreview="../img/javascript/02-medium.jpg"></a>
+                          <a href="../img/javascript/03-big.jpg"><img class="xzoom-gallery" width="80" src="../img/javascript/03-thumb.jpg" xpreview="../img/javascript/03-medium.jpg"></a>
+                        </div>
+                      </div>
+                  
+              </a>
+              <a class="swiper-slide w-100" href="/product-images/image2/<%=product.image2 %>.jpg">
+                  <img class="w-100" src="/product-images/image2/<%=product.image2 %>.jpg" alt="Product">
+              </a>
+              <a class="swiper-slide w-100" href="/product-images/image3/<%=product.image3 %>.jpg">
+                  <img class="w-100" src="/product-images/image3/<%=product.image3 %>.jpg" alt="Product">
+              </a>
+              <a class="swiper-slide w-100" href="/product-images/image1/<%=product.image1 %>.jpg">
+                  <img class="w-100" src="/product-images/image1/<%=product.image1 %>.jpg" alt="Product">
+              </a>
+            
+          </div>
+      </div>
+      <!-- Single Product Image End -->
+
+      <!-- Single Product Thumb Start -->
+      <div class="single-product-thumb swiper-container gallery-thumbs">
+          <div class="swiper-wrapper">
+              <div class="swiper-slide">
+                  <img src="/product-images/image1/<%=product.image1 %>.jpg" alt="Product">
+              </div>
+              <div class="swiper-slide">
+                  <img src="/product-images/image2/<%=product.image2 %>.jpg" alt="Product">
+                   
+              </div>
+              <div class="swiper-slide">
+                  <img src="/product-images/image3/<%=product.image3 %>.jpg" alt="Product">
+              </div>
+              <div class="swiper-slide">
+                  <img src="/product-images/image1/<%=product.image1 %>.jpg" alt="Product">
+              </div>
+           
+          </div>
+
+          <!-- Next Previous Button Start -->
+          <div class="swiper-button-horizental-next  swiper-button-next"><i class="pe-7s-angle-right"></i></div>
+          <div class="swiper-button-horizental-prev swiper-button-prev"><i class="pe-7s-angle-left"></i></div>
+          <!-- Next Previous Button End -->
+
+      </div>
+      <!-- Single Product Thumb End -->
+
+  </div>

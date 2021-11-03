@@ -24,7 +24,7 @@
                             <div class="card-head-row justify-content-between">
                                 <div class="card-title"><i class="fas fa-list"></i> Coupons List</div>
                                 <div class="add-btn">
-                                    <a class="btn btn-primary" href="create-coupon.html" data-toggle="tooltip" title="" data-original-title="Create Coupon"><i class="fas fa-plus"></i>
+                                    <a class="btn btn-primary" href="/admin/create-coupon" data-toggle="tooltip" title="" data-original-title="Create Coupon"><i class="fas fa-plus"></i>
                                     </a>
                                 </div>
                             </div>
@@ -62,10 +62,8 @@
                                                 <%}%>
                                             <td class="text-right">
                                                 <div class="form-button-action">
-                                                    <a  href="create-coupon.html" data-toggle="tooltip" title="" class="btn btn-link btn-primary " data-original-title="Edit">
-                                                        <i class="fa fa-edit"></i>
-                                                    </a>
-                                                    <a  href="create-coupon.html" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove">
+                                                  
+                                                    <a  href="/admin/delete-coupons?id=<%=i._id%>" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove">
                                                         <i class="fa fa-times"></i>
                                                     </a>
                                                 </div>

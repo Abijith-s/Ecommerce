@@ -1,0 +1,138 @@
+<div class="main-panel">
+    <div class="content">
+        <div class="panel-header bg-white shadow-sm">
+            <div class="page-inner  py-3 mb-5">
+                <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+                    <div class="">
+                        <div class="header d-sm-flex align-items-center  text-center"> 
+                            <h1 class="page-header banner-title">Sales</h1>
+                            <ul class="breadcrumb justify-content-sm-start justify-content-center">
+                                  <li><a href="../index.html"><i class="icon-home"></i></a></li>
+                            </ul> 			
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-inner transaction-details">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title"><i class="far fa-money-bill-alt"></i> Transaction Details</div>
+                        </div>
+                        
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="datatable" class="display table table-hover" >
+                                    <thead>
+                                        <tr>
+                                
+                                            <th>Addressname</th>
+                                            <th>pincode</th>
+                                            
+                                            <th>Payment Method</th>
+                                            <th>Date</th>
+                                            <th>phone</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <%for(var i  of orders){%>
+                                        <tr>
+                                            <td><%=i.deliverydetails.address%></td>
+                                            <td><%=i.deliverydetails.pincode%></td>
+                                            <td><span class="badge badge-secondary"><%=i.paymentMethod%></span></td>
+                                            <td><%=i.date%></td>
+                                           
+                                            <td><%=i.deliverydetails.phone%></td>
+                                            <td><%=i.totalamount%></td>
+                                        </tr>
+                                        <%}%>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+ 
+</div>
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.7.0/css/buttons.dataTables.min.css">
+<!-- <script >
+    $(document).ready(function() {
+        $('#multi-filter-select').DataTable( {
+            "pageLength": 6,
+            initComplete: function () {
+                this.api().columns().every( function () {
+                    var column = this;
+                    var select = $('<select class="form-control"><option value="">All</option></select>')
+                    .appendTo( $(column.footer()).empty() )
+                    .on( 'change', function () {
+                        var val = $.fn.dataTable.util.escapeRegex(
+                            $(this).val()
+                            );
+
+                        column
+                        .search( val ? '^'+val+'$' : '', true, false )
+                        .draw();
+                    } );
+
+                    column.data().unique().sort().each( function ( d, j ) {
+                        select.append( '<option value="'+d+'">'+d+'</option>' )
+                    } );
+                } );
+            }
+        });
+    });
+</script> -->
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.7.0/js/dataTables.buttons.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+
+<script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.print.min.js"></script>
+<script>
+   $(document).ready(function () {
+        $('#datatable').DataTable({
+            "footerCallback": function (row, data, start, end, display) {
+                var api = this.api(), data;
+
+                // Remove the formatting to get integer data for summation
+                var intVal = function (i) {
+                    return typeof i === 'string' ?
+                        i.replace(/[\$,]/g, '') * 1 :
+                        typeof i === 'number' ?
+                            i : 0;
+                };
+
+                // Total over all pages
+                total = api
+                    .column(4)
+                    .data()
+                    .reduce(function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0);
+
+              
+                // Update footer
+                $(api.column(4).footer()).html(
+                   ' ( $' + total + ' total)'
+                );
+            },
+            dom: 'Bfrtip',
+            buttons: [
+                'excel', 'pdf', 'print'
+            ],
+        });
+    });
+</script>

@@ -53,18 +53,18 @@
                                                 <td><%=i.deliverydetails.phone%></td>
                                                 <td><%=i.totalamount%></td>
                                                 <td><%=i.status%></td>
-                                                <td><a class=""  onclick=""><label for="cars">Manage status</label>
-                                                   
-                                                    <select id="manage<%=i._id%>"  onchange="manageOrder('<%=i._id%>')" name="cars" id="cars">
-                                                        <%if(i.status=='Delivered' || i.status=='admin cancelled' || i.status=='cancelled'){%>   
-                                                      <option  value="placed" disabled>cancelled</option>
-                                                      <option  value="placed" disabled>placed</option>
-                                                        <option  value="pending" disabled>pending</option>
-                                                        <option  value="shipped" disabled>shipped</option>
-                                                        <option  value="admin cancelled" disabled>admin cancelled</option>
-                                                        <option  value="Delivered" disabled>Delivered</option>
+                                                <td>
+                                                    <%if(i.status=='Delivered' || i.status=='admin cancelled' || i.status=='cancelled'){%>  
+                                                  
+                                                      
+                                                      <option  value="placed" hidden>cancelled</option>
+                                                      <option  value="placed" hidden>placed</option>
+                                                        <option  value="pending" hidden>pending</option>
+                                                        <option  value="shipped" hidden>shipped</option>
+                                                        <option  value="admin cancelled" hidden>admin cancelled</option>
+                                                        <option  value="Delivered" hidden>Delivered</option>
                                                       <%}else{%>
-
+                                                        <select id="manage<%=i._id%>"  onchange="manageOrder('<%=i._id%>')" name="cars" id="cars">
                                                         <option  value="placed">placed</option>
                                                         <option  value="pending">pending</option>
                                                         <option  value="shipped">shipped</option>

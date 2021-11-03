@@ -27,6 +27,7 @@ router.get('/', function(req, res, next) {
   }
 });
 
+
 router.post('/',(req,res)=>{
   if(req.body.name==admin && req.body.password==password ){
     req.session.admin = admin;
@@ -38,51 +39,101 @@ router.post('/',(req,res)=>{
     res.redirect('/admin');
   }
 })
-router.get('/adminlanding',function(req, res, next) {
+
+
+router.get('/adminlanding',async function(req, res, next) {
  if(req.session.admin&& req.session.loggedIn){
-  res.render('admin/adminlanding',{admin:true,logged:true})
+
+  let totalOrder = await productHelpers.totalOrders()
+  let totalCustomer = await userHelper.totalCustomers()
+  let totalSails = await productHelpers.totalSails()
+  let totalCancelled = await productHelpers.cancelledOrders()
+  let order = await productHelpers.getAllOrders()
+  let RazorPay = await productHelpers.totalRazorpay()
+  let paypal = await productHelpers.totalPaypal()
+  let cod = await productHelpers.totalCod()
+  let placed = await productHelpers.placedOrder()
+  let delivered = await productHelpers.deliveredOrder()
+  let cancelled = await productHelpers.cancelledOrder()
+  let shipped = await productHelpers.shippedOrder()
+
+  console.log(order)
+  res.render('admin/adminlanding',{admin:true,logged:true,totalOrder,totalCustomer,totalSails,totalCancelled,order,RazorPay,paypal,cod,placed,delivered,cancelled,shipped})
  }else{
-  res.redirect('/admin/adminlogin')
+  res.redirect('/admin')
  }
 });
+
 
 router.get("/signout", (req, res) => {
   delete req.session.admin;
   res.redirect("/admin");
 });
+
+
 router.get('/userlist', function(req, res, next) {
   userHelper.getAllUsers().then((users)=>{
     res.render('admin/userlist',{admin:true,users,logged:true});
   })
 });
+
+
 router.get('/category', function(req, res, next) {
+  
   productHelpers.getAllCategories().then((categories)=>{
     console.log("categorie");
     console.log(categories)
     res.render('admin/category',{admin:true,categories,logged:true});
   })
-  
 });
-router.post('/category',(req,res)=>{
- 
-  productHelpers.checkCategory(req.body).then((response)=>{
-    
-  if(response){
-    if(response.categoryname){
-      productHelpers.manageCategories(req.body).then((response)=>{
-              
-               res.redirect('/admin/category')
-      })
-    }
-    }else{
-      productHelpers.addCategories(req.body).then((response)=>{
+
+
+router.post('/category', async(req,res)=>{
+  console.log("category check")
+  console.log(req.body)
+  productHelpers.checkCategory(req.body).then(async(response)=>{
+    console.log("+++++++++++++++++++++++++")
+  console.log(response)
+  if(response==null){
+    productHelpers.addCategories(req.body).then((result)=>{
             
-             res.redirect('/admin/category')
-           })
+                res.json(response)
+              })
+  }
+   else{
+      res.json({response})
     }
+    // }else{
+    //   productHelpers.addCategories(req.body).then((response)=>{
+            
+    //          res.redirect('/admin/category')
+    //        })
+    // }
   })
   
 })
+router.post('/subcategory',(req,res)=>{
+  console.log("hiiiiiiiiiiiiiiiiiiiiiiiii")
+  console.log(req.body)
+  productHelpers.checkSubcategory(req.body).then((result)=>{
+    console.log(result)
+    if(!result){
+      productHelpers.addSubategories(req.body).then((response)=>{
+        console.log("............................................")
+        console.log(response)
+        res.json(result)
+      })
+    }else{
+      console.log("+++++++++++++++++++++++++++++++")
+      res.json(result)
+    }
+  })
+  
+  
+})
+
+
+
 router.get('/block/:id',(req,res)=>{
   let userId = req.params.id
   
@@ -282,8 +333,8 @@ router.post('/product-offer',async(req,res)=>{
 router.get('/category-offer',async(req,res)=>{
   let category =await productHelpers.getAllCategories()
   console.log(category)
-
-  res.render('admin/category-offer',{admin:true,logged:true,category})
+  let offerProduct = await productHelpers.findOfferProducts()
+  res.render('admin/category-offer',{admin:true,logged:true,category,offerProduct})
 })
 router.post('/category-offer',async(req,res)=>{
   console.log("++++++++++++++++++++++++++++++++")
@@ -314,9 +365,30 @@ router.post('/create-coupon',(req,res)=>{
 router.get('/coupon-list',async(req,res)=>{
    productHelpers.findCoupons().then((result)=>{
     res.render('admin/coupon-list',{admin:true,admin:true,logged:true,result})
-   })
+   }) 
+})
 
-  
+
+router.get('/delete-coupons',(req,res)=>{
+   let couponId = req.query.id
+   console.log("*************************************")
+   console.log(couponId)
+   productHelpers.deleteCoupon(couponId)
+   res.redirect('/admin/coupon-list')
+})
+
+router.get('/delete-pro-offer',(req,res)=>{
+  let offerId = req.query.id
+  console.log("]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]")
+  console.log(offerId)
+  productHelpers.deleteOffer(offerId).then((response)=>{
+    res.redirect('/admin/product-offer')
+  })
+})
+
+router.get('/sales',async(req,res)=>{
+ let orders =  await productHelpers.getAllOrders()
+  res.render('admin/sales',{admin:true,admin:true,logged:true,orders})
 })
 
 module.exports = router;

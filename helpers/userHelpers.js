@@ -13,6 +13,10 @@ const userSchema = new mongoose.Schema({
     status:Boolean
 })
 const userInfo = mongoose.model('users',userSchema)
+
+const couponInfo = require("./couponSchema")
+
+
 module.exports={
     addUsers : (users)=>{
         console.log("users")
@@ -25,6 +29,7 @@ module.exports={
                 email : users.email,
                 phone: users.phone,
                 password : users.password,
+                
                 status:true
             })
             userRegister.save((err,details)=>{
@@ -183,8 +188,9 @@ module.exports={
   },
   changePassword:(body,user)=>{
     return new Promise(async(resolve,reject)=>{
+        console.log("-----------------------------")
            console.log(body.oldpassword)
-         
+         console.log(user)
          let currentPassword = body.oldpassword
          let userPassword = user.password
         
@@ -209,16 +215,69 @@ module.exports={
     })
   },
   markCoupon:(userId,couponId)=>{
+      console.log("]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]")
+      console.log(userId,couponId)
       return new Promise((resolve,reject)=>{
         userInfo.updateOne({_id:userId},{
             $push:{
-                couponId:couponId
+                couponhistory:couponId
             }
-        })
-      }).then((result)=>{
-          console.log("-------------------------------------");
-          console.log(result)
+        }).then((result)=>{
+            console.log("-------------------------------------");
+            console.log(result)
+      })
       })
    
+},
+compareCoupon:(body,totalAmount,userId)=>{
+    console.log("coupon body")
+    console.log(totalAmount)
+   console.log(body)
+   console.log(userId);
+   let couponId = body.coupon
+    return new Promise(async(resolve,reject)=>{
+    let couponExist = await userInfo.findOne({$and:[{_id:userId},{couponhistory:couponId}]})
+        console.log(couponExist)
+    if(!couponExist){
+        let couponOffer =  await couponInfo.findOne({couponcode:couponId}).lean()
+     console.log("-----------------------------------------------------------------------")
+     console.log(couponOffer)
+        if(couponOffer){
+         await   couponInfo.find({couponcode:couponId}).then((result)=>{
+            
+            if(totalAmount>=result[0].maxpurchase){
+                let discountPrice = ((totalAmount*result[0].discount)/100)
+                
+                console.log(discountPrice)
+                if(discountPrice<=result[0].maxdiscount){
+                    totalAmount = totalAmount-discountPrice
+                    
+                    console.log(totalAmount)
+                    resolve(totalAmount)
+                }
+            }else{
+                reject("please purchase with maximum amount to enjoy your offer")
+            }
+       
+            
+     })
+    }else{
+       
+         reject("Coupon not exists")
+    }
+    }else{
+        reject("coupon already used")
+    }
+        
+    })
+},
+totalCustomers:()=>{
+    return new Promise(async(resolve,reject)=>{
+      await  userInfo.find().then((result)=>{
+          console.log(result.length)
+          resolve(result.length)
+      })
+    })
 }
+
 }

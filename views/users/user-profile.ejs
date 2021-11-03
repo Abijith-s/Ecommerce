@@ -103,7 +103,7 @@
                                     <div class="myaccount-content">
                                         <h3 class="title">Billing Address</h3>
                                         <%for(var i of data){%>
-                                        <address>
+                                            
                                             <p><strong><%=i.address.name%></strong></p>
                                             <p><%=i.address.addressname%> <br>
                                                 <%=i.address.pincode%></p>
@@ -114,8 +114,10 @@
                                         <a  href="/edit-address?id=<%=i.address.addressId%>" class="btn btn btn-dark btn-hover-primary rounded-0"><i class="fa fa-edit me-2"></i>Edit Address</a>
                                         <a onclick="deleteAddress('<%=i.address.addressId%>','<%=i.userId%>')" class="btn btn btn-dark btn-hover-primary rounded-0"><i class="fa fa-remove me-2"></i>Remove Address</a>
                                        
-                                    </address>
+                                  
                                     <%}%>
+                                    <a  href="/create-address" class="btn btn btn-dark btn-hover-primary rounded-0"><i class="fa fa-edit me-2"></i>Add a Address</a>
+
                                     </div>
                                 </div>
                                 <!-- Single Tab Content End -->

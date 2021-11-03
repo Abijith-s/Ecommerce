@@ -1,0 +1,72 @@
+<div class="container">
+    <form action="/create-address" id="submit-form" method="post" >
+    <div id="checkout-login" class="coupon-content">
+        <!-- row based input field start -->
+        <div class="row px-3">
+       
+          <!-- second item start -->
+         
+        <div class="row px-3">
+            <!-- first item start -->
+            <div class="form-group col-6">
+              <label for="exampleInputEmail1">Name</label>
+              <input  type="text" name="name" class="form-control"  value="" id="name" aria-describedby="emailHelp" placeholder="Enter name">
+              <p id="error1" style="color: red;"></p>
+              <input type="text" value="" name="addressId" id="" hidden>
+            </div>  
+            <!-- first item end -->
+            <!-- second item start -->
+            <div class="form-group col-6">
+                <label for="exampleInputEmail1">Address</label>
+                <input type="text" name="address" class="form-control" value="" id="address" aria-describedby="emailHelp" placeholder="Enter address">
+                <p id="error2" style="color: red;"></p>
+              </div>
+             
+               <!-- second item end -->
+        </div>
+             <!-- second item end -->
+         </div>
+         <div class="row px-3">
+          <!-- first item start -->
+          <div class="form-group col-6">
+            <label for="exampleInputEmail1"> Email</label>
+            <input type="email" name="email" class="form-control" value="" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+            <p id="error3" style="color: red;"></p>
+          </div>  
+          <!-- first item end -->
+          <!-- second item start -->
+          <div class="form-group col-6">
+            <label for="exampleInputEmail1"> Pincode</label>
+            <input type="number" name="pincode" value="" class="form-control" id="pincode" aria-describedby="emailHelp" placeholder="Enter pincode">
+            <p id="error4" style="color: red;"></p>
+          </div>
+             <!-- second item end -->
+         </div>
+         <div class="row px-3">
+          <!-- first item start -->
+          <div class="form-group col-6">
+            <label for="exampleInputEmail1"> Phone</label>
+            <input type="number'" name="phone" value="" class="form-control" id="phone" aria-describedby="emailHelp" placeholder="Enter phone">
+            <p id="error5" style="color: red;"></p>
+          </div>
+    
+          <!-- first item end -->
+          <!-- second item start -->
+          <div class="form-group col-6">
+            <label for="exampleInputEmail1"> Address Name  </label>
+            <input type="text" name="addressname"  class="form-control" id="addressname" aria-describedby="emailHelp" placeholder="Enter Address name">
+            <p id="error6" style="color: red;"></p>
+          </div>
+             <!-- second item end -->
+         </div>
+      <!-- row based input field end -->
+      <p id="error8" style="color: red;"></p>
+        
+        <div >
+            <button type="submit"  onclick="editAddress()"   class="btn btn btn-dark btn-hover-primary rounded-0"><i class="fa fa-edit me-2"></i>Add Address </button> 
+        
+        </div>
+        
+      </div>
+    </form>
+    </div>

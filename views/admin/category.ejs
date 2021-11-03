@@ -71,17 +71,37 @@
                         </div>
                         
                         <div class="card-body">
-                            <form id="contact-form" class="main-form full" action="/admin/category" onsubmit="return addCategory()" method="POST">
+                              <form id="category-form" >
+                              <div class="input-box form-group required">
+                                    <div class="row">
+                                          <label for="p-name" class="col-md-3 control-label">Add Category</label>
+                                          <p id="error1" style="color: red;"></p>
+                                          <div class="col-md-9">
+                                            <input type="text" name="categoryname" class="form-control" id="name1"  placeholder="category name">
+                                          </div>
+                                       
+                                    </div>
+                                    <button id="button" type="submit" class="btn btn-danger">Add category</button>
+                                    <p id="error3" style="color: red;"></p>
+                              </form>
+                            <form id="subcategory-form" class="main-form full" action="/admin/category" onsubmit="return addCategory()" method="POST">
                                   <div class="row">
                                     <div class="col-12">
-                                          <div class="input-box form-group required">
-                                            <div class="row">
-                                                  <label for="p-name" class="col-md-3 control-label">Add Category</label>
-                                                  <p id="error1" style="color: red;"></p>
-                                                  <div class="col-md-9">
-                                                    <input type="text" name="categoryname" class="form-control" id="name1"  placeholder="subcategory name">
-                                                  </div>
-                                            </div>
+                                          <div class="input-box form-group required"><label for="">
+                                                Add Subcategory
+                                          </label>
+                                                <div class="row">
+                                                      <label for="p-name" class="col-md-3 control-label">Choose Category</label>
+                                                      <div class="col-md-9">
+                                                            <select name="category" onclick="chooseCategory()" class="custom-select" id="inputGroupSelect01">
+                                                                  <%for(var i of categories){%> 
+                                                                  <option ><%=i.categoryname%></option>
+                                                                  <%}%>
+                                                                </select>
+                                                      </div>
+                                                </div>
+                                              </div>
+
                                           </div>
                                     </div>
                                     <div class="col-12">
@@ -194,3 +214,43 @@
             }
             
             </script> 
+            <script>
+            function chooseCategory(){
+
+            }
+            </script>
+            <script>
+                  $("#category-form").submit((e)=>{
+                        e.preventDefault()
+                        $.ajax({
+                              url:'/admin/category',
+                              method:'post',
+                              data:$("#category-form").serialize(),
+                              success:(response)=>{
+                                    if(response==null){
+                                          window.location.reload()
+                                    }else {
+                                          swal("Warning!", "category already exist!", "error");
+                                    }
+                              }
+                        })
+                  })
+            </script>
+            <script>
+                  $("#subcategory-form").submit((e)=>{
+                        e.preventDefault()
+                        $.ajax({
+                              url:'/admin/subcategory',
+                              method:'post',
+                              data:$("#subcategory-form").serialize(),
+                              success:(response)=>{
+                                    console.log(response)
+                                    if(!response){
+                                          window.location.reload()
+                                    }else {
+                                          swal("Warning!", "subcategory already exist!", "error");
+                                    }
+                              }
+                        })
+                  })
+            </script>
