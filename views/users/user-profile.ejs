@@ -145,7 +145,7 @@
                                                 </div>
                                                 <div class="single-input-item mb-3">
                                                     <label for="display-name" class="required mb-1">Phone</label>
-                                                    <input type="text" name="phone" value="<%=user.phone%>" id="phone" placeholder="Display Name" />
+                                                    <input type="text" name="phone" value="<%=user.phone%>" id="phone" placeholder="Phone" />
                                                 </div>
                                                 <div class="single-input-item mb-3">
                                                     <label for="email" class="required mb-1">Email Addres</label>
@@ -249,8 +249,13 @@
            data:data,
            method:'post',
            success:(response)=>{
-            if(response.data){
-                window.location.reload()
+            
+            if(response.status){
+               
+                swal("Success!", "Your password has been changed!", "success");
+            }else{
+              
+                swal("Failed!", "Your current password doesn't match!", "error");
             }
            }
        })

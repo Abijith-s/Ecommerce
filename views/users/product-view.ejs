@@ -51,10 +51,18 @@
                         <!-- Product Head End -->
 
                         <!-- Price Box Start -->
+                      
                         <div class="price-box mb-2">
-                            <span class="regular-price">₹<%=product.price %></span>
-                            
+                            <%if(product.offerprice){%>
+                            <span class="regular-price">₹<%=product.offerprice %></span>
+                            <br>
+                            <br>
+                            <span class=""><%=product.offerpercentage%>% Offer</span>
+                            <%}else{%>
+                                <span class="regular-price">₹<%=product.price %></span>
+                               <%}%> 
                         </div>
+
                         <!-- Price Box End -->
 
                         <!-- Rating Start -->
@@ -69,7 +77,8 @@
                         <!-- SKU Start -->
                         <div class="sku mb-3">
                             <span>SKU: 12345</span>
-                            <a  href="" class="btn btn btn-dark btn-hover-primary rounded-0">Buy Now</a>
+                            
+                            <a  href="/checkout?proId=<%=product._id%>" class="btn btn btn-dark btn-hover-primary rounded-0">Buy Now</a>
                         </div>
                         <!-- SKU End -->
 
@@ -98,7 +107,7 @@
                                 <a class="btn btn-outline-dark btn-hover-primary" onclick="addToCart('<%=product._id %>')" >Add to cart</a>
                             </div>
                             <div class="add-to-wishlist">
-                                <a class="btn btn-outline-dark btn-hover-primary"  href="wishlist.html">Add to Wishlist</a>
+                                <a class="btn btn-outline-dark btn-hover-primary" onclick="addToWishlist('<%=product._id%>')" >Add to Wishlist</a>
                             </div>
                         </div>
                         <!-- Cart & Wishlist Button End -->
@@ -515,4 +524,24 @@
             }
             });
             })(jQuery);
+            </script>
+             <script>
+                function addToWishlist(proId){
+                   
+                    $.ajax({
+                        url:'/add-to-wishlist/'+proId,
+                        method:'get',
+                        success:(response)=>{
+                           
+                           if(response.status){
+                            swal("Success!", "Successfully added to wishlist!", "success")
+                                let count= document.getElementById("wishlist") 
+                                let newCount = parseInt(count.innerHTML)+1
+                                count.innerHTML = newCount
+                            }else{
+                                location.href='/login'
+                            }
+                        }
+                    })
+                }
             </script>

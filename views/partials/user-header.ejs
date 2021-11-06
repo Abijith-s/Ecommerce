@@ -115,7 +115,8 @@
 							
 
 							<!-- Wishlist Header Action Button Start -->
-							<a href="wishlist.html" class="header-action-btn header-action-btn-wishlist d-none d-md-block">
+							<%if(user){%>
+							<a href="/wishlist" class="header-action-btn header-action-btn-wishlist d-none d-md-block">
 								<i class="pe-7s-like"></i>
 							</a>
 							<!-- Wishlist Header Action Button End -->
@@ -128,11 +129,11 @@
 							<!-- Shopping Cart Header Action Button End -->
 
 							<!-- Mobile Menu Hambarger Action Button Start -->
-							<a href="javascript:void(0)" class="header-action-btn header-action-btn-menu d-xl-none d-lg-block">
+							<span  id="wishlist" class="mt-4 badge badge-danger" style="height: 20px;"><%=wishlistCount%></span> <a href="javascript:void(0)" class="header-action-btn header-action-btn-menu d-xl-none d-lg-block">
 								<i class="fa fa-bars"></i>
 							</a>
 							<!-- Mobile Menu Hambarger Action Button End -->
-
+							<%}%>
 						</div>
 					</div>
 					<!-- Header Action End -->

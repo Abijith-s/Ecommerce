@@ -29,7 +29,7 @@
                             
                             <div class="tab-content mt-2 mb-3" id="pills-tabContent">
                                 <div class="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="general-tab">
-                                    <form action="/admin/create-coupon" method="post" class="main-form full">
+                                    <form action="/admin/create-coupon" method="post" class="main-form full" onsubmit="return addOffer()">
                                           <div class="row">
                                             <div class="col-12">
                                                   <div class="input-box form-group required">
@@ -37,6 +37,7 @@
                                                           <label for="coupan-name" class="col-md-3 control-label">Coupan Name</label>
                                                           <div class="col-md-9">
                                                             <input type="text" name="couponname" class="form-control" id="coupan-name" required  placeholder="Coupan Name">
+                                                            <p id="error1" style="color: red;"></p>
                                                           </div>
                                                     </div>
                                                   </div>
@@ -46,7 +47,8 @@
                                                     <div class="row">
                                                           <label for="coupan-code" class="col-md-3 control-label">Coupan Code</label>
                                                           <div class="col-md-9">
-                                                            <input type="text" name="couponcode" class="form-control"  id="coupan-code" required placeholder="Coupan Code">
+                                                            <input type="text" name="couponcode" class="form-control"  id="coupon-code" required placeholder="Coupan Code">
+                                                            <p id="error2" style="color: red;"></p>
                                                           </div>
                                                     </div>
                                                   </div>
@@ -56,7 +58,8 @@
                                                   <div class="row">
                                                         <label for="coupan-code" class="col-md-3 control-label">Discount percentage</label>
                                                         <div class="col-md-9">
-                                                          <input type="text" name="coupondiscount" class="form-control"  id="coupan-code" required placeholder="Coupan Code">
+                                                          <input type="text" name="coupondiscount" class="form-control"  id="discount" required placeholder="Coupan Code">
+                                                          <p id="error3" style="color: red;"></p>
                                                         </div>
                                                   </div>
                                                 </div>
@@ -66,7 +69,8 @@
                                               <div class="row">
                                                     <label for="coupan-code" class="col-md-3 control-label">Maximum Discount</label>
                                                     <div class="col-md-9">
-                                                      <input type="text"  name="Maxdiscount" class="form-control"  id="coupan-code" required placeholder="Maximum Discount">
+                                                      <input type="text"  name="Maxdiscount" class="form-control"  id="maxdiscount" required placeholder="Maximum Discount">
+                                                      <p id="error4" style="color: red;"></p>
                                                     </div>
                                               </div>
                                             </div>
@@ -76,7 +80,8 @@
                                           <div class="row">
                                                 <label for="coupan-code" class="col-md-3 control-label">Max Purchase</label>
                                                 <div class="col-md-9">
-                                                  <input type="text" name="maxpurchase" class="form-control"  id="coupan-code" required placeholder="Maximum Purchase Amount">
+                                                  <input type="text" name="maxpurchase" class="form-control"  id="maxpurchase" required placeholder="Maximum Purchase Amount">
+                                                  <p id="error5" style="color: red;"></p>
                                                 </div>
                                           </div>
                                         </div>
@@ -87,7 +92,7 @@
                                                           <label for="start-date" class="col-md-3 control-label">Start Date</label>
                                                           <div class="col-md-9">
                                                               <div class="datepicker date input-group">
-                                                                <input type="date" name="startdate"  placeholder="Start Date" class="form-control" id="start-date">
+                                                                <input  type="date" name="startdate"  placeholder="Start Date" class="form-control" id="start-date" required>
                                                                 <div class="input-group-append">
                                                                     <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                                                 </div>
@@ -102,7 +107,7 @@
                                                           <label for="end-date" class="col-md-3 control-label">End Date</label>
                                                           <div class="col-md-9">
                                                               <div class="datepicker date input-group ">
-                                                                <input type="date" name="enddate" placeholder="End Date" class="form-control" id="end-date">
+                                                                <input type="date" name="enddate" placeholder="End Date" class="form-control" id="end-date" required>
                                                                 <div class="input-group-append">
                                                                     <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                                                 </div>
@@ -126,3 +131,175 @@
             </div>
         </div>
     </div>
+    <script language="javascript">
+      var today = new Date();
+      var dd = String(today.getDate()).padStart(2, '0');
+      var mm = String(today.getMonth() + 1).padStart(2, '0');
+      var yyyy = today.getFullYear();
+  
+      today = yyyy + '-' + mm + '-' + dd;
+      $('#start-date').attr('min',today);
+  </script>
+    <script language="javascript">
+      var today = new Date();
+      var dd = String(today.getDate()).padStart(2, '0');
+      var mm = String(today.getMonth() + 1).padStart(2, '0');
+      var yyyy = today.getFullYear();
+  
+      today = yyyy + '-' + mm + '-' + dd;
+      $('#end-date').attr('min',today);
+  </script>
+  <script>
+    let nameChecking = false;
+   
+     let numberChecking = false;
+    
+     $(document).ready(function(){
+    $("#coupan-name").keyup(function(){
+    let name = this.value
+    if(name.length<3){
+        $("#error1").html("enter minimum 3 charaters")
+        nameChecking = false;
+    }
+    else{
+        $("#error1").html("") 
+        nameChecking = true;
+    }
+    })
+
+         $("#coupon-code").on("input",function(){
+         this.value=this.value.replace(/[^\d]/,'') 
+         let phone = this.value
+         let phoneregex = /^[0-9]*$/
+         if(phone==""){
+           $("#error2").html("enter a valid code")
+           numberChecking = false;
+         }
+         else if(phone.match(/^[A-Za-z]+$/)) {
+           $("#error2").html("enter numbers only")
+           numberChecking = false;
+         }
+         else if(phone.match(phoneregex)&&phone.length<5){
+           $("#error2").html("enter a valid code")
+           return false;
+         }
+         else if(phone.match(phoneregex)&&phone.length>5){
+           $("#error2").html("enter a valid code")
+           numberChecking = false
+         }
+         else if(phone.match(phoneregex)){
+           numberChecking=true
+           $("#error2").html("")
+           return true
+         }
+         else{
+           return false;
+         }
+         
+       })
+     
+       $("#discount").on("input",function(){
+         this.value=this.value.replace(/[^\d]/,'') 
+         let phone = this.value
+         let phoneregex = /^[0-9]*$/
+         if(phone==""){
+           $("#error3").html("enter a valid offer")
+           numberChecking = false;
+         }
+         else if(phone.match(/^[A-Za-z]+$/)) {
+           $("#error3").html("enter numbers only")
+           numberChecking = false;
+         }
+         else if(phone.match(phoneregex)&&phone.length<1){
+           $("#error3").html("enter a valid offer")
+           return false;
+         }
+         else if(phone.match(phoneregex)&&phone.length>2){
+           $("#error3").html("enter a valid offer")
+           numberChecking = false
+         }
+         else if(phone.match(phoneregex)){
+           numberChecking=true
+           $("#error3").html("")
+           return true
+         }
+         else{
+           return false;
+         }
+         
+       })
+     
+       $("#maxdiscount").on("input",function(){
+         this.value=this.value.replace(/[^\d]/,'') 
+         let phone = this.value
+         let phoneregex = /^[0-9]*$/
+         if(phone==""){
+           $("#error4").html("enter a valid offer")
+           numberChecking = false;
+         }
+         else if(phone.match(/^[A-Za-z]+$/)) {
+           $("#error4").html("enter numbers only")
+           numberChecking = false;
+         }
+         else if(phone.match(phoneregex)&&phone.length<1){
+           $("#error4").html("enter a valid offer")
+           return false;
+         }
+         else if(phone.match(phoneregex)&&phone.length>4){
+           $("#error4").html("enter a valid offer")
+           numberChecking = false
+         }
+         else if(phone.match(phoneregex)){
+           numberChecking=true
+           $("#error4").html("")
+           return true
+         }
+         else{
+           return false;
+         }
+         
+       })
+       $("#maxpurchase").on("input",function(){
+         this.value=this.value.replace(/[^\d]/,'') 
+         let phone = this.value
+         let phoneregex = /^[0-9]*$/
+         if(phone==""){
+           $("#error5").html("enter a valid amount")
+           numberChecking = false;
+         }
+         else if(phone.match(/^[A-Za-z]+$/)) {
+           $("#error5").html("enter numbers only")
+           numberChecking = false;
+         }
+         else if(phone.match(phoneregex)&&phone.length<1){
+           $("#error5").html("enter a amount")
+           return false;
+         }
+         else if(phone.match(phoneregex)&&phone.length>4){
+           $("#error5").html("enter a valid amount")
+           numberChecking = false
+         }
+         else if(phone.match(phoneregex)){
+           numberChecking=true
+           $("#error5").html("")
+           return true
+         }
+         else{
+           return false;
+         }
+         
+       })
+       
+     })
+     
+     function addOffer(){
+       alert(numberChecking,nameChecking)
+     if(numberChecking&&nameChecking){
+       return true
+     }else{
+    $("#error6").html("fill all feilds in format") 
+       return false
+     }
+     }
+     
+     </script> 

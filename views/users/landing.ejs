@@ -109,7 +109,7 @@
                                                             <img class="second-image" style="width: 300px" src="/product-images/image2/<%=items.image2 %>.jpg"  />
                                                         </a>
                                                         <div class="actions">
-                                                            <a href="#" class="action wishlist"><i class="pe-7s-like"></i></a>
+                                                            <a onclick="addToWishlist('<%=items._id%>')" class="action wishlist"><i class="pe-7s-like"></i></a>
                                                             <a href="#" class="action quickview" data-bs-toggle="modal" data-bs-target="#exampleModalCenter"><i class="pe-7s-search"></i></a>
                                                             <a href="#" class="action compare"><i class="pe-7s-shuffle"></i></a>
                                                         </div>
@@ -527,3 +527,24 @@
         });
 
     }</script>
+    <script>
+        function addToWishlist(proId){
+           
+            $.ajax({
+                url:'/add-to-wishlist/'+proId,
+                method:'get',
+                success:(response)=>{
+                   
+                   if(response.status){
+                    swal("Success!", "Successfully added to wishlist!", "success")
+                        let count= document.getElementById("wishlist") 
+                        let newCount = parseInt(count.innerHTML)+1
+                        count.innerHTML = newCount
+                    }else{
+                        location.href='/login'
+                    }
+                }
+            })
+        }
+    </script>
+    

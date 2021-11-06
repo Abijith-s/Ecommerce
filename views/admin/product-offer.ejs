@@ -12,14 +12,14 @@
                       </div>
                       
                       <div class="card-body">
-                          <form action="/admin/product-offer" id="offer-form"  class="main-form full"   method="POST">
+                          <form action="/admin/product-offer" id="offer-form" onsubmit="return addOffer()"  class="main-form full"   method="POST">
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="input-box form-group">
                                           <div class="row">
                                                 <label for="discount-type" class="col-md-3 control-label">Products</label>
                                                 <div class="col-md-9">
-                                                  <select  name="productname" id="discount-type" class="form-control">
+                                                  <select  name="productname" id="discount-type" class="form-control" required>
                                                          <%for(var i of products){%>
                                                          <option value="<%=i.productname %>" id="productname"  selected="selected"><%=i.productname %></option>
                                                          
@@ -35,6 +35,7 @@
                                                 <label for="coupan-name" class="col-md-3 control-label">Offer Percentage</label>
                                                 <div class="col-md-9">
                                                   <input type="text" name="offerpercentage" class="form-control" id="offerpercentage" required  placeholder="Percentage">
+                                                  <p id="error2" style="color: red;"></p>
                                                 </div>
                                           </div>
                                         </div>
@@ -45,7 +46,8 @@
                                             <label for="start-date" class="col-md-3 control-label">Start Date</label>
                                             <div class="col-md-9">
                                                 <div class="datepicker date input-group">
-                                                  <input type="date" name="startdate" placeholder="Start Date" class="form-control" id="startdate">
+                                                  <input type="date" name="startdate" required placeholder="Start Date" class="form-control" id="startdate">
+                                                  <p id="error3" style="color: red;"></p>
                                                   <div class="input-group-append">
                                                       <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                                   </div>
@@ -60,7 +62,7 @@
                                         <label for="end-date" class="col-md-3 control-label">End Date</label>
                                         <div class="col-md-9">
                                             <div class="datepicker date input-group ">
-                                              <input type="date" placeholder="End Date" class="form-control" name="enddate" id="enddate">
+                                              <input type="date" placeholder="End Date" class="form-control" name="enddate" id="enddate" required>
                                               <div class="input-group-append">
                                                   <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                               </div>
@@ -185,3 +187,73 @@
 
 <!-- data table script ends -->
 
+</script>
+<script language="javascript">
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0');
+  var yyyy = today.getFullYear();
+
+  today = yyyy + '-' + mm + '-' + dd;
+  $('#startdate').attr('min',today);
+</script>
+</script>
+<script language="javascript">
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0');
+  var yyyy = today.getFullYear();
+
+  today = yyyy + '-' + mm + '-' + dd;
+  $('#enddate').attr('min',today);
+</script>
+<script>
+	let nameChecking = false;
+   let emailChecking = false;
+   let numberChecking = false;
+   let passwordChecking = false;
+   $(document).ready(function(){
+
+		   $("#offerpercentage").on("input",function(){
+		   this.value=this.value.replace(/[^\d]/,'') 
+		   let phone = this.value
+		   let phoneregex = /^[0-9]*$/
+		   if(phone==""){
+			   $("#error2").html("enter a valid offer")
+			   numberChecking = false;
+		   }
+		   else if(phone.match(/^[A-Za-z]+$/)) {
+			   $("#error2").html("enter numbers only")
+			   numberChecking = false;
+		   }
+		   else if(phone.match(phoneregex)&&phone.length<1){
+			   $("#error2").html("enter a valid offer")
+			   return false;
+		   }
+		   else if(phone.match(phoneregex)&&phone.length>2){
+			   $("#error2").html("enter a valid offer")
+			   numberChecking = false
+		   }
+		   else if(phone.match(phoneregex)){
+			   numberChecking=true
+			   $("#error2").html("")
+			   return true
+		   }
+		   else{
+			   return false;
+		   }
+		   
+	   })
+	   
+   })
+   
+   function addOffer(){
+   if(numberChecking){
+	   return true
+   }else{
+	$("#error6").html("fill all feilds in format") 
+	   return false
+   }
+   }
+   
+   </script> 

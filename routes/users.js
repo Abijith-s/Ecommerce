@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 var userHelper = require("../helpers/userHelpers");
 const productHelpers = require("../helpers/productHelpers");
-const { response } = require("express");
+
 var uuid = require('uuid')
 // const accountSid = "VA85af1ab7b9fde580ab2f2523f7f18528";
 const accountSid = "AC12c290f739cdf6b335503bcd652ae883";
@@ -15,6 +15,7 @@ const { compareSync } = require("bcrypt");
 const client=new OAuth2Client(CLIENT_ID)
 const paypal = require('paypal-rest-sdk');
 const userHelpers = require("../helpers/userHelpers");
+const { response } = require("express");
 paypal.configure({
   'mode': 'sandbox', //sandbox or live
   'client_id': 'AT2s8bbysSakxAt97VYk2oPBD5dhnVgp99RS3DCgbT6cLdeL1nFyzeFJQSTLthRn_-OjUXI7JQH5epS2',
@@ -42,7 +43,17 @@ const checkUserCartLength = async (req, res, next) => {
   req.session.cartCount = cartCount;
   next();
 };
-
+const checkUserWishlistLength = async (req, res, next) => {
+  let user = req.session.user || false;
+  let wishlistCount = 0;
+  if (user) {
+    wishlistCount = await productHelpers.getWishlistProducts(user._id);
+    wishlistCount = wishlistCount.length;
+    
+  }
+  req.session.wishlistCount = wishlistCount;
+  next();
+};
 function verifyLogin(req, res, next) {
   if (req.session.user) {
     next();
@@ -51,17 +62,20 @@ function verifyLogin(req, res, next) {
   }
 }
 /* GET home page. */
-router.get("/", async function (req, res, next) {
+router.get("/",async function (req, res, next) {
   let user = req.session.user;
-
+ 
   let cate = req.query.cate;
   let cartCount;
   productHelpers.offerExpiration()
   if (req.session.user) {
     cartCount = await productHelpers.getCartCount(req.session.user._id);
+    wishlistCount = await productHelpers.getWishlistCount(req.session.user._id)
   } else {
     cartCount = null;
+    wishlistCount = null;
   }
+ 
   let categ = await productHelpers.getCategory(cate);
 
   let categories = await productHelpers.getAllCategories();
@@ -172,18 +186,27 @@ router.get("/logout", (req, res) => {
   res.redirect("/");
 });
 
-router.get("/product-view", checkUserCartLength,(req, res) => {
+router.get("/product-view", checkUserCartLength,async(req, res) => {
   let proId = req.query.id;
   console.log("proId")
   console.log(proId)
   let user = req.session.user || false;
   let cartCount = req.session.cartCount;
+  let  wishlistCount = 0
+  if(req.session.user){
+    wishlistCount = await productHelpers.getWishlistCount(req.session.user._id)
+  }else{
+    wishlistCount = null;
+  }
   productHelpers.productView(proId).then((product) => {
+    console.log("........................................")
+    console.log(product)
     res.render("users/product-view", {
       admin: false,
       user,
       product,
       cartCount,
+      wishlistCount
     });
   });
 });
@@ -200,6 +223,12 @@ router.get("/cart", checkUserCartLength, async (req, res) => {
   for(var i in total){
     totalAmount=totalAmount+total[i].subtotal
   }
+  let  wishlistCount = 0
+   if(req.session.user){
+     wishlistCount = await productHelpers.getWishlistCount(req.session.user._id)
+   }else{
+     wishlistCount = null;
+   }
   
   console.log(subtotalA)
   await productHelpers.getCartProducts(userId).then((products) => {
@@ -212,7 +241,7 @@ router.get("/cart", checkUserCartLength, async (req, res) => {
       products,
       totalAmount,
       total,
-     
+      wishlistCount
     });
   });
 });
@@ -245,7 +274,8 @@ router.post("/change-quantity",async(req,res) => {
 });
 
 router.post("/delete-cart-item", (req, res) => {
-  productHelpers.deleteItem(req.body).then((response) => {
+
+  productHelpers.deleteCartItem(req.body).then((response) => {
     res.json({ status: true });
   });
 });
@@ -253,7 +283,26 @@ router.post("/delete-cart-item", (req, res) => {
 
 // checkout page start
 router.get("/checkout", verifyLogin, checkUserCartLength,async (req, res) => {
- 
+
+  let proId = req.query.proId
+  let  singleProductPrice
+  let  wishlistCount = 0
+   if(req.session.user){
+     wishlistCount = await productHelpers.getWishlistCount(req.session.user._id)
+   }else{
+     wishlistCount = null;
+   }
+  console.log("+-+-+-+++-+++-+-+-+--+-+-+-+-+-+-++-+-+-+--+")
+  if(proId){
+    let buyNowproduct =await productHelpers.findedProduct(proId)
+    if( buyNowproduct.offerprice){
+      singleProductPrice = buyNowproduct.offerprice
+    }else{
+      singleProductPrice = buyNowproduct.price
+    }
+    
+    req.session.buynow = buyNowproduct._id
+  }
   let user = req.session.user;
   userId = req.session.user._id
   console.log("userID")
@@ -264,18 +313,24 @@ router.get("/checkout", verifyLogin, checkUserCartLength,async (req, res) => {
   let total = await productHelpers.getTotalAmount(userId);
 
  
- 
+  let totalAmount = 0
   console.log(total)
   let subtotalA
-  let totalAmount = 0
+  
   
   
   for(var i in total){
     totalAmount=totalAmount+total[i].subtotal
   }
-  console.log("addrsses")
-  console.log(addresses)
-  res.render("users/checkout", { admin: false, user, cartCount ,addresses,totalAmount});
+  let productPrice
+  if(proId){
+    productPrice = singleProductPrice
+  }else{
+    productPrice = totalAmount
+  }
+  console.log("=-=-=-=-=-=-=-=-==-=-=-=-=-==-=-=--=--=-==-==-=")
+  console.log(productPrice)
+  res.render("users/checkout", { admin: false, user, cartCount ,addresses,productPrice,wishlistCount});
 });
 // check out page end
 
@@ -288,8 +343,8 @@ router.post("/place-order", async (req, res) => {
   console.log(user)
   let userId = req.session.user._id
   console.log(userId)
- 
- 
+  
+  let flag = 0
   let PaymentMethod = req.body.payment
   if(req.body.saveAddres){
     console.log("ivde keritond")
@@ -297,7 +352,29 @@ router.post("/place-order", async (req, res) => {
     productHelpers.addAddress(req.body,userId,addressId)
   }
   if(req.body.payment == 'COD'){
-    let products=await productHelpers.getProductList(userId)
+    let products
+    let buyNowProducts
+    let buyNow = req.session.buynow
+    let productPrice
+    if(buyNow){
+     flag = 1
+     products =await productHelpers.getBuyNowProduct(buyNow)
+      if(products[0].offerprice){
+        productPrice = products[0].offerprice
+      }else{
+        productPrice = products[0].price
+      }
+      
+     
+     products = {
+      products
+    }
+     
+    }else{
+      products=await productHelpers.getProductList(userId)
+    }
+   
+     
     let total = await productHelpers.getTotalAmount(userId);
     console.log("ithanu products ++++++++++++++++++++++++++++++++++++++")
     console.log(products)
@@ -318,7 +395,13 @@ router.post("/place-order", async (req, res) => {
  
     console.log("total and producst ")
     console.log(totalAmount)
-    productHelpers.placeOrder(req.body,products,totalAmount,PaymentMethod,userId).then((result)=>{
+    let totalPrice 
+    if(buyNow){
+      totalPrice = productPrice
+    }else{
+      totalPrice = totalAmount
+    }
+    productHelpers.placeOrder(req.body,products,totalPrice,PaymentMethod,userId,flag).then((result)=>{
       if(req.session.offerDetails){
       let offerPrice = req.session.offerDetails
       let couponId = offerPrice.couponCode
@@ -332,14 +415,36 @@ router.post("/place-order", async (req, res) => {
     })
   }else if(req.body.payment=='Razorpay'){
     console.log("ee casil varanondo")
-    let products=await productHelpers.getProductList(userId)
-    let total = await productHelpers.getTotalAmount(userId);
- 
-    console.log(total)
-   
+    let products
+    let buyNowProducts
+    let buyNow = req.session.buynow
+    let productPrice
+    let totalPrice 
     let totalAmount = 0
+    if(buyNow){
+      flag = 1
+     products =await productHelpers.getBuyNowProduct(buyNow)
+     if(products[0].offerprice){
+      productPrice = products[0].offerprice
+    }else{
+      productPrice = products[0].price
+    }
+     
+     products = {
+      products
+    }
+     console.log("//////////////////////////")
+     console.log(products)
+    }else{
+      products=await productHelpers.getProductList(userId)
+      console.log("--------------------------------")
+      console.log(products)
+    }
+  
+    let total = await productHelpers.getTotalAmount(userId);
     
-    
+    console.log(total)
+
     if(req.session.offerDetails){
       let offerPrice = req.session.offerDetails.offerAmount
       totalAmount = offerPrice
@@ -349,7 +454,13 @@ router.post("/place-order", async (req, res) => {
          totalAmount=totalAmount+total[i].subtotal
        }
      }
-    productHelpers.placeOrder(req.body,products,totalAmount,PaymentMethod,userId).then((result)=>{
+     if(buyNow){
+      totalPrice = productPrice
+    }else{
+      totalPrice = totalAmount
+    }
+
+    productHelpers.placeOrder(req.body,products,totalPrice,PaymentMethod,userId,flag).then((result)=>{
       if(req.session.offerDetails){
         let offerPrice = req.session.offerDetails
         let couponId = offerPrice.couponCode
@@ -361,7 +472,7 @@ router.post("/place-order", async (req, res) => {
       console.log("orderId ")
       console.log(orderId)
 
-      productHelpers.generateRazorPay(orderId,totalAmount).then((response)=>{
+      productHelpers.generateRazorPay(orderId,totalPrice).then((response)=>{
         
         console.log("response of razor pay")
         console.log(response)
@@ -371,7 +482,31 @@ router.post("/place-order", async (req, res) => {
     
   }else if(req.body.payment=='Paypal'){
     console.log("ivde keranodo 6666666666666666666666666666666666666")
-      let products=await productHelpers.getProductList(userId)
+    let products
+    let buyNowProducts
+    let buyNow = req.session.buynow
+    let productPrice
+    let totalPrice 
+    if(buyNow){
+      flag = 1
+     products =await productHelpers.getBuyNowProduct(buyNow)
+     if(products[0].offerprice){
+      productPrice = products[0].offerprice
+    }else{
+      productPrice = products[0].price
+    }
+     
+     products = {
+      products
+    }
+     console.log("//////////////////////////")
+     console.log(products)
+    }else{
+      products=await productHelpers.getProductList(userId)
+      console.log("--------------------------------")
+      console.log(products)
+    }
+       
       let total = await productHelpers.getTotalAmount(userId);
  
       console.log(total)
@@ -391,7 +526,15 @@ router.post("/place-order", async (req, res) => {
      totalAmount = (totalAmount)/70
     totalAmount=Math.round(totalAmount)
     console.log(totalAmount)
-    productHelpers.placeOrder(req.body,products,totalAmount,PaymentMethod,userId)
+    
+    if(buyNow){
+      totalPrice = Math.round(productPrice/70)
+    }else{
+      totalPrice = Math.round(totalAmount)
+    }
+    console.log("+++++++++++++++++++++++++++++++++++++++")
+    console.log(totalPrice)
+    productHelpers.placeOrder(req.body,products,totalPrice,PaymentMethod,userId,flag)
     if(req.session.offerDetails){
       let offerPrice = req.session.offerDetails
       let couponId = offerPrice.couponCode
@@ -414,14 +557,14 @@ router.post("/place-order", async (req, res) => {
               "items": [{
                   "name": user.firstname,
                   "sku": "001",
-                  "price": totalAmount,
+                  "price": totalPrice,
                   "currency": "USD",
                   "quantity": 1
               }]
           },
           "amount": {
               "currency": "USD",
-              "total": totalAmount
+              "total": totalPrice
           },
           "description": "Washing Bar soap"
       }]
@@ -446,10 +589,19 @@ router.post("/place-order", async (req, res) => {
 
 
 
-router.get("/succes",verifyLogin,checkUserCartLength,(req, res) => {
+router.get("/succes",verifyLogin,checkUserCartLength,async(req, res) => {
    let user = req.session.user
    let cartCount = req.session.cartCount;
-  res.render("users/succes", { admin: false, user, cartCount });
+   if(req.session.buynow){
+     delete req.session.buynow
+   }
+   let  wishlistCount = 0
+   if(req.session.user){
+     wishlistCount = await productHelpers.getWishlistCount(req.session.user._id)
+   }else{
+     wishlistCount = null;
+   }
+  res.render("users/succes", { admin: false, user, cartCount,wishlistCount });
 });
 
 router.get('/success', (req, res) => {
@@ -479,19 +631,24 @@ router.get('/success', (req, res) => {
 });
 });
 
-router.get("/order-history", verifyLogin, checkUserCartLength, (req, res) => {
+router.get("/order-history", verifyLogin, checkUserCartLength,async (req, res) => {
   console.log("order history arrived");
   cartCount = req.session.cartCount;
 
   user = req.session.user;
   userId = req.session.user._id;
-
+  let  wishlistCount = 0
+  if(req.session.user){
+    wishlistCount = await productHelpers.getWishlistCount(req.session.user._id)
+  }else{
+    wishlistCount = null;
+  }
   productHelpers.getOrders(userId).then((response) => {
     let order = response;
     console.log("order in user page")
     console.log(order)
 
-   res.render("users/order-history", { admin: false, user, cartCount,order });
+   res.render("users/order-history", { admin: false, user, cartCount,order,wishlistCount });
   });
 });
 // router.get('/view-order',verifyLogin,checkUserCartLength,async(req,res)=>{
@@ -508,11 +665,16 @@ router.get("/order-history", verifyLogin, checkUserCartLength, (req, res) => {
 router.get("/view-order",verifyLogin,checkUserCartLength,async(req,res)=>{
     let user = req.session.user;
     let orderId = req.query.id;
-  
+    let  wishlistCount = 0
+ if(req.session.user){
+   wishlistCount = await productHelpers.getWishlistCount(req.session.user._id)
+ }else{
+   wishlistCount = null;
+ }
     let cartCount = req.session.cartCount;
     productHelpers.viewOrder(orderId).then((products) => {
       console.log(products, "---------");
-      res.render("users/orderView", { admin: false, user,products});
+      res.render("users/orderView", { admin: false, user,products,wishlistCount,cartCount});
     });
   }
 );
@@ -520,8 +682,10 @@ router.get("/view-order",verifyLogin,checkUserCartLength,async(req,res)=>{
 
 // ...............................................cancel order..................
 router.post("/cancel", (req, res) => {
-  productHelpers.cancelOrder(req.body);
-  res.json({ status: response });
+  productHelpers.cancelOrder(req.body).then((response)=>{
+    res.json({ status: response });
+  });
+  
 }); 
 
 
@@ -632,31 +796,44 @@ router.post('/verify-payment',(req,res)=>{
 
 
 router.get('/user-profile',verifyLogin,checkUserCartLength,async(req,res)=>{
- let user = req.session.user
+
 
  let userId = req.session.user._id
  let cartCount = req.session.cartCount
 
  let data = await productHelpers.getAddressId(userId)
 
-
+ let  wishlistCount = 0
+ if(req.session.user){
+   wishlistCount = await productHelpers.getWishlistCount(req.session.user._id)
+ }else{
+   wishlistCount = null;
+ }
+ let user =await userHelpers.findOneUser(userId)
+ console.log("_____________________________________finded")
+ console.log(user)
  productHelpers.getOrders(userId).then((response) => {
    let order = response;
  
-  res.render('users/user-profile',{admin:false,user,cartCount,order,data})
+  res.render('users/user-profile',{admin:false,user,cartCount,order,data,wishlistCount})
  })
 })
 
 router.get('/edit-address',verifyLogin,checkUserCartLength,async(req,res)=>{
   let  user = req.session.user
-
+  let  wishlistCount = 0
+  if(req.session.user){
+    wishlistCount = await productHelpers.getWishlistCount(req.session.user._id)
+  }else{
+    wishlistCount = null;
+  }
   let userId = req.session.user._id
  
   let  cartCount = req.session.cartCount
    let Aid = req.query.id
   productHelpers.getSingleAddress(userId,Aid).then((data)=>{
    
-    res.render('users/edit-address',{admin:false,user,cartCount,Aid,data})
+    res.render('users/edit-address',{admin:false,user,cartCount,Aid,data,wishlistCount})
   })
  })
  router.post('/edit-single-address',async(req,res)=>{
@@ -682,8 +859,9 @@ router.get('/edit-address',verifyLogin,checkUserCartLength,async(req,res)=>{
    console.log("ivde oke ethuo mone")
    console.log(req.body)
   //  console.log(req.body.userId)
-  let currentUser = await userHelper.findUser(req.body.userId)
+  let currentUser = await userHelper.getUser(req.body.userId)
   await  userHelper.editProfile(req.body,currentUser).then((response)=>{
+    console.log("ivde aanu new user --------------------------------  ")
      console.log(response)
      res.redirect('/user-profile')
    })
@@ -695,7 +873,7 @@ router.post('/change-password',async(req,res)=>{
   await  userHelper.changePassword(req.body,user).then((response)=>{
     console.log("/////////////////////////////")
     console.log(response)
-    res.json({status:true,data:response})
+    res.json({status:response})
   })
 })
 router.post('/apply-coupon',async(req,res)=>{
@@ -736,13 +914,18 @@ router.post('/apply-coupon',async(req,res)=>{
     res.json({status,offerAmount,message})
  
 })
- router.get('/create-address',verifyLogin,checkUserCartLength,(req,res)=>{
+ router.get('/create-address',verifyLogin,checkUserCartLength,async(req,res)=>{
    console.log("ivde vannoda")
   let  user = req.session.user
 
   let  cartCount = req.session.cartCount
-  
-   res.render('users/create-address',{admin:false,user,cartCount})
+  let  wishlistCount = 0
+  if(req.session.user){
+    wishlistCount = await productHelpers.getWishlistCount(req.session.user._id)
+  }else{
+    wishlistCount = null;
+  }
+   res.render('users/create-address',{admin:false,user,cartCount,wishlistCount})
  })
 router.post('/create-address',(req,res)=>{
   console.log("ivdem vare vanoda")
@@ -757,4 +940,40 @@ router.post('/create-address',(req,res)=>{
   res.redirect('/user-profile')
   
 })
+
+router.get('/wishlist',verifyLogin,checkUserCartLength,async(req,res)=>{
+  let  user = req.session.user
+  let  userId = req.session._id
+  let  cartCount = req.session.cartCount
+  let  wishlistCount =0
+  if(req.session.user){
+    wishlistCount = await productHelpers.getWishlistCount(req.session.user._id)
+  }else{
+    wishlistCount = null;
+  }
+  let wishlist =await  productHelpers.getWishlistProducts(userId)
+  console.log(wishlist)
+  res.render('users/wishlist',{admin:false,user,cartCount,wishlistCount,wishlist,wishlistCount})
+})
+
+router.get("/add-to-wishlist/:id", verifyLogin, (req, res) => {
+  console.log("]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]")
+  let proId = req.params.id;
+  console.log(proId)
+  let userId = req.session.user._id;
+  if(req.session.user){
+    productHelpers.addToWishlist(proId, userId).then((response) => {
+      res.json({ status: true });
+    });
+  }else{
+    res.json({status:false})
+  }
+});
+
+router.post("/delete-wishlist-item", (req, res) => {
+ 
+  productHelpers.deleteItem(req.body).then((response) => {
+    res.json({ status:true});
+  });
+});
 module.exports = router;

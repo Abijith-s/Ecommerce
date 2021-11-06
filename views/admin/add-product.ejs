@@ -507,6 +507,7 @@
       max-width: 1000px !important;
   }
 </style>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
   $('#input-quantity1').change(function(e) {
   console.log("second")
@@ -570,13 +571,18 @@ reader.readAsDataURL(this.files[0]);
   </script>
    <!-- edit subcategory Ajax function en-->
    <script>
-    $('document').ready(function() {
-  //modal1 and image 1
+       document.getElementById('image1').onchange = e => {
+    value = e.target.files[0]
+    value = value.type
+    console.log(value)
+    if (value == "image/jpeg" || value == "image/jpg" || value == "image/png"){
+        
+        //modal1 and image 1
     var image1 = document.getElementById('sampleImage1');
     var modal1 = $('#modal1');
     var cropper1;
   
-    $('#image1').change(function (event) {
+ 
         var files = event.target.files;
   
         var done = function (url) {
@@ -591,7 +597,7 @@ reader.readAsDataURL(this.files[0]);
             };
             reader.readAsDataURL(files[0]);
         }
-    });
+   
   
     modal1.on('shown.bs.modal', function () {
         cropper1 = new Cropper(image1, {
@@ -623,13 +629,25 @@ reader.readAsDataURL(this.files[0]);
         });
     });
   //modal1 and image 1 end
-  
-  //modal2 and image 2
+    }else{
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Wrong image format!'
+})
+    }
+}
+document.getElementById('image2').onchange = e => {
+    value = e.target.files[0]
+    value = value.type
+    console.log(value)
+    if (value == "image/jpeg" || value == "image/jpg" || value == "image/png"){
+        //modal2 and image 2
     var image2 = document.getElementById('sampleImage2');
     var modal2 = $('#modal2');
     var cropper2;
   
-    $('#image2').change(function (event) {
+   
         var files = event.target.files;
   
         var done = function (url) {
@@ -644,7 +662,7 @@ reader.readAsDataURL(this.files[0]);
             };
             reader.readAsDataURL(files[0]);
         }
-    });
+    
   
     modal2.on('shown.bs.modal', function () {
         cropper2 = new Cropper(image2, {
@@ -676,14 +694,28 @@ reader.readAsDataURL(this.files[0]);
         });
     });
   //image 2 and modal 2 end
+
+    }else{
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Wrong image format!'
+})
+    }
+}
   
-  
-  //modal3 and image 3 start
+document.getElementById('image3').onchange = e => {
+    value = e.target.files[0]
+    value = value.type
+    console.log(value)
+    if (value == "image/jpeg" || value == "image/jpg" || value == "image/png"){
+        
+        //modal3 and image 3 start
     var image3 = document.getElementById('sampleImage3');
     var modal3 = $('#modal3');
     var cropper3;
   
-    $('#image3').change(function (event) {
+   
         var files = event.target.files;
   
         var done = function (url) {
@@ -698,7 +730,7 @@ reader.readAsDataURL(this.files[0]);
             };
             reader.readAsDataURL(files[0]);
         }
-    });
+   
   
     modal3.on('shown.bs.modal', function () {
         cropper3 = new Cropper(image3, {
@@ -730,13 +762,26 @@ reader.readAsDataURL(this.files[0]);
         });
     });
   //image 3 and modal 3 end
+    }else{
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Wrong image format!'
+})
+    }
+}
   
-  //modal4 and image 4 start
+document.getElementById('image4').onchange = e => {
+    value = e.target.files[0]
+    value = value.type
+    console.log(value)
+    if (value == "image/jpeg" || value == "image/jpg" || value == "image/png"){
+        //modal4 and image 4 start
     var image4 = document.getElementById('sampleImage4');
     var modal4 = $('#modal4');
     var cropper4;
   
-    $('#image4').change(function (event) {
+   
         var files = event.target.files;
   
         var done = function (url) {
@@ -751,7 +796,7 @@ reader.readAsDataURL(this.files[0]);
             };
             reader.readAsDataURL(files[0]);
         }
-    });
+
   
     modal4.on('shown.bs.modal', function () {
         cropper4 = new Cropper(image4, {
@@ -783,10 +828,15 @@ reader.readAsDataURL(this.files[0]);
         });
     });
   //image 4 and modal 4 end
-  
-  
-  
-    });
+
+    }else{
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Wrong image format!'
+})
+    }
+}
   
   </script>
 <script>

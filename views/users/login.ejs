@@ -65,28 +65,7 @@
 			<!-- Input Password End -->
 
 			<!-- Checkbox/Forget Password Start -->
-			<div class="single-input-item mb-3">
-				<div class="login-reg-form-meta d-flex align-items-center justify-content-between">
-					<div class="remember-meta mb-3">
-						<div class="custom-control custom-checkbox">
-							<input type="checkbox" class="custom-cont rol-input"id="rememberMe">
-							
-							<label class="custom-control-label" for="rememberMe">Remember Me</label>
-						</div>
-					</div>
-					<a  style="cursor: pointer;" onclick="forget()">Otp Login</a>
-					<div id="inp1" class="col-4" style="display:none;">
-						<input   class="custom-cont rol-input" type="text" placeholder="enter your phone number"  id="login">
-						<a class="btn btn-dark " onclick="verify()" >Verify</a>
-					</div>
-					<br>
-					<div id="inp2" class="col-4" style="display:none ;">
-						<input   class="custom-cont rol-input" placeholder="enter otp" type="text"  id="otp">
-						<a class="btn btn-dark " onclick="login()">Login</a>
-					</div>
-				
-				</div>
-			</div>
+		
 			<!-- Checkbox/Forget Password End -->
 
 			<!-- Login Button Start -->
@@ -112,10 +91,53 @@
 </div>
 			
 			</div>
-		</div>
+			<div>
 
-	</div>
-</div>
+			<h1 style="margin-left: 600px;">-OR-</h1>
+				
+					
+		
+					
+						<div class="container  pb-5">
+					
+						 <!-- Login Wrapper Start -->
+						 <div class="login-wrapper">
+					
+							<!-- Login Title & Content Start -->
+							<div class="section-content text-center mb-5">
+								<h2 class="title mb-2">OTP Login</h2>
+								<p class="desc-content">Please login using mobile OTP bellow.</p>
+							</div>
+							<!-- Login Title & Content End -->
+					
+						
+							<div class="custom-control custom-checkbox align-items-center" >
+									
+								<a class="btn btn-outline-secondary m-3"  style="cursor: pointer;" onclick="forget()">Otp Login</a>
+								<div id="inp1" class="col-4 m-3" style="display:none;">
+								
+									<input   class="custom-cont rol-input" type="text" placeholder="enter your phone number"  id="login">
+									
+									<a class="btn btn-outline-success m-3" onclick="verify()" >Verify</a>
+								</div>
+								<br>
+								<div id="inp2" class="col-4" style="display:none ;">
+									<input   class="custom-cont rol-input" placeholder="enter otp" type="text"  id="otp">
+									<br>
+									<h3 id="counter"></h3>
+									<a style="display: none;" id="resend" class="btn btn-outline-secondary m-3" onclick="verify()">Resend Otp</a>
+									<a class="btn btn-dark m-3" onclick="login()">Login</a>
+								</div>
+							</div>
+						</div>
+						<!-- Login Wrapper End -->
+					</div>
+								
+							
+
+			
+				 <!-- Login Wrapper Start -->
+				 
 <!-- Login | Register Section End -->
 <script>
 	function forget(){
@@ -140,13 +162,14 @@
 			method:'post',
 			success:(response)=>{
 				if(response.status){
-					alert("otp has send to your mobile")
+					swal("Success!", "Otp has send to your mobile!", "success")
 				}
-				else if(response.statuss=="user not exist"){
-
+				else if(response.status=="user not exist"){
+					swal("Failed!", "User not Exists!", "error");
 				}
 				else{
 					console.log("otp failed")
+					swal("Failed!", "Otp failed!", "error");
 				}
 			}
 		})
@@ -278,4 +301,21 @@ function onSignIn(googleUser) {
 
 	  // xhr.send(JSON.stringify({token:id_token}));
 	}
+  </script>
+  <script>
+	  const startingMinutes =1;
+	  let time = startingMinutes*60
+	  const	countDown = document.getElementById("counter")
+	  let setIntervel = setInterval(updateCountDown,1000)
+		
+	  function updateCountDown(){
+		  const minutes = Math.floor(time/60)
+		  const seconds = time%60;
+		  countDown.innerHTML=`${minutes}:${seconds}`
+		  time--
+		  if(minutes==0&&seconds==0){
+			  clearInterval(setIntervel)
+			  document.getElementById("resend").style.display =""
+		  }
+	  }
   </script>

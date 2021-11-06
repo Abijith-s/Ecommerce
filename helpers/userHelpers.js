@@ -163,7 +163,9 @@ module.exports={
     })
   },
   editProfile:(body,user)=>{
+      
       console.log("whole body")
+      console.log(user)
       console.log(body.firstname,body.lastname,body.phone,body.email)
      
       let userId = objectId(body.userId)
@@ -174,7 +176,6 @@ module.exports={
                 lastname:body.lastname,
                 phone:body.phone,
                 email:body.email,
-             
                 status:true
              }}).then(async(res)=>{
                 
@@ -196,11 +197,13 @@ module.exports={
         
          let newPassword = body.newpassword
         
-         let newOne = bcrypt.compare(currentPassword,userPassword)
+         let newOne =await bcrypt.compare(currentPassword,userPassword)
+         console.log("+++++++++++++++++++++++")
+         console.log(newOne)
              if(newOne){
                 changedPassword = await bcrypt.hash(newPassword,10)
                 
-             }
+             
              console.log("checking status of password")
              console.log(changedPassword)
              await userInfo.updateOne({_id:user._id},
@@ -210,13 +213,15 @@ module.exports={
                     }
                 }).then((res)=>{
                   
-                    resolve(res)
+                    resolve(true)
                 })
+            }else{
+                resolve(false)
+            }
     })
   },
   markCoupon:(userId,couponId)=>{
-      console.log("]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]")
-      console.log(userId,couponId)
+    
       return new Promise((resolve,reject)=>{
         userInfo.updateOne({_id:userId},{
             $push:{
@@ -230,18 +235,14 @@ module.exports={
    
 },
 compareCoupon:(body,totalAmount,userId)=>{
-    console.log("coupon body")
-    console.log(totalAmount)
-   console.log(body)
-   console.log(userId);
+  
    let couponId = body.coupon
     return new Promise(async(resolve,reject)=>{
     let couponExist = await userInfo.findOne({$and:[{_id:userId},{couponhistory:couponId}]})
         console.log(couponExist)
     if(!couponExist){
         let couponOffer =  await couponInfo.findOne({couponcode:couponId}).lean()
-     console.log("-----------------------------------------------------------------------")
-     console.log(couponOffer)
+
         if(couponOffer){
          await   couponInfo.find({couponcode:couponId}).then((result)=>{
             
@@ -277,6 +278,21 @@ totalCustomers:()=>{
           console.log(result.length)
           resolve(result.length)
       })
+    })
+},
+getUser:(userId)=>{
+    return new Promise((resolve,reject)=>{
+        userInfo.findOne({_id:userId}).then((result)=>{
+            console.log(result)
+            resolve(result) 
+        })
+    })
+},
+findOneUser:(userId)=>{
+    return new Promise((resolve,reject)=>{
+        userInfo.findOne({_id:userId}).then((res)=>{
+            resolve(res)
+        })
     })
 }
 

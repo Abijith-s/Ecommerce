@@ -132,7 +132,7 @@
                 <td ><span id="sub+<%=products[item].cartproducts._id%>"><%=total[item].subtotal%></span></td>
                 <td class="pro-remove">
                   <a
-                    onclick="deletItem('<%=products[item].cartproducts._id%>','<%=products[item].user%>')"
+                    onclick="deleteCartItem('<%=products[item].cartproducts._id%>','<%=products[item].user%>')"
                     ><i class="pe-7s-trash"></i
                   ></a>
                 </td>
@@ -279,7 +279,8 @@
 </script>
 
 <script>
-  function deletItem(proId, userId) {
+  function deleteCartItem(proId, userId) {
+  
     swal({
   title: "Are you sure?",
   text: "Once deleted, you will not be able to recover this imaginary file!",
@@ -309,6 +310,4 @@
     
   }
 </script>
-<script>
 
-</script>

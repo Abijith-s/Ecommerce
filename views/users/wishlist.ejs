@@ -1,0 +1,130 @@
+   <!-- Breadcrumb Section Start -->
+   <div class="section">
+
+    <!-- Breadcrumb Area Start -->
+    <div class="breadcrumb-area bg-light">
+        <div class="container-fluid">
+            <div class="breadcrumb-content text-center">
+                <h1 class="title">Wishlist</h1>
+                <ul>
+                    <li>
+                        <a href="index.html">Home </a>
+                    </li>
+                    <li class="active"> Wishlist</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb Area End -->
+
+</div>
+<!-- Breadcrumb Section End -->
+
+<!-- Wishlist Section Start --><%if(wishlist.length==0){%>
+  <div class="row d-flex justify-content-center">
+    <div class="card px-4 pt-5  mt-4" style="width: 18rem;">
+      <img class="card-img-top" src="data:image/png;base64,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" alt="Card image cap">
+      <div class="card-body">
+        <h1 class="card-text">Your Wishlist is Empty</h1>
+      </div>
+    </div>
+  </div>
+  <%}else{%>
+<div class="section section-margin">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="wishlist-table table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="pro-thumbnail">Image</th>
+                                <th class="pro-title">Product</th>
+                                <th class="pro-price">Price</th>
+                                <th class="pro-stock">Stock Status</th>
+                                <th class="pro-cart">Add to Cart</th>
+                                <th class="pro-remove">Remove</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%for(var item in wishlist){%>
+                            <tr>
+                                <td class="pro-thumbnail"><a href="#"><img class="img-fluid" style="width: 200px; height: 150" src="/product-images/image1/<%=wishlist[item].wishlistproducts.image1 %>.jpg" alt="Product" /></a></td>
+                                <td class="pro-title"><a href="#"><%=wishlist[item].wishlistproducts.productname%></a></td>
+                                <td class="pro-price"><span><%=wishlist[item].wishlistproducts.price%></span></td>
+                                <td class="pro-stock"><span>In Stock</span></td>
+                                <td class="pro-cart"><a onclick="addToCart('<%=wishlist[item].wishlistproducts._id%>')" class="btn btn-dark btn-hover-primary rounded-0">Add to Cart</a></td>
+                                <td class="pro-remove"><a onclick="deletItem('<%=wishlist[item].wishlistproducts._id%>','<%=wishlist[item].user%>')"><i class="pe-7s-trash"></i></a></td>
+                            </tr>
+                        <%}%>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<%}%>
+<!-- Wishlist Section End -->
+<div
+          class="cart-update-option d-block d-md-flex justify-content-between"
+        >
+        
+         
+          <!-- Cart Update End -->
+        </div>
+
+        <script>
+            function deletItem(proId, userId) {
+              
+              swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this imaginary file!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          })
+          .then((willDelete) => {
+            if (willDelete) {
+              $.ajax({
+                url: "/delete-wishlist-item",
+                data: {
+                  proId: proId,
+                  userId: userId,
+                },
+                method: "post",
+                success: (response) => {
+                  if (response) {
+                    window.location.reload();
+                  }
+                },
+                error: () => {},
+              });
+          
+            } 
+          });
+              
+            }
+          </script>        
+              <script>
+                function addToCart(proId){
+                   
+                    $.ajax({
+                        url:'/add-to-cart/'+proId,
+                        method:'get',
+                        success:(response)=>{
+                            console.log(response)
+                           if(response.status){
+                               
+                                let count= document.getElementById("cartcount") 
+                                let newCount = parseInt(count.innerHTML)+1
+                                count.innerHTML = newCount
+                            }else{
+                                location.href='/login'
+                            }
+                        }
+                    })
+                }
+            </script>
