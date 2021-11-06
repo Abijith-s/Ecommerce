@@ -156,8 +156,13 @@ module.exports={
       console.log(phone.phone)
     return new Promise(async(resolve,reject)=>{
      await  userInfo.findOne({phone:phone.phone}).then((res)=>{
-         console.log(res+"++++++++++++++++++++++++++++++++++++++++++++++++++")
-        resolve(res)
+         if(res){
+            console.log(res+"++++++++++++++++++++++++++++++++++++++++++++++++++")
+            resolve(res)
+         }else{
+             resolve(false)
+         }
+        
      })
      
     })

@@ -711,9 +711,9 @@ console.log(req.body)
             res.json({ status: false });
           }
         });
-    } else {
-      res.json({ status: "user not exist" });
-    }
+    }else{
+      res.json(false)
+    } 
   });
 });
 router.post("/otp-login", (req, res) => {

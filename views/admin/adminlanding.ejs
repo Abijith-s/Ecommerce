@@ -225,16 +225,25 @@
     google.charts.load("current", {packages:['corechart']});
     google.charts.setOnLoadCallback(drawChart);
 	let Sales = '<%=weeklyReport%>'
-	console.log("--------------------------");
+	Sales = Sales.split(',')
+	let colorArray = ['red', 'blue', 'cyan', 'black', 'green', 'grey', 'gold','blue']
+	let dataArray = []
+	for(let i=0; i<16; i+=2){
+		dataArray.push([  `${Sales[i]}`, parseInt(Sales[i+1]), colorArray[i/2]])
+		
+	}
 	console.log(Sales);
+	console.log(dataArray);
+
     function drawChart() {
 	
       var data = google.visualization.arrayToDataTable([
-        ["Element", "Density", { role: "style" } ],
-        ["Copper", 8.94, "#b87333"],
-        ["Silver", 10.49, "silver"],
-        ["Gold", 19.30, "gold"],
-        ["Platinum", 21.45, "color: #e5e4e2"]
+        ["Element", "Orders", { role: "style" } ],
+        // ["Copper", 8.94, "#b87333"],
+        // ["Silver", 10.49, "silver"],
+        // ["Gold", 19.30, "gold"],
+        // ["Platinum", 21.45, "color: #e5e4e2"]
+		...dataArray
       ]);
 
       var view = new google.visualization.DataView(data);
