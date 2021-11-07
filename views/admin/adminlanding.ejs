@@ -226,9 +226,9 @@
     google.charts.setOnLoadCallback(drawChart);
 	let Sales = '<%=weeklyReport%>'
 	Sales = Sales.split(',')
-	let colorArray = ['red', 'blue', 'cyan', 'black', 'green', 'grey', 'gold','blue']
+	let colorArray = ['red', 'blue', 'cyan', 'black', 'green', 'grey', 'gold']
 	let dataArray = []
-	for(let i=0; i<16; i+=2){
+	for(let i=0; i<14; i+=2){
 		dataArray.push([  `${Sales[i]}`, parseInt(Sales[i+1]), colorArray[i/2]])
 		
 	}
@@ -255,7 +255,7 @@
                        2]);
 
       var options = {
-        title: "Density of Precious Metals, in g/cm^3",
+        title: "Daily sales report",
         width: 600,
         height: 400,
         bar: {groupWidth: "95%"},

@@ -58,7 +58,7 @@ router.get('/adminlanding',async function(req, res, next) {
   let shipped = await productHelpers.shippedOrder()
   let weeklyReport = await productHelpers.getweeklyreport()
   console.log(weeklyReport)
-  
+
   res.render('admin/adminlanding',{admin:true,logged:true,totalOrder,totalCustomer,totalSails,totalCancelled,order,RazorPay,paypal,cod,placed,delivered,cancelled,shipped,weeklyReport})
  }else{
   res.redirect('/admin')
@@ -388,8 +388,30 @@ router.get('/delete-pro-offer',(req,res)=>{
 })
 
 router.get('/sales',async(req,res)=>{
- let orders =  await productHelpers.getAllOrders()
+  console.log("query vanno mone")
+  let orders;
+if(req.query.startdate&&req.query.enddate){
+  console.log("ivde varanond ---------------------")
+   orders =await productHelpers.sortByDate(req.query)
+}else if(req.query.choosedate){
+  console.log("ivde infooda")
+  orders = await productHelpers.chooseByDate(req.query)
+}else{
+   orders =  await productHelpers.getAllOrders()
+  
+}
+
+ 
   res.render('admin/sales',{admin:true,admin:true,logged:true,orders})
 })
 
+
+// router.post('/sales',(req,res)=>{
+//  console.log("postil vanna data*****************")
+//  console.log(req.body)
+//   productHelpers.sortByDate(req.body).then((result)=>{
+//     res.json({result})
+//   })
+
+// })
 module.exports = router;

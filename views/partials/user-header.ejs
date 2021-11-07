@@ -223,16 +223,30 @@
 
 			<!-- Language, Currency & Link Start -->
 			<div class="offcanvas-lag-curr mb-6">
-				<h2 class="title">Languages</h2>
+				
 				<div class="header-top-lan-curr-link">
 					<div class="header-top-lan dropdown">
-						<button class="dropdown-toggle" data-bs-toggle="dropdown">English <i class="fa fa-angle-down"></i></button>
-						<ul class="dropdown-menu dropdown-menu-right animate slideIndropdown">
-							<li><a class="dropdown-item" href="#">English</a></li>
-							<li><a class="dropdown-item" href="#">Japanese</a></li>
-							<li><a class="dropdown-item" href="#">Arabic</a></li>
-							<li><a class="dropdown-item" href="#">Romanian</a></li>
-						</ul>
+						
+							<button class="dropdown-toggle" data-bs-toggle="dropdown">
+								<% if(user){ %>
+									<%= user.firstname %>
+									<% } else { %>
+										Account
+									<% } %>
+								
+								
+								</button>
+							<ul class="dropdown-menu dropdown-menu-right animate slideIndropdown">
+								<% if(user){ %>
+									<li><a class="dropdown-item" onclick="signOut()" href="/logout">Logout</a></li>
+									<% } else { %>
+										<li><a href="/login" class="dropdown-item" >Login</a></li>
+										<li><a class="dropdown-item" href="/signup">SignUp</a></li>
+									<% } %>
+								
+								
+							</ul>
+						
 					</div>
 					<div class="header-top-curr dropdown">
 						<button class="dropdown-toggle" data-bs-toggle="dropdown">USD <i class="fa fa-angle-down"></i></button>

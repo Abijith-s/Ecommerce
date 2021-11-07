@@ -1,0 +1,42 @@
+<div class="container  pb-5">
+					
+    <!-- Login Wrapper Start -->
+    <div class="login-wrapper">
+
+       <!-- Login Title & Content Start -->
+       <div class="section-content text-center mb-5">
+           <h2 class="title mb-2">Verify Login</h2>
+           <p class="desc-content">Please verify using mobile OTP bellow.</p>
+       </div>
+       <!-- Login Title & Content End -->
+
+   
+       <div class="custom-control custom-checkbox align-items-center" >
+           <br>
+           <div id="inp2" class="col-4" >
+               <form id="otp-form">
+               <input   class="custom-cont rol-input" name="otp" placeholder="enter otp" type="text"  id="otp">
+               <br>
+               <h3 id="counter"></h3>
+               <a style="display: none;" id="resend" class="btn btn-outline-secondary m-3" onclick="verify()">Resend Otp</a>
+               <button type="submit" class="btn btn-dark m-3" onclick="login()">Login</button>
+            </form>
+           </div>
+       </div>
+   </div>
+   <!-- Login Wrapper End -->
+</div>
+<script>
+      $("#otp-form").submit((e)=>{
+                        e.preventDefault()
+                        $.ajax({
+                              url:'/enter-otp',
+                              method:'post',
+                              data:$("#otp-form").serialize(),
+                              success:(response)=>{
+                                    console.log(response)
+                                    
+                              }
+                        })
+                  })
+</script>

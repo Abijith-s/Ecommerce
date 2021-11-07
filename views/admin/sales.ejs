@@ -21,7 +21,52 @@
                         <div class="card-header">
                             <div class="card-title"><i class="far fa-money-bill-alt"></i> Transaction Details</div>
                         </div>
-                        
+                        <label for=""><h3>Filter By date</h3></label>
+                <form id="sortbydate" action="/admin/sales"  method="get">
+                        <div class="col-12">
+                            <div class="input-box form-group">
+                              <div class="row">
+                                    <label for="start-date" class="col-md-3 control-label">Start Date</label>
+                                    <div class="col-md-9">
+                                        <div class="datepicker date input-group">
+                                          <input type="date" name="startdate" required placeholder="Start Date" class="form-control" id="startdate">
+                                          <div class="input-group-append">
+                                              <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                            </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="input-box form-group">
+                          <div class="row">
+                                <label for="end-date" class="col-md-3 control-label">End Date</label>
+                                <div class="col-md-9">
+                                    <div class="datepicker date input-group ">
+                                      <input type="date" required placeholder="End Date" class="form-control" name="enddate" id="enddate">
+                                      <div class="input-group-append">
+                                          <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+
+                        <button type="submit" id="crop3" class="btn btn-outline-info">Filter by Date</button>
+                       
+        
+                    </div>
+                </form>
+                <label for=""><h3>Monthly Report</h3></label>
+                <form id="sortbydate" action="/admin/sales"  method="get">
+                    
+                    <div class="modal-footer">
+                        <button type="submit" id="crop3" class="btn btn-outline-info">Monthly Report</button>
+                    </div>
+                </form>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table id="datatable" class="display table table-hover" >
@@ -38,6 +83,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                       
                                         <%for(var i  of orders){%>
                                         <tr>
                                             <td><%=i.deliverydetails.address%></td>
@@ -49,6 +95,7 @@
                                             <td><%=i.totalamount%></td>
                                         </tr>
                                         <%}%>
+                                        
                                     </tbody>
                                 </table>
                             </div>
@@ -136,3 +183,4 @@
         });
     });
 </script>
+

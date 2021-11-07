@@ -140,14 +140,37 @@ router.get("/signup", (req, res) => {
     res.render("users/signup", { admin: false, user });
   }
 });
-router.post("/signup", (req, res) => {
-  userHelper.addUsers(req.body).then((response) => {
-    req.session.user = response;
-
-    req.session.SignIn = true;
-    res.redirect("/");
-  });
+router.post("/signup",async (req, res) => {
+    // let addUser = await  userHelper.addUsers(req.body)
+    console.log(req.body.phone)
+   userHelper.findUser(req.body.phone).then((result)=>{
+     if()
+   })
+  
+    res.redirect("/enter-otp");
+  
 });
+
+router.get('/enter-otp',(req,res)=>{
+  console.log("otp aato")
+
+  let user = req.session.user;
+  if (req.session.user) {
+    res.redirect("/");
+  } else {
+    res.render("users/enter-otp", { admin: false, user });
+  }
+})
+
+router.post('/enter-otp',(req,res)=>{
+  console.log("ithanu otp")
+  console.log(req.body.otp)
+  
+  req.session.user = response;
+
+  req.session.SignIn = true;
+  
+})
 router.get("/login", (req, res) => {
   let id = req.query.cate;
   

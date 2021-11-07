@@ -1179,6 +1179,41 @@ getweeklyreport: async () => {
         
 
     })
+},
+sortByDate:(body)=>{
+    return new Promise((resolve,reject)=>{
+        let startdate = body.startdate
+        let enddate = body.enddate
+        // console.log( body.enddate,body.startdate)
+        console.log(body)
+        orderInfo.aggregate([
+            {
+                $match:{
+                    $and: [{ date: { $gte: new Date(startdate)  } }, { date: { $lte: new Date(enddate)  }}]
+                }
+            }
+        ]).then((result)=>{
+            resolve(result)
+        })
+    })
+},
+chooseByDate:(body)=>{
+    return new Promise((resolve,reject)=>{
+        console.log("-------------------------------------reult of agg  ")
+        console.log(body)
+        let choosedate = body.choosedate
+        console.log(choosedate)
+        orderInfo.aggregate([
+            {
+                $match:{
+                    date:{$eq: new Date(choosedate)}
+                }
+            }
+        ]).then((result)=>{
+            console.log("aggggg _=-=-=-=-=---=-=-=-=-=-==-===-=-===-==-=-=")
+            console.log(result)
+        })
+    })
 }
 
 }
