@@ -37,8 +37,8 @@ module.exports={
                     console.log("error"+err);
                 }else{
                     console.log("evdenn vannu")
-                    console.log(resolve);
-                resolve(details)
+                    console.log(details)
+                    resolve(details)
                 }
             })
         })
@@ -159,6 +159,24 @@ module.exports={
          if(res){
             console.log(res+"++++++++++++++++++++++++++++++++++++++++++++++++++")
             resolve(res)
+         }else{
+             resolve(false)
+         }
+        
+     })
+     
+    })
+  },
+  findSignUpUser:(phone)=>{
+    console.log("user ----------------------")
+      console.log(phone)
+    return new Promise(async(resolve,reject)=>{
+     await  userInfo.findOne({phone:phone}).then((res)=>{
+         console.log("user id 66666666666666666666")
+         console.log(res)
+         if(!res){
+            
+            resolve(true)
          }else{
              resolve(false)
          }

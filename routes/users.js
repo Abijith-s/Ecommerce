@@ -141,19 +141,41 @@ router.get("/signup", (req, res) => {
   }
 });
 router.post("/signup",async (req, res) => {
-    // let addUser = await  userHelper.addUsers(req.body)
-    console.log(req.body.phone)
-   userHelper.findUser(req.body.phone).then((result)=>{
-     if()
+   userHelper.findSignUpUser(req.body.phone).then((result)=>{
+     if(result==false){
+       res.json({status:false})
+     }else {
+       req.session.signInUser = req.body
+       let otp = req.body.phone;
+       console.log("evde aada otp")
+       console.log(otp)
+       twilio.verify
+         .services(serviceID)
+         .verifications.create({
+           to: `+91${otp}`,
+           channel: "sms",
+           message: "otp",
+         })
+         .then((response) => {
+           console.log("*********************")
+           console.log(response)
+           if (response.status == "pending") {
+             res.json({ status: true });
+           }
+         }).catch((err)=>{
+          console.log("*********************")
+           console.log(err)
+         });
+     
+     }
    })
   
-    res.redirect("/enter-otp");
+    
   
 });
 
 router.get('/enter-otp',(req,res)=>{
   console.log("otp aato")
-
   let user = req.session.user;
   if (req.session.user) {
     res.redirect("/");
@@ -163,13 +185,52 @@ router.get('/enter-otp',(req,res)=>{
 })
 
 router.post('/enter-otp',(req,res)=>{
-  console.log("ithanu otp")
-  console.log(req.body.otp)
+  let userSignIn = req.session.signInUser;
+ 
+  let otp = req.body.otp;
+  let number = userSignIn.phone;
+  twilio.verify
+    .services(serviceID)
+    .verificationChecks.create({
+      to: `+91${number}`,
+      code: otp,
+    }) .then((response) => {
+     
+      if(response.status == "approved" && response.valid) {
+         userHelper.addUsers(userSignIn).then((user)=>{
+           delete req.session.signInUser
+           if(user){
+            req.session.user = user;
+            req.session.SignIn = true;
+            console.log("userin entry kofuthu")
+            res.json({status:true})
+           }
+            
+         })
+        
+      }else{
+        res.json({status:false})
+      }
+    })
   
-  req.session.user = response;
+  
+})
 
-  req.session.SignIn = true;
-  
+router.post('/resend-otp',(req,res)=>{
+ let userSignIn = req.session.signInUser 
+  let otp = userSignIn.phone;
+  twilio.verify
+    .services(serviceID)
+    .verifications.create({
+      to: `+91${otp}`,
+      channel: "sms",
+      message: "otp",
+    })
+    .then((response) => {
+      if (response.status == "pending") {
+        res.json({ status: true });
+      }
+    });
 })
 router.get("/login", (req, res) => {
   let id = req.query.cate;
@@ -980,7 +1041,7 @@ router.get('/wishlist',verifyLogin,checkUserCartLength,async(req,res)=>{
 })
 
 router.get("/add-to-wishlist/:id", verifyLogin, (req, res) => {
-  console.log("]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]")
+
   let proId = req.params.id;
   console.log(proId)
   let userId = req.session.user._id;

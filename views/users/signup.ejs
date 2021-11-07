@@ -194,6 +194,22 @@
    }
    
    </script> 
-   <script>
-	   
-   </script>
+<script>
+	$("#signup-form").submit((e)=>{
+					  e.preventDefault()
+					  $.ajax({
+							url:'/signup',
+							method:'post',
+							data:$("#signup-form").serialize(),
+							success:(response)=>{
+								  if(!response.status){
+									swal("Failed!", "mobile number Already exist!", "error");
+								  }else{
+								
+									location.href="/enter-otp"
+								  }
+								  
+							}
+					  })
+				})
+</script>

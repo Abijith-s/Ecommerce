@@ -5,7 +5,7 @@
 
        <!-- Login Title & Content Start -->
        <div class="section-content text-center mb-5">
-           <h2 class="title mb-2">Verify Login</h2>
+           <h2 class="title mb-2">Verify Mobile</h2>
            <p class="desc-content">Please verify using mobile OTP bellow.</p>
        </div>
        <!-- Login Title & Content End -->
@@ -34,9 +34,44 @@
                               method:'post',
                               data:$("#otp-form").serialize(),
                               success:(response)=>{
-                                    console.log(response)
+                                    if(response.status){
+                                        location.href="/"
+                                    }else{
+                                        swal("Failed!", "Invalid Otp!", "error")
+                                    }
                                     
                               }
                         })
                   })
+</script>
+<script>
+    const startingMinutes =1;
+    let time = startingMinutes*60
+    const	countDown = document.getElementById("counter")
+    let setIntervel = setInterval(updateCountDown,1000)
+      
+    function updateCountDown(){
+        const minutes = Math.floor(time/60)
+        const seconds = time%60;
+        countDown.innerHTML=`${minutes}:${seconds}`
+        time--
+        if(minutes==0&&seconds==0){
+            clearInterval(setIntervel)
+            document.getElementById("resend").style.display =""
+        }
+    }
+</script>
+<script>
+    function verify(){
+        alert("nan vannu")
+        $.ajax({
+            url:'/resend-otp',
+            method:'post',
+                              
+            success:(response)=>{
+                
+            }
+            
+        })
+    }
 </script>
