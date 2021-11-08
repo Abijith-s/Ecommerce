@@ -596,3 +596,136 @@
       <!-- Single Product Thumb End -->
 
   </div>
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="row">
+    <% for (var items of categ) { %>
+    <div class="col-md-3">
+                                <!-- Product Start -->
+                                <!-- <div class="swiper-slide product-wrapper"> -->
+
+                                    <!-- Single Product Start -->
+                                    
+                                    <div class="product product-border-left mb-10" data-aos="fade-up" data-aos-delay="300">
+                                        <div class="thumb">
+                                            <a href="/product-view/<%=items._id%>" class="image">
+                                                <img class="first-image" style="width: 300px;height: 400px;" src="/product-images/image1/<%=items.image1 %>.jpg"  />
+                                                <img class="second-image" style="width: 300px;height: 400px;" src="/product-images/image2/<%=items.image2 %>.jpg"  />
+                                            </a>
+                                            <div class="actions">
+                                                <a href="#" class="action wishlist" style="cursor: pointer;"><i class="pe-7s-like"></i></a>
+                                                <a href="#" class="action quickview" data-bs-toggle="modal" data-bs-target="#exampleModalCenter"><i class="pe-7s-search"></i></a>
+                                                <a href="#" class="action compare"><i class="pe-7s-shuffle"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="content">
+                                            <h2 class="sub-title"><a href="/product-view/<%=items._id%>"> <%=items.productname %></a></h2>
+                                            
+                                            <span class="ratings">
+                                                    <span class="rating-wrap">
+                                                        <span class="star" style="width: 100%"></span>
+                                            </span>
+                                            <span class="rating-num">(4)</span>
+                                            </span>
+                                            <span class="price">
+                                                    <span class="new">₹<%=items.price %></span>
+                                            </span>
+                                            
+                                            <button onclick="addToCart('<%=items._id%>')" class="btn btn-sm btn-outline-dark btn-hover-primary">Add To Cart</button>
+                                        </div>
+                                    </div>
+                            <!-- Swiper Pagination Start -->
+                            <!-- <div class="swiper-pagination d-md-nonhe"></div> -->
+                            <!-- Swiper Pagination End -->
+
+                            <!-- Next Previous Button Start -->
+                            <!-- <div class="swiper-product-button-next swiper-button-next swiper-button-white d-md-flex d-none"><i class="pe-7s-angle-right"></i></div>
+                            <div class="swiper-product-button-prev swiper-button-prev swiper-button-white d-md-flex d-none"><i class="pe-7s-angle-left"></i></div> -->
+                            <!-- Next Previous Button End -->
+    </div>
+    <% } %>
+</div>
+
+
+
+
+
+
+
+
+
+<div class="row">
+  <!-- Tab Start -->
+  <div class="col-12">
+      <ul class="product-tab-nav nav justify-content-center mb-10 title-border-bottom mt-n3">
+          <%for(var items of categories) { %>
+              
+          <li class="nav-item" data-aos="fade-up" data-aos-delay="300"><a class="nav-link  mt-3"  href="/?cate=<%=items.categoryname%>"><%=items.categoryname%></a></li>
+          
+          <% } %>
+      </ul>
+  </div>
+  <!-- Tab End -->
+
+<!-- Section Title & Tab End -->
+
+<!-- Products Tab Start -->
+
+<!-- Products Tab End -->
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="container">
+  <!-- Section Title & Tab Start -->
+  <%if(categoryProducts&&categoryProducts[0].category=='MEN'){%>
+  <div class="row">
+      <!-- Tab Start -->
+      <div class="col-12">
+          <div class="section-title-produt-tab-wrapper">
+              <div class="section-title m-0" data-aos="fade-right" data-aos-delay="300">
+                  <h1 class="title">For Him</h1>
+              </div>
+              
+          </div>
+      </div>
+      <!-- Tab End -->
+  </div>
+  <%}else if(categoryProducts && categoryProducts[0].category=='WOMEN'){%>
+      <div class="row">
+          <!-- Tab Start -->
+          <div class="col-12">
+              <div class="section-title-produt-tab-wrapper">
+                  <div class="section-title m-0" data-aos="fade-right" data-aos-delay="300">
+                      <h1 class="title">For Her</h1>
+                  </div>
+                  
+              </div>
+          </div>
+          <!-- Tab End -->
+      </div>
+
+  
+   <!-- Section Title & Tab End -->

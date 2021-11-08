@@ -72,17 +72,33 @@
 						<div class="main-menu position-relative">
 							<ul>
 								<li class="has-children">
-									<a href="#"><span>Home</span> <i class="fa fa-angle-down"></i></a>
-									
+									<a href="/"><span>Home</span> <i class="fa fa-angle-down"></i></a>
 								</li>
 								<li class="has-children position-static">
-									<a href="#"><span>Shop</span> <i class="fa fa-angle-down"></i></a>
+									<a ><span>categories</span> <i class="fa fa-angle-down"></i></a>
+									<ul class="sub-menu">
+										<%for(var i of categories){%>
+										<li><a href="/?cate=<%=i.categoryname%>"><%=i.categoryname%></a></li>
+										<%}%>
+									</ul>	
+								</li>
 
+								<li  class="has-children position-static">
+									<a > <span>Sub Categories</span><i class="fa fa-angle-down"></i></a>
+									<ul class="mega-menu row-cols-4">
+										<%for(var i of categories){%>
+										<li class="col">
+											<h4 class="mega-menu-title"><%=i.categoryname%></h4>
+											<ul class="mb-n2">
+												<%for(var j of i.subcategory){%>
+												<li><a href="/?subcat=<%=j%>&&cat=<%=i.categoryname%>"><%=j%></a></li>
+												<%}%>
+											</ul>
+										</li>
+										<%}%>
+									</ul>
 								</li>
-								<li class="has-children">
-									<a href="#"><span>Pages</span> <i class="fa fa-angle-down"></i></a>
-									
-								</li>
+							
 								<%if(user) {%>
 								<li class="has-children">
 									
@@ -91,7 +107,7 @@
 										
 								</li>
 								<%} %>
-								<li><a href="contact.html"> <span>Contact</span></a></li>
+								
 							</ul>
 						</div>
 					</div>

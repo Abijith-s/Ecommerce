@@ -45,9 +45,9 @@
                   })
 </script>
 <script>
-    const startingMinutes =1;
+    let startingMinutes =1;
     let time = startingMinutes*60
-    const	countDown = document.getElementById("counter")
+    let	countDown = document.getElementById("counter")
     let setIntervel = setInterval(updateCountDown,1000)
       
     function updateCountDown(){
@@ -60,9 +60,11 @@
             document.getElementById("resend").style.display =""
         }
     }
-</script>
-<script>
     function verify(){
+     startingMinutes =1;
+     time = startingMinutes*60
+    	countDown = document.getElementById("counter")
+     setIntervel = setInterval(updateCountDown,1000)
         alert("nan vannu")
         $.ajax({
             url:'/resend-otp',

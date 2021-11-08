@@ -220,7 +220,8 @@ module.exports={
             resolve(categories)
         })
       
-    },findSubCategory:(cat)=>{
+    },
+    findSubCategory:(cat)=>{
         return new Promise(async(resolve,reject)=>{
            await categoryInfo.find({categoryname:cat}).lean().then((response)=>{
                 resolve(response)
@@ -264,7 +265,17 @@ module.exports={
         
           resolve(cate)
         })
+
     },
+    getSubCategoryProducts:(subcat,cat)=>{
+        return new Promise(async(resolve,reject)=>{
+         let subCatPro =await   productInfo.find({category:cat,subcategory:subcat})
+         console.log("*************************subcatpro")
+         console.log(subCatPro)
+         resolve(subCatPro)
+        })
+    },
+   
     addToCart :(proId,userId)=>{
         
         return new Promise(async(resolve,reject)=>{
@@ -1213,6 +1224,29 @@ chooseByDate:(body)=>{
             console.log("aggggg _=-=-=-=-=---=-=-=-=-=-==-===-=-===-==-=-=")
             console.log(result)
         })
+    })
+},
+getMonthlyReport:()=>{
+    return new Promise(async(resolve, reject) =>{
+
+        var date = new Date()
+        var firstDay = new Date(date.getFullYear(), date.getMonth(), 1)
+        var day = firstDay
+        
+        let orders = await orderInfo.find({}).lean()
+        let month = []
+        for(var i=0; i< orders.length; i++){
+
+            if(orders[i].date > day){
+
+                month.push(orders[i]);
+               
+            }
+        }
+        
+        console.log(month)
+        console.log("*********************month")
+        resolve(month)
     })
 }
 

@@ -116,14 +116,14 @@
 								
 									<input   class="custom-cont rol-input" type="text" placeholder="enter your phone number"  id="login">
 									
-									<a class="btn btn-outline-success m-3" onclick="verify()" >Verify</a>
+									<a class="btn btn-outline-success m-3" onclick="verify();" >Verify</a>
 								</div>
 								<br>
 								<div id="inp2" class="col-4" style="display:none ;">
 									<input   class="custom-cont rol-input" placeholder="enter otp" type="text"  id="otp">
 									<br>
 									<h3 id="counter"></h3>
-									<a style="display: none;" id="resend" class="btn btn-outline-secondary m-3" onclick="verify()">Resend Otp</a>
+									<a style="display: none;" id="resend" class="btn btn-outline-secondary m-3" onclick="	verify();">Resend Otp</a>
 									<a class="btn btn-dark m-3" onclick="login()">Login</a>
 								</div>
 							</div>
@@ -146,6 +146,7 @@
 </script>
 <script>
 	function verify(){
+		setTime();
 		document.getElementById("inp1").style.display="none"
 		document.getElementById("inp2").style.display=""
 		console.log("loggedin")
@@ -307,12 +308,21 @@ function onSignIn(googleUser) {
 	}
   </script>
   <script>
-	  const startingMinutes =1;
-	  let time = startingMinutes*60
-	  const	countDown = document.getElementById("counter")
-	  let setIntervel = setInterval(updateCountDown,1000)
+	  let countDown
+	  let time
+	  let setIntervel
+	  function setTime(){
+		  alert("njn vammu")
+	  const startingMinutes = 1;
+	   countDown = document.getElementById("counter");
+	   time = startingMinutes*60
+		
+	   setIntervel = setInterval(updateCountDown,1000)
+	  }
+	 
 		
 	  function updateCountDown(){
+		 
 		  const minutes = Math.floor(time/60)
 		  const seconds = time%60;
 		  countDown.innerHTML=`${minutes}:${seconds}`
@@ -320,6 +330,7 @@ function onSignIn(googleUser) {
 		  if(minutes==0&&seconds==0){
 			  clearInterval(setIntervel)
 			  document.getElementById("resend").style.display =""
+
 		  }
 	  }
   </script>

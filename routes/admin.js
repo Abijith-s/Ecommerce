@@ -57,6 +57,7 @@ router.get('/adminlanding',async function(req, res, next) {
   let cancelled = await productHelpers.cancelledOrder()
   let shipped = await productHelpers.shippedOrder()
   let weeklyReport = await productHelpers.getweeklyreport()
+ 
   console.log(weeklyReport)
 
   res.render('admin/adminlanding',{admin:true,logged:true,totalOrder,totalCustomer,totalSails,totalCancelled,order,RazorPay,paypal,cod,placed,delivered,cancelled,shipped,weeklyReport})
@@ -396,13 +397,16 @@ if(req.query.startdate&&req.query.enddate){
 }else if(req.query.choosedate){
   console.log("ivde infooda")
   orders = await productHelpers.chooseByDate(req.query)
-}else{
+}else if(req.query.enabled){
+ orders = await productHelpers.getMonthlyReport()
+}
+else{
    orders =  await productHelpers.getAllOrders()
-  
 }
 
  
-  res.render('admin/sales',{admin:true,admin:true,logged:true,orders})
+
+  res.render('admin/sales',{admin:true,logged:true,orders})
 })
 
 
