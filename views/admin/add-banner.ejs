@@ -1,0 +1,120 @@
+  
+        <div class="page-inner">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-head-row justify-content-between">
+                                <div class="card-title"><i class="fas fa-pen"></i> Add Product</div>
+                            
+                            </div>
+                        </div>
+                        
+                        <div class="card-body">
+                            <form class="main-form full" action="/admin/add-product" method="POST" onsubmit="return addProduct()" enctype="multipart/form-data">
+                                  <div class="row">
+                                    <div class="col-12">
+                                          <div class="input-box form-group required">
+                                            <div class="row">
+                                                  <label for="p-name" class="col-md-3 control-label">Product Name</label>
+                                                  <div class="col-md-9">
+                                                    <input  type="text" name="productname" class="form-control" id="name1" required placeholder="Product Name">
+                                                    <p id="error1" style="color: red;"></p>
+                                                </div>
+                                            </div>
+                                          </div>
+                                    </div>
+                                   
+                                    <div class="col-12">
+                                          <div class="input-box form-group">
+                                            <div class="row">
+                                                  <label for="description" class="col-md-3 control-label">Description</label>
+                                                  <div class="col-md-9">
+                                                    <textarea id="name2" name="description" class="form-control" placeholder="Description" rows="10" cols="30" name="Description"></textarea>
+                                                    <p id="error2" style="color: red;"></p>
+                                                </div>
+                                            </div>
+                                          </div>
+                                    </div>
+                                    <div class="col-12">
+                                          <div class="input-box form-group">
+                                            <div class="row">
+                                                  <label for="input-price" class="col-md-3 control-label">Price</label>
+                                                  <div class="col-md-9">
+                                                    <input type="text" name="price"  placeholder="Price" id="name3" class="form-control">
+                                                    <p id="error3" style="color: red;"></p>
+                                                </div>
+                                            </div>
+                                          </div>
+                                    </div>
+                                  
+                                    <div class="col-12">
+                                          <div class="input-box form-group">
+                                            <div class="row">
+                                                  <label for="input-quantity" class="col-md-3 control-label">Quantity</label>
+                                                  <div class="col-md-9">
+                                                    <input type="text" name="quantity" class="form-control"  id="name4" placeholder="Quantity">
+                                                    <p id="error4" style="color: red;"></p>
+                                                </div>
+                                            </div>
+                                          </div>
+                                    </div>
+                                    <div class="col-12">
+                                      <div class="input-box form-group">
+                                        <div class="row">
+                                              <label for="input-quantity" class="col-md-3 control-label">Category</label>
+                                                <div class="col-md-9">
+                                                  <select name="category" id="category" style="width: 200px;" id="cars">
+                                                   
+
+                                                    <option name="category" value=""></option>
+                                        
+                                                  </select>
+                                                  </div>
+                                                </div>
+                                        </div>
+                                      </div>
+                                
+                                <div class="col-12">
+                                  <div class="input-box form-group">
+                                    <div class="row">
+                                          <label for="input-quantity" class="col-md-3 control-label">Subcategory</label>
+                                            <div class="col-md-9">
+                                              <label for="cars">Choose a Subcategory</label>
+
+                                            <select name="subcategory" id="subcategory" style="width: 200px;" id="cars">
+                                              
+                                              <option name="subcategory" value="volvo"> </option>
+                                            
+                                            </select>
+
+                                            </div>
+                                    </div>
+                                  </div>
+                            </div>
+                                    <div class="col-12">
+                                        <div class="input-box form-group">
+                                          <div class="row">
+                                                <label for="input-quantity" class="col-md-3 control-label">Add Image</label>
+                                                <div class="col-md-9">
+                                                
+                                                
+                                                  <input type="file" class="form-control" name="image1"  id="input-quantity1" placeholder="Quantity">
+                                                  <img src="" width="100" id="preview1">
+                                                  <input type="file" class="form-control" name="image2"  id="input-quantity2" placeholder="Quantity">
+                                                  <img src="" width="100"  id="preview2">
+                                                  <input type="file" class="form-control" name="image3"  id="input-quantity3" placeholder="Quantity">
+                                                  <img src="" width="100"  id="preview3">
+                                          </div>
+                                        </div>
+                                  </div>
+                                 
+                               <button type="submit" class="btn btn-danger">Add product</button>
+                               <p id="error5" style="color: red;"></p>
+                                  </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>

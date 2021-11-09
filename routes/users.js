@@ -67,9 +67,9 @@ router.get("/",async function (req, res, next) {
   let cate = req.query.cate;
   let subcat = req.query.subcat
   let cat = req.query.cat
+  let search = req.query.productname
   console.log("cate-----------------------")
-  console.log(subcat)
-  console.log(cat)
+ 
   let cartCount;
   let products
   productHelpers.offerExpiration()
@@ -93,6 +93,9 @@ if(cate){
  products =await productHelpers.getSubCategoryProducts(subcat,cat)
  
 subcatg =true
+
+}else if(search){
+  products =  await productHelpers.searchProducts(req.query.productname)
 
 }
 else{
@@ -258,10 +261,12 @@ router.post('/resend-otp',(req,res)=>{
     });
 })
 router.get("/login",async (req, res) => {
+   
   let id = req.query.cate;
   let categories = await productHelpers.getAllCategories()
   
   if (req.session.loggedIn && req.session.user) {
+     
     res.redirect("/");
   } else {
     errMsg = req.session.loggedInErr
@@ -272,13 +277,18 @@ router.get("/login",async (req, res) => {
 });
 router.post("/login", (req, res) => {
 
- 
+  let proId = req.session.addCart
   userHelper.doLogin(req.body).then((response) => {
    
     if (response.status && response.user.status) {
       req.session.user = response.user;
       req.session.loggedIn = true;
-      res.redirect("/");
+      if(req.session.addCart){
+        console.log("******************proId")
+        res.redirect(`/add-to-cart/${proId}`)
+      }else{
+        res.redirect("/");
+      }
     }else {
      
       req.session.loggedInErr =true
@@ -361,18 +371,50 @@ router.get("/cart", checkUserCartLength, async (req, res) => {
     });
   });
 });
-
+ 
+// this is orginal router
 router.get("/add-to-cart/:id", verifyLogin, (req, res) => {
+  
   let proId = req.params.id;
   let userId = req.session.user._id;
   
   if(req.session.user){
     productHelpers.addToCart(proId, userId).then((response) => {
-      res.json({ status: true });
+      if(req.session.addCart){
+        delete req.session.addCart
+        res.redirect("/cart")
+       
+      }else{
+        res.json({ status: true });
+      }
+    
     });
   }else{
-    res.json({status:false})
+   res.json({status:false})
   }
+
+});
+
+
+// this is for guset user
+router.get("/add-cart/:id",(req, res) => {
+  let proId = req.params.id;
+   if(req.session.user){
+    res.json({status:true,proId})
+  }else{
+    console.log("session updated with pro id")
+    req.session.addCart = proId
+    res.json({status:false,proId})
+  }
+  
+  
+  // if(req.session.user){
+  //   productHelpers.addToCart(proId, userId).then((response) => {
+  //     res.json({ status: true });
+  //   });
+  // }else{
+  // res.json({status:false})
+  // }
 
 });
 
@@ -706,7 +748,11 @@ router.post("/place-order", async (req, res) => {
   
 });
 
-
+router.get('/order-payment-failed/:id',async(req,res)=>{
+  console.log("delete orderil ethi")
+  console.log(req.params.id)
+  let deletePlacedOrder =await productHelpers.deleteOrder(req.params.id)
+})
 
 router.get("/succes",verifyLogin,checkUserCartLength,async(req, res) => {
    let user = req.session.user
@@ -1108,4 +1154,6 @@ router.post("/delete-wishlist-item", (req, res) => {
     res.json({ status:true});
   });
 });
+
+
 module.exports = router;

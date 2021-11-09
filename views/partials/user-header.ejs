@@ -83,6 +83,7 @@
 									</ul>	
 								</li>
 
+								
 								<li  class="has-children position-static">
 									<a > <span>Sub Categories</span><i class="fa fa-angle-down"></i></a>
 									<ul class="mega-menu row-cols-4">
@@ -118,7 +119,7 @@
 						<div class="header-actions">
 
 							<!-- Search Header Action Button Start -->
-							<a href="javascript:void(0)" class="header-action-btn header-action-btn-search"><i class="pe-7s-search"></i></a>
+							<a href="javascript:void(0)" onclick="" class="header-action-btn header-action-btn-search"><i class="pe-7s-search"></i></a>
 							<!-- Search Header Action Button End -->
 
 							<!-- User Account Header Action Button Start -->
@@ -309,12 +310,18 @@
 			<!-- Button Close Start -->
 			<div class="offcanvas-btn-close">
 				<i class="pe-7s-close"></i>
+				
 			</div>
+			<form class="offcanvas-search-form" action="/">
+			
 			<!-- Button Close End -->
 
 			<!-- Offcanvas Search Form Start -->
-			<form class="offcanvas-search-form" action="#">
-				<input type="text" placeholder="Search Here..." class="offcanvas-search-input">
+			
+				<input type="text" name="productname"  placeholder="Search Here..." class="offcanvas-search-input">
+				<button type="submit"  class="btn btn-outline-info mt-3" href="/?product=productname">Search</button>
+				
+				
 			</form>
 			<!-- Offcanvas Search Form End -->
 
@@ -464,3 +471,8 @@
 		});
 
 	}</script>
+	<script>
+		function search(){
+			alert("hi")
+		}
+	</script>

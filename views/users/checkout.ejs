@@ -315,6 +315,7 @@ function addAddress(){
   let form = $("#submit-form").serialize()
   console.log(form)
  $("#submit-form").submit((e)=>{
+  e.preventDefault()
    $.ajax({
      url:'/place-order',
      method:'post',
@@ -327,6 +328,7 @@ function addAddress(){
         alert("ready for razorpay")
         razorpayPayment(response.data,response.user)
         alert(response.data)
+        alert(response.data.receipt)
       }else if(response.data){
         window.location.href=response.data
         
@@ -335,10 +337,9 @@ function addAddress(){
    })
   
  
-  e.preventDefault()
+
  function razorpayPayment(data,user){
- 
-    
+
     var options = {
         "key": "rzp_test_LqsPiBnf3p2Kjm", // Enter the Key ID generated from the Dashboard
         "amount":  data.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
@@ -354,7 +355,14 @@ function addAddress(){
           verifyPayment(response,data)
           
          
-        },
+        },  
+        "modal": {
+    "ondismiss": function(){
+        
+       deletePayment(data.receipt)
+     }
+},
+
         "prefill": {
             "name": user.firstname,
             "email": user.email,
@@ -371,13 +379,7 @@ function addAddress(){
     rzp1.open();
   
     rzp1.on('payment.failed', function (response){
-            alert(response.error.code);
-            alert(response.error.description);
-            alert(response.error.source);
-            alert(response.error.step);
-            alert(response.error.reason);
-            alert(response.error.metadata.order_id);
-            alert(response.error.metadata.payment_id);
+      deletePayment(data.receipt)
     });
    
    
@@ -389,11 +391,29 @@ function addAddress(){
  
  }) 
 }
+
+// delete the order when the order faild and return the data to the user
+// 1. modal close 2. payment failiure 
+function deletePayment(orderId){
+  console.log("this is my nwe one",orderId)
+  $.ajax({
+    url:"/order-payment-failed/"+orderId,
+    method:"get",
+    success:(res)=>{
+      console.log(" need to go the cart ")
+    },
+    error:(err)=>{
+      console.log(err)
+    }
+  })
+}
+
+
 function verifyPayment(payment,order){
         console.log("payment")
        console.log(payment,order)
         $.ajax({
-          url:'verify-payment',
+          url:'/verify-payment',
           data:{
             payment,
             order

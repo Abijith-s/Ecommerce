@@ -26,7 +26,7 @@
 										Collection
                                 </h2>
                                 <p>Up to 70% off selected Product</p>
-                                <a href="shop-grid.html" class="btn btn-lg btn-primary btn-hover-dark">Shop Now</a>
+                                <a href="/" class="btn btn-lg btn-primary btn-hover-dark">Shop Now</a>
                             </div>
                         </div>
                         <!-- Hero Slider Content End -->
@@ -90,11 +90,14 @@
                             
                             <%}else if(subcatg){%>
                                 <h1 class="title"><%=products[0].subcategory%> For <%=products[0].category%> </h1>
-                            <%}else {%>    
+                            <%}else if(searchPro) {%>    
+                                <h1 class="title">For <%=products[0].productname%> </h1>
                                 
-                                <h1 class="title">For <%=products[0].category%> </h1>
 
-                             <%}%>   
+                             <%} else{%>   
+                                <h1 class="title">For <%=products[0].category%> </h1>
+                              <%}%>  
+
                         </div>
 
                         
@@ -440,8 +443,14 @@
 </html>
 <script>
     function addToCart(proId){
-       
         $.ajax({
+                        url:'/add-cart/'+proId,
+                        method:'get',
+                        success:(response)=>{
+                          
+                             if(response.status){
+                                
+            $.ajax({
             url:'/add-to-cart/'+proId,
             method:'get',
             success:(response)=>{
@@ -452,10 +461,17 @@
                     let newCount = parseInt(count.innerHTML)+1
                     count.innerHTML = newCount
                 }else{
-                    location.href='/login'
+                    
                 }
             }
         })
+                             }else{
+                                 location.href="/login"
+                             }
+                        }
+
+                    })
+     
     }
 </script>
 <script>
@@ -491,7 +507,16 @@
                         let newCount = parseInt(count.innerHTML)+1
                         count.innerHTML = newCount
                     }else{
-                        location.href='/login'
+                        $.ajax({
+                        url:'/add-wishlist/'+proId,
+                        method:'get',
+                        success:(response)=>{
+                            if(response.status){
+                                location.href='/login'
+                            }
+                        }
+
+                    })
                     }
                 }
             })

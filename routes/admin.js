@@ -57,8 +57,7 @@ router.get('/adminlanding',async function(req, res, next) {
   let cancelled = await productHelpers.cancelledOrder()
   let shipped = await productHelpers.shippedOrder()
   let weeklyReport = await productHelpers.getweeklyreport()
- 
-  console.log(weeklyReport)
+
 
   res.render('admin/adminlanding',{admin:true,logged:true,totalOrder,totalCustomer,totalSails,totalCancelled,order,RazorPay,paypal,cod,placed,delivered,cancelled,shipped,weeklyReport})
  }else{

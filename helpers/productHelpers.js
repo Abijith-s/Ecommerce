@@ -796,6 +796,16 @@ changePaymentStatus:(orderId)=>{
         })
     })
 },
+deleteOrder:(orderId)=>{
+    console.log("delete orderil keri *******************")
+    console.log(orderId)
+    return new Promise((resolve,reject)=>{
+        orderInfo.deleteOne({_id:orderId}).then((response)=>{
+            console.log(response)
+            resolve(response)
+        })
+    })
+},
 addProductOffer:(body)=>{
     let offerPercentage = body.offerpercentage
     return new Promise(async(resolve,reject)=>{
@@ -1247,6 +1257,13 @@ getMonthlyReport:()=>{
         console.log(month)
         console.log("*********************month")
         resolve(month)
+    })
+},
+searchProducts:(proname)=>{
+    return new Promise(async(resolve,reject)=>{
+        await productInfo.find({productname:{$regex:proname}}).then((result)=>{
+           resolve(result)
+        })
     })
 }
 
