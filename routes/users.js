@@ -83,15 +83,19 @@ router.get("/",async function (req, res, next) {
   let nonecat =true
   let subcatg = false
 if(cate){
-  
+
    products = await productHelpers.getCategory(cate);
-  
+   console.log("****************subcat")
+   console.log(products)
+   subcatg
    nonecat=false
  
 }else if(subcat){
   nonecat =false
+
+  
  products =await productHelpers.getSubCategoryProducts(subcat,cat)
- 
+
 subcatg =true
 
 }else if(search){

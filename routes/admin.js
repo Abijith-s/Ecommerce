@@ -354,7 +354,7 @@ router.post('/findsubcategory',(req,res)=>{
 router.get('/create-coupon',(req,res)=>{
 
   
-  res.render('admin/create-coupon',{admin:true,admin:true,logged:true})
+  res.render('admin/create-coupon',{admin:true,logged:true})
 })
 router.post('/create-coupon',(req,res)=>{
   console.log("helooo njn ivdem ind")
@@ -365,7 +365,7 @@ router.post('/create-coupon',(req,res)=>{
 
 router.get('/coupon-list',async(req,res)=>{
    productHelpers.findCoupons().then((result)=>{
-    res.render('admin/coupon-list',{admin:true,admin:true,logged:true,result})
+    res.render('admin/coupon-list',{admin:true,logged:true,result})
    }) 
 })
 
@@ -406,6 +406,16 @@ else{
  
 
   res.render('admin/sales',{admin:true,logged:true,orders})
+})
+
+
+// router for banner
+
+router.get('/add-banner',(req,res)=>{
+  
+
+
+  res.render('admin/add-banner',{admin:true,logged:true})
 })
 
 
