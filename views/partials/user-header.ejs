@@ -179,7 +179,7 @@
 				<nav>
 					<ul class="mobile-menu">
 						<li class="has-children">
-							<a href="#">Home <i class="fa fa-angle-down"></i></a>
+							<a href="/"><span>Home</span> <i class="fa fa-angle-down"></i></a>
 						</li>
 						<li class="has-children position-static">
 							<a ><span>categories</span> <i class="fa fa-angle-down"></i></a>
@@ -189,6 +189,8 @@
 								<%}%>
 							</ul>	
 						</li>
+
+						
 						<li  class="has-children position-static">
 							<a > <span>Sub Categories</span><i class="fa fa-angle-down"></i></a>
 							<ul class="mega-menu row-cols-4">
@@ -204,14 +206,15 @@
 								<%}%>
 							</ul>
 						</li>
+					
 						<%if(user) {%>
-							<li class="has-children">
+						<li class="has-children">
+							
+							<a href="/cart">Cart<span id="cartcount" class="badge badge-primary"><%=cartCount %></span> <i class="fa fa-angle-down"></i></a>
+							
 								
-								<a href="/cart">Cart<span id="cartcount" class="badge badge-primary"><%=cartCount %></span> <i class="fa fa-angle-down"></i></a>
-								
-									
-							</li>
-							<%} %>
+						</li>
+						<%} %>
 					
 					</ul>
 				</nav>
