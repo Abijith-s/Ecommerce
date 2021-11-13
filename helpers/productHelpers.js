@@ -1254,8 +1254,7 @@ getMonthlyReport:()=>{
             }
         }
         
-        console.log(month)
-        console.log("*********************month")
+      
         resolve(month)
     })
 },
@@ -1264,6 +1263,21 @@ searchProducts:(proname)=>{
         await productInfo.find({productname:{$regex:proname}}).then((result)=>{
            resolve(result)
         })
+    })
+},
+removeWishlist:(proId,userId)=>{
+   
+    console.log("---------------------------ids")
+    
+    console.log(userId)
+    return new Promise(async(resolve,reject)=>{
+        wishlistInfo.updateOne({user:userId},{$pull:{products:{items:objectId(proId.proId)}}}).then((res)=>{
+            console.log(res)
+          
+            console.log("*********************")
+            resolve(res)
+        })
+       
     })
 }
 

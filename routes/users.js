@@ -1159,5 +1159,13 @@ router.post("/delete-wishlist-item", (req, res) => {
   });
 });
 
-
+router.post('/delete-wishlist',(req,res)=>{
+  console.log("njn delete aavan pova")
+  console.log(req.body)
+  console.log(req.session.user._id)
+  productHelpers.removeWishlist(req.body,req.session.user._id).then((response)=>{
+    console.log(response)
+    res.json({status:true})
+  })
+})
 module.exports = router;

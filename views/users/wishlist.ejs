@@ -121,6 +121,17 @@
                                 let count= document.getElementById("cartcount") 
                                 let newCount = parseInt(count.innerHTML)+1
                                 count.innerHTML = newCount
+                           
+                                $.ajax({
+                                
+                                  url:'/delete-wishlist',
+                                  method:'post',
+                                 data:{proId},
+                                  success:(res)=>{
+                                    swal("Success!", "Succesfully added to cart!", "success")
+                                    window.location.reload()
+                                  }
+                                })
                             }else{
                                 location.href='/login'
                             }
