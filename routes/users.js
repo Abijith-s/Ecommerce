@@ -707,6 +707,7 @@ router.post("/place-order", async (req, res) => {
      
       delete req.session.offerDetails
     }
+    // paypal
     
     const create_payment_json = {
       "intent": "sale",
