@@ -496,11 +496,7 @@ placeOrder:(address,products,total,paymentMethod,userId,flag)=>{
     return new Promise((resolve,reject)=>{
         
         let  status = 'placed';
-        
-        
-      
          const orders = new orderInfo({
-        
          userId:userId,
          deliverydetails:address,
          products:[...products.products],
@@ -516,13 +512,6 @@ placeOrder:(address,products,total,paymentMethod,userId,flag)=>{
         
                 resolve(details)
             }
-
-    if(flag!=1){
-         cartInfo.deleteOne({user:userId}).then((res)=>{
-           
-             
-         })
-        }
         })
        
     })
@@ -1273,11 +1262,18 @@ removeWishlist:(proId,userId)=>{
     return new Promise(async(resolve,reject)=>{
         wishlistInfo.updateOne({user:userId},{$pull:{products:{items:objectId(proId.proId)}}}).then((res)=>{
             console.log(res)
-          
             console.log("*********************")
             resolve(res)
         })
        
+    })
+},
+removeCart:(userId)=>{
+    console.log("userId when cart deleting")
+    console.log(userId)
+    cartInfo.deleteOne({user:userId}).then((res)=>{
+        console.log("deleted")
+        console.log(res)
     })
 }
 

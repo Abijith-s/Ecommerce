@@ -327,8 +327,7 @@ function addAddress(){
       }else if(response.response){
         alert("ready for razorpay")
         razorpayPayment(response.data,response.user)
-        alert(response.data)
-        alert(response.data.receipt)
+       
       }else if(response.data){
         window.location.href=response.data
         

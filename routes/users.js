@@ -634,6 +634,7 @@ router.post("/place-order", async (req, res) => {
       }
 
       let orderId = result._id
+      req.session.orderId = orderId
       console.log("orderId ")
       console.log(orderId)
 
@@ -716,7 +717,7 @@ router.post("/place-order", async (req, res) => {
       },
       "redirect_urls": {
           "return_url": "https://ecom.abijithsebastian.online/succes",
-          "cancel_url": "http://localhost:4000/cancel"
+          "cancel_url": "https://ecom.abijithsebastian.online/"
       },
       "transactions": [{
           "item_list": {
@@ -761,12 +762,22 @@ router.get('/order-payment-failed/:id',async(req,res)=>{
 
 router.get("/succes",verifyLogin,checkUserCartLength,async(req, res) => {
    let user = req.session.user
-   let cartCount = req.session.cartCount;
+   let userId = req.session.user._id
+   let cartCount
+   if(req.session.buynow){
+    cartCount = req.session.cartCount;
+    delete req.session.buynow
+  }else{
+    await productHelpers.removeCart(userId)
+    cartCount = 0;
+  }
+   
+   console.log("orderId /////////////////////////////////")
+   console.log(req.session.orderId)
+   
   let categories = await productHelpers.getAllCategories()
 
-   if(req.session.buynow){
-     delete req.session.buynow
-   }
+  
    let  wishlistCount = 0
    if(req.session.user){
      wishlistCount = await productHelpers.getWishlistCount(req.session.user._id)
