@@ -427,6 +427,7 @@ router.post("/change-quantity",async(req,res) => {
   userId = req.session.user._id
   let subtotal =await  productHelpers.getSubTotal(userId)
   subtotal = subtotal[0].subtotal
+  console.log("****************subtotal")
   console.log(subtotal)
   productHelpers.changeQuantity(req.body).then((response) => {
     console.log(" response")
@@ -717,7 +718,7 @@ router.post("/place-order", async (req, res) => {
       },
       "redirect_urls": {
           "return_url": "https://ecom.abijithsebastian.online/succes",
-          "cancel_url": "https://ecom.abijithsebastian.online/"
+          "cancel_url": "https://ecom.abijithsebastian.online/checkout"
       },
       "transactions": [{
           "item_list": {

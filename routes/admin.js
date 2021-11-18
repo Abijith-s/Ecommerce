@@ -13,7 +13,7 @@ function verifyadminLogin(req, res, next) {
   if (req.session.admin) {
     next();
   } else {
-    res.redirect("/login");
+    res.redirect("/admin");
   }
 }
 /* GET users listing. */
@@ -72,14 +72,14 @@ router.get("/signout", (req, res) => {
 });
 
 
-router.get('/userlist', function(req, res, next) {
+router.get('/userlist',verifyadminLogin, function(req, res, next) {
   userHelper.getAllUsers().then((users)=>{
     res.render('admin/userlist',{admin:true,users,logged:true});
   })
 });
 
 
-router.get('/category', function(req, res, next) {
+router.get('/category',verifyadminLogin, function(req, res, next) {
   
   productHelpers.getAllCategories().then((categories)=>{
     console.log("categorie");
@@ -104,12 +104,6 @@ router.post('/category', async(req,res)=>{
    else{
       res.json({response})
     }
-    // }else{
-    //   productHelpers.addCategories(req.body).then((response)=>{
-            
-    //          res.redirect('/admin/category')
-    //        })
-    // }
   })
   
 })
@@ -150,13 +144,13 @@ router.get('/unblock/:id',(req,res)=>{
     res.redirect('/admin/userlist')
   })
 })
-router.get('/products', function(req, res, next) {
+router.get('/products',verifyadminLogin, function(req, res, next) {
   productHelpers.getAllProducts().then((products)=>{
     res.render('admin/products',{admin:true,products,logged:true});
   })
  
 });
-router.get('/add-product', function(req, res, next) {
+router.get('/add-product',verifyadminLogin, function(req, res, next) {
   productHelpers.findCategory().then((response)=>{
  
     res.render('admin/add-product',{admin:true,response,logged:true});
@@ -192,18 +186,7 @@ fs.writeFileSync(path1,base64Data1,{encoding:'base64'})
 fs.writeFileSync(path2,base64Data2,{encoding:'base64'})
 fs.writeFileSync(path3,base64Data3,{encoding:'base64'})
 
-  // if(req.files.image1){
-  //   let image1 = req.files.image1
-  //   image1.mv('./public/product-images/image1/'+response.image1+'.jpg')
-  // }
-  // if(req.files.image2){
-  //   let image2 = req.files.image2
-  //   image2.mv('./public/product-images/image2/'+response.image2+'.jpg')
-  // }
-  // if(req.files.image3){
-  //   let image3 = req.files.image3
-  //   image3.mv('./public/product-images/image3/'+response.image3+'.jpg')
-  // }
+
   res.redirect('/admin/products')
   
 }      )
@@ -216,7 +199,7 @@ router.get('/delete/:id',(req,res)=>{
   })
   
 })
-router.get('/edit-product', async(req, res)=> {
+router.get('/edit-product',verifyadminLogin, async(req, res)=> {
   console.log("helooo")
   let proId = req.query.id
   console.log("proId in query")
@@ -229,8 +212,6 @@ router.get('/edit-product', async(req, res)=> {
       res.render('admin/edit-product',{admin:true,product,logged:true,category})
 });
 router.post('/edit-product',(req,res)=>{
-  console.log("heloo onnu varuvanel vegham theerth vidam")
-  // console.log(proId+"sdfhuksfhuisdhfishdifh")
   console.log(req.body)
   let proId = req.body.proId
   
@@ -266,18 +247,13 @@ router.post('/edit-product',(req,res)=>{
 })
 router.post('/getsubcategory',(req,res)=>{
   let cat = req.body.catname
-  
   productHelpers.findSubCategory(cat).then((response)=>{
-    
     res.json(response[0].subcategory)
   })
 })
 router.get('/deletecat/:id',(req,res)=>{
   console.log("hii")
   let catId = req.params.id
-  console.log("catID")
-  console.log(catId)
-  
   productHelpers.deleteCategory(catId).then((response)=>{
     res.redirect('/admin/category')
   })
@@ -295,7 +271,7 @@ router.get('/deletesubcat/:id/:name',(req,res)=>{
   
   
 })
-router.get('/view-order',(req,res)=>{
+router.get('/view-order',verifyadminLogin,(req,res)=>{
   productHelpers.getAllOrders().then((order)=>{
     console.log("response in function call")
     console.log(order)
@@ -314,56 +290,43 @@ router.post('/manage-order',(req,res)=>{
   })
 
 })
-router.get('/product-offer',async(req,res)=>{
+router.get('/product-offer',verifyadminLogin,async(req,res)=>{
   console.log("hii nan vannu")
  let products =await  productHelpers.getAllProducts()
  let offerProduct = await productHelpers.findOfferProducts()
   res.render('admin/product-offer',{admin:true,logged:true,products,offerProduct})
-  
- 
 })
 router.post('/product-offer',async(req,res)=>{
-  console.log("vannu mwone njn")
-  console.log(req.body)
- 
  await productHelpers.addProductOffer(req.body).then((response)=>{
    res.redirect('/admin/product-offer')
   })
 
 })
-router.get('/category-offer',async(req,res)=>{
+router.get('/category-offer',verifyadminLogin,async(req,res)=>{
   let category =await productHelpers.getAllCategories()
-  console.log(category)
+
   let offerProduct = await productHelpers.findOfferProducts()
   res.render('admin/category-offer',{admin:true,logged:true,category,offerProduct})
 })
 router.post('/category-offer',async(req,res)=>{
-  console.log("++++++++++++++++++++++++++++++++")
-  console.log(req.body) 
   productHelpers.addCategoryOffer(req.body)
   res.redirect('/admin/category-offer')
 })
 router.post('/findsubcategory',(req,res)=>{
   let cat = req.body.catname
-  
   productHelpers.findSubCategory(cat).then((response)=>{
-    
     res.json(response[0].subcategory)
   })
 })
 router.get('/create-coupon',(req,res)=>{
-
-  
   res.render('admin/create-coupon',{admin:true,logged:true})
 })
 router.post('/create-coupon',(req,res)=>{
-  console.log("helooo njn ivdem ind")
-  console.log(req.body)
   productHelpers.addCoupons(req.body)
   res.redirect('/admin/coupon-list')
 })
 
-router.get('/coupon-list',async(req,res)=>{
+router.get('/coupon-list',verifyadminLogin,async(req,res)=>{
    productHelpers.findCoupons().then((result)=>{
     res.render('admin/coupon-list',{admin:true,logged:true,result})
    }) 
@@ -372,23 +335,18 @@ router.get('/coupon-list',async(req,res)=>{
 
 router.get('/delete-coupons',(req,res)=>{
    let couponId = req.query.id
-   console.log("*************************************")
-   console.log(couponId)
    productHelpers.deleteCoupon(couponId)
    res.redirect('/admin/coupon-list')
 })
 
 router.get('/delete-pro-offer',(req,res)=>{
   let offerId = req.query.id
-  console.log("]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]")
-  console.log(offerId)
   productHelpers.deleteOffer(offerId).then((response)=>{
     res.redirect('/admin/product-offer')
   })
 })
 
-router.get('/sales',async(req,res)=>{
-  console.log("query vanno mone")
+router.get('/sales',verifyadminLogin,async(req,res)=>{
   let orders;
 if(req.query.startdate&&req.query.enddate){
   console.log("ivde varanond ---------------------")
@@ -402,29 +360,9 @@ if(req.query.startdate&&req.query.enddate){
 else{
    orders =  await productHelpers.getAllOrders()
 }
-
- 
-
   res.render('admin/sales',{admin:true,logged:true,orders})
 })
-
-
-// router for banner
-
 router.get('/add-banner',(req,res)=>{
-  
-
-
   res.render('admin/add-banner',{admin:true,logged:true})
 })
-
-
-// router.post('/sales',(req,res)=>{
-//  console.log("postil vanna data*****************")
-//  console.log(req.body)
-//   productHelpers.sortByDate(req.body).then((result)=>{
-//     res.json({result})
-//   })
-
-// })
 module.exports = router;

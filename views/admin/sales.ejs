@@ -29,7 +29,7 @@
                                     <label for="start-date" class="col-md-3 control-label">Start Date</label>
                                     <div class="col-md-9">
                                         <div class="datepicker date input-group">
-                                          <input type="date" name="startdate" required placeholder="Start Date" class="form-control" id="startdate">
+                                          <input type="date" name="startdate" required placeholder="Start Date" class="form-control" id="date1">
                                           <div class="input-group-append">
                                               <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                           </div>
@@ -44,7 +44,7 @@
                                 <label for="end-date" class="col-md-3 control-label">End Date</label>
                                 <div class="col-md-9">
                                     <div class="datepicker date input-group ">
-                                      <input type="date" required placeholder="End Date" class="form-control" name="enddate" id="enddate">
+                                      <input type="date" required placeholder="End Date" class="form-control" name="enddate" id="date2">
                                       <div class="input-group-append">
                                           <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                       </div>
@@ -69,6 +69,7 @@
                 </form>
                         <div class="card-body">
                             <div class="table-responsive">
+                                <%if(orders.length){%>
                                 <table id="datatable" class="display table table-hover" >
                                     <thead>
                                         <tr>
@@ -98,6 +99,14 @@
                                         
                                     </tbody>
                                 </table>
+                                <%}else{%>
+                                    <div class="row d-flex justify-content-center">
+                                        <div class="card px-4 pt-5  mt-4" style="width: 18rem;">
+                                          <img class="card-img-top" src="https://svgur.com/i/AY2.svg" alt="Card image cap">
+                                        
+                                        </div>
+                                      </div>
+                                    <%}%>
                             </div>
                         </div>
                     </div>
@@ -183,4 +192,17 @@
         });
     });
 </script>
+<script>
+    var today = new Date();
+  var dd = String(today.getDate()).padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0');
+  var yyyy = today.getFullYear();
 
+  today = yyyy + '-' + mm + '-' + dd;
+  $('#date1').attr('max', today);
+  $('#date2').attr('max', today);
+  document.getElementById('date1').onchange=e=>{
+    value=e.target.value
+    $('#date2').attr('min', value);
+  }
+</script>
