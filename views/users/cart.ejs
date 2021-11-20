@@ -120,6 +120,7 @@
                       
                     <input
                       type="button"
+                      id="plus<%=products[item].cartproducts._id%>"
                       onclick="changeQuantity('<%=products[item]._id%>','<%=products[item].cartproducts._id%>',1)"
                       value="+"
                       class="button-plus"
@@ -216,7 +217,11 @@
 
 
   function changeQuantity(cartId, proId, count) {
+   // alert("clicked")
     var product = proId;
+    document.getElementById(`minus${product}`).disabled = true
+    document.getElementById(`plus${product}`).disabled = true
+   
     let currentQuantity = document.getElementById(`qty+${product}`).value;
    currentQuantity =parseInt(currentQuantity)
 
@@ -230,13 +235,19 @@
 
 
     let newSubTotal;
-    
-    if(count==1){
+    if(count==-1&&currentQuantity==1){
+    //  alert("fdsjlk")
+      document.getElementById(`minus${product}`).disabled = false
+      document.getElementById(`plus${product}`).disabled = false
+
+    }
+    else{
+     // alert("on inside")
+      if(count==1){
         document.getElementById(`minus${product}`).disabled = false
-     }else{
-       if(currentQuantity-1==1){
-        document.getElementById(`minus${product}`).disabled = true
-       }
+        
+        document.getElementById(`plus${product}`).disabled = false
+
      }
     $.ajax({
       url: "/change-quantity",
@@ -258,6 +269,7 @@
                 newSubTotal = newQuantity * price
               document.getElementById(`sub+${product}`).innerHTML = newSubTotal;
               document.getElementById("total").innerHTML = totalPrice + newSubTotal
+              document.getElementById(`minus${product}`).disabled = false
         } else {
           // if(currentQuantity<=1){
           //   document.getElementById("minus").disabled = true
@@ -272,9 +284,13 @@
             .setAttribute("value", newQuantity);
             document.getElementById("total").innerHTML = totalPrice - newSubTotal
             document.getElementById(`sub+${product}`).innerHTML = newSubTotal;
+            document.getElementById(`minus${product}`).disabled = false
         }
       },
     });
+    }
+    
+   
   }
 </script>
 

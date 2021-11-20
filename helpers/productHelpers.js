@@ -364,8 +364,13 @@ module.exports={
     changeQuantity:(body)=>{
         let count = parseInt(body.count)
         console.log(body.count,body.cart,body.product)
-        return new Promise((resolve,reject)=>{
-           
+        return new Promise(async(resolve,reject)=>{
+                let cartCount = await cartInfo.findOne({_id:objectId(body.cart),'products.items':objectId(body.product)})
+                let counts =  cartCount.products.find((e)=>e.items.equals(body.product));
+                    console.log("--------------counts ------------------")
+                    console.log(counts)
+                if(counts&&counts.quantity&&counts.quantity>=1){
+                    console.log("everything true man")
                 cartInfo.updateOne({_id:objectId(body.cart),'products.items':objectId(body.product)},{$inc:{'products.$.quantity':count}}).then((res)=>{
                   
                    if(count==1){
@@ -376,6 +381,11 @@ module.exports={
                    
 
                 })
+            }
+            else{
+                console.log("nothing updated")
+                resolve();
+            }
         })
     },
     deleteCartItem:(id)=>{
