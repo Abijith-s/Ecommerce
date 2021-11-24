@@ -1,5 +1,5 @@
 <div class="container">
-    <form action="/create-address" id="submit-form" method="post" >
+    <form action="/create-address" id="submit-form" onsubmit="return addAddress()" method="post" >
     <div id="checkout-login" class="coupon-content">
         <!-- row based input field start -->
         <div class="row px-3">
@@ -31,14 +31,14 @@
           <div class="form-group col-6">
             <label for="exampleInputEmail1"> Email</label>
             <input type="email" name="email" class="form-control" value="" id="email" aria-describedby="emailHelp" placeholder="Enter email">
-            <p id="error3" style="color: red;"></p>
+            <p id="error5" style="color: red;"></p>
           </div>  
           <!-- first item end -->
           <!-- second item start -->
           <div class="form-group col-6">
             <label for="exampleInputEmail1"> Pincode</label>
             <input type="number" name="pincode" value="" class="form-control" id="pincode" aria-describedby="emailHelp" placeholder="Enter pincode">
-            <p id="error4" style="color: red;"></p>
+            <p id="error3" style="color: red;"></p>
           </div>
              <!-- second item end -->
          </div>
@@ -47,7 +47,7 @@
           <div class="form-group col-6">
             <label for="exampleInputEmail1"> Phone</label>
             <input type="number'" name="phone" value="" class="form-control" id="phone" aria-describedby="emailHelp" placeholder="Enter phone">
-            <p id="error5" style="color: red;"></p>
+            <p id="error4" style="color: red;"></p>
           </div>
     
           <!-- first item end -->
@@ -60,7 +60,7 @@
              <!-- second item end -->
          </div>
       <!-- row based input field end -->
-      <p id="error8" style="color: red;"></p>
+      <p id="error7" style="color: red;"></p>
         
         <div >
             <button type="submit"  onclick="editAddress()"   class="btn btn btn-dark btn-hover-primary rounded-0"><i class="fa fa-edit me-2"></i>Add Address </button> 
@@ -70,3 +70,132 @@
       </div>
     </form>
     </div>
+    <script>
+      let nameChecking = false;
+     
+       let numberChecking = false;
+       let emailChecking = false;
+
+       $(document).ready(function(){
+      $("#name").keyup(function(){
+      let name = this.value
+      if(name.length<3){
+          $("#error1").html("enter minimum 3 charaters")
+          nameChecking = false;
+      }
+      else{
+          $("#error1").html("") 
+          nameChecking = true;
+      }
+      })
+      $("#address").keyup(function(){
+      let name = this.value
+      if(name.length<3){
+          $("#error2").html("enter minimum 3 charaters")
+          nameChecking = false;
+      }
+      else{
+          $("#error2").html("") 
+          nameChecking = true;
+      }
+      })
+          
+       
+         $("#pincode").on("input",function(){
+           this.value=this.value.replace(/[^\d]/,'') 
+           let phone = this.value
+           let phoneregex = /^[0-9]*$/
+           if(phone==""){
+             $("#error3").html("enter a valid pin")
+             numberChecking = false;
+           }
+           else if(phone.match(/^[A-Za-z]+$/)) {
+             $("#error3").html("enter numbers only")
+             numberChecking = false;
+           }
+           else if(phone.match(phoneregex)&&phone.length<6){
+             $("#error3").html("enter a valid pin")
+             return false;
+           }
+           else if(phone.match(phoneregex)&&phone.length>6){
+             $("#error3").html("enter a valid pin")
+             numberChecking = false
+           }
+           else if(phone.match(phoneregex)){
+             numberChecking=true
+             $("#error3").html("")
+             return true
+           }
+           else{
+             return false;
+           }
+           
+         })
+       
+         $("#phone").on("input",function(){
+           this.value=this.value.replace(/[^\d]/,'') 
+           let phone = this.value
+           let phoneregex = /^[0-9]*$/
+           if(phone==""){
+             $("#error4").html("enter a valid number")
+             numberChecking = false;
+           }
+           else if(phone.match(/^[A-Za-z]+$/)) {
+             $("#error4").html("enter numbers only")
+             numberChecking = false;
+           }
+           else if(phone.match(phoneregex)&&phone.length<10){
+             $("#error4").html("enter a valid number")
+             return false;
+           }
+           else if(phone.match(phoneregex)&&phone.length>10){
+             $("#error4").html("enter a valid number")
+             numberChecking = false
+           }
+           else if(phone.match(phoneregex)){
+             numberChecking=true
+             $("#error4").html("")
+             return true
+           }
+           else{
+             return false;
+           }
+           
+         })
+         $("#email").keyup(function(){
+		   let email = this.value
+		   let emailregex = /^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/;
+		   
+		   if(email.match(emailregex)){
+			   $("#error5").html("")
+			   emailChecking = true;
+		   }
+		   else{
+			   $("#error5").html("enter a valid email")
+			   emailChecking = false;
+		   }
+	   })
+     $("#addressname").keyup(function(){
+      let name = this.value
+      if(name.length<3){
+          $("#error1").html("enter minimum 3 charaters")
+          nameChecking = false;
+      }
+      else{
+          $("#error1").html("") 
+          nameChecking = true;
+      }
+      })
+       })
+       
+       function addAddress(){
+         alert(numberChecking,nameChecking)
+       if(numberChecking&&nameChecking&&emailChecking){
+         return true
+       }else{
+      $("#error7").html("fill all feilds in format") 
+         return false
+       }
+       }
+       
+       </script> 

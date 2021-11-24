@@ -1072,7 +1072,7 @@ router.post('/apply-coupon',async(req,res)=>{
   let userId= req.session.user._id
 
   console.log("click cheyy mwone njn varum")
-  console.log(userId)
+
   console.log(req.body)
   let total = await productHelpers.getTotalAmount(userId);
   let subtotalA
@@ -1088,6 +1088,8 @@ router.post('/apply-coupon',async(req,res)=>{
   // chekcing the coupon details
    await userHelper.compareCoupon(req.body,totalAmount,userId).then((amount)=>{
      status = true
+     console.log("amount*****************")
+     console.log(amount)
      offerAmount= amount
         req.session.offerDetails = {
           offerAmount:offerAmount,

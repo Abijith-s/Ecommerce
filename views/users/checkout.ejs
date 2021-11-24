@@ -193,9 +193,9 @@
 
           <!-- Payment Accordion Order Button Start -->
           <div class="order-button-payment">
-            <button class="btn btn-danger btn-hover-primary rounded-0 w-100">
-              Payment
-            </button>
+            <a class="btn btn-info btn-hover-primary rounded-0 w-100">
+              Make Your Payment
+            </a>
           </div>
           <br />
           <div class="payment-accordion-order-button">
@@ -265,29 +265,7 @@
                   </div>
                 </div>
               </div>
-              <div class="single-payment">
-                <h5 class="panel-title mb-3">
-                  <a
-                    class="collapse-off"
-                    data-bs-toggle="collapse"
-                    href="#collapseExample-2"
-                    aria-expanded="false"
-                    aria-controls="collapseExample-2"
-                  >
-                    Cheque Payment.
-                  </a>
-                </h5>
-                <div class="collapse" id="collapseExample-2">
-                  <div class="card card-body rounded-0">
-                    <p>
-                      Make your payment directly into our bank account. Please
-                      use your Order ID as the payment reference. Your order
-                      won’t be shipped until the funds have cleared in our
-                      account.
-                    </p>
-                  </div>
-                </div>
-              </div>  
+           
             </div>
             <div class="order-button-payment">
               <button
@@ -454,14 +432,13 @@ function verifyPayment(payment,order){
   function applyCoupon(){
     console.log("hii nan vannu")
     let coupon = document.getElementById("couponcode").value
-   
     $.ajax({
       url:"/apply-coupon",
       data:{coupon},
       method:'post',
       success:(response)=>{
-        
         if(response.status){
+          swal("Success!", "Coupon Applied successfully!", "success")
           document.getElementById("totalamount").innerHTML=response.offerAmount
         }else{
           document.getElementById("errormsg").innerHTML =response.message

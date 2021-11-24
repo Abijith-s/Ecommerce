@@ -36,8 +36,6 @@
                                 <a href="#dashboad" class="active" data-bs-toggle="tab"><i class="fa fa-dashboard"></i>
                                     Dashboard</a>
                                 <a href="#orders" data-bs-toggle="tab"><i class="fa fa-cart-arrow-down"></i> Orders</a>
-                               
-                                
                                 <a href="#address-edit" data-bs-toggle="tab"><i class="fa fa-map-marker"></i> address</a>
                                 <a href="#account-info" data-bs-toggle="tab"><i class="fa fa-user"></i> Account Details</a>
                                 <a onclick="signOut()" href="/logout"><i class="fa fa-sign-out"></i> Logout</a>
@@ -77,14 +75,18 @@
                                                 </thead>
                                                 <tbody>
                                                     <%for(var i of order){%>
-                                                    <tr>
-                                                        
+                                                    <tr> 
                                                         <td><%=i.date%></td>
                                                         <td><%=i.status%></td>
                                                         <td><%=i.totalamount%></td>
                                                         <td><%=i.deliverydetails.addressname%></td>
-                                                        <td><a href="cart.html" class="btn btn btn-dark btn-hover-primary btn-sm rounded-0">View</a></td>
-                                                        
+                                                        <%if(i.status=='cancelled' || i.status=='admin cancelled'){%>
+                                                            <td><a href="/view-order?id=<%=i._id%>" class="btn btn btn-dark btn-hover-primary btn-sm rounded-0">View</a></td>
+
+                                                            <%}else{%>
+                                                                <td><a href="/view-order?id=<%=i._id%>" class="btn btn btn-dark btn-hover-primary btn-sm rounded-0">View</a></td>
+                                                                <td><a class="btn btn btn-warning btn-hover-danger btn-sm rounded-0"  onclick="cancelOrder('<%=i._id%>')">Cancel order</a></td>
+                                                            <%}%>
                                                     </tr>
                                                     <%}%>
                                                 </tbody>
@@ -282,3 +284,23 @@
         });
 
     }</script>
+      <script>
+        function cancelOrder(orderId){
+            
+            $.ajax({
+                url:'/cancel',
+                data:{
+                    orderId:orderId
+                },
+                method:'post',
+                success:(response)=>{
+                    
+                    if(response.status){
+                       
+                        window.location.reload()
+                    }
+                }
+
+            })
+        }
+    </script>

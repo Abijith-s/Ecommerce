@@ -262,6 +262,7 @@ compareCoupon:(body,totalAmount,userId)=>{
    let couponId = body.coupon
     return new Promise(async(resolve,reject)=>{
     let couponExist = await userInfo.findOne({$and:[{_id:userId},{couponhistory:couponId}]})
+        console.log("ivan idak null aavum////////////")
         console.log(couponExist)
     if(!couponExist){
         let couponOffer =  await couponInfo.findOne({couponcode:couponId}).lean()
@@ -271,15 +272,20 @@ compareCoupon:(body,totalAmount,userId)=>{
             
             if(totalAmount>=result[0].maxpurchase){
                 let discountPrice = ((totalAmount*result[0].discount)/100)
-                
+                console.log("discount amount ------------------------")
                 console.log(discountPrice)
+                console.log(result[0].maxdiscount)
                 if(discountPrice<=result[0].maxdiscount){
+                    console.log("njn ivedek keruva---------------------")
                     totalAmount = totalAmount-discountPrice
-                    
+                    console.log("amount-----------------------------")
                     console.log(totalAmount)
                     resolve(totalAmount)
+                }else{
+                    reject("coupon not applicable")
                 }
             }else{
+                console.log("kuravanu -------------------")
                 reject("please purchase with maximum amount to enjoy your offer")
             }
        
