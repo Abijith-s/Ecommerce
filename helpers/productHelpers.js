@@ -528,7 +528,9 @@ placeOrder:(address,products,total,paymentMethod,userId,flag)=>{
 },
 getOrders:(userId)=>{
     return new Promise((resolve,reject)=>{
-     orderInfo.find({userId:userId}).lean().then((res)=>{
+     orderInfo.find({userId:userId}).sort({date:-1}).lean().then((res)=>{
+         console.log("order history")
+         console.log(res)
        resolve(res)
      })
        
